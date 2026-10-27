@@ -486,8 +486,8 @@ details[open] summary{margin-bottom:10px}
     x.setTransform(1, 0, 0, 1, 0, 0); x.globalCompositeOperation = 'destination-in';
     x.drawImage(maskCanvas(w, h, tf, g), 0, 0);
     x.setTransform(...tf);
-    if (st.wn) drawWN(x, g, { knockout: true, paperColor: '#ffffff', pxPerMm: dpm });
     x.globalCompositeOperation = 'source-over';
+    if (st.wn) drawWN(x, g, { knockout: true, paperColor: '#ffffff', pxPerMm: dpm });
     if (st.cutline && opaque) { tracePath(x, g); x.lineWidth = 0.15; x.strokeStyle = '#7d7d7d'; x.stroke(); }
     if (!opaque) return c;
     const o = document.createElement('canvas'); o.width = w; o.height = h;

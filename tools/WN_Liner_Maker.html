@@ -153,23 +153,24 @@ details[open] summary{margin-bottom:10px}
         <div class="dims">
           <label for="W">กว้าง<input type="number" id="W" inputmode="decimal" step="0.5" value="184"></label>
           <label for="H">สูง<input type="number" id="H" inputmode="decimal" step="0.5" value="133"></label>
-          <label for="F">ฝาลึก<input type="number" id="F" inputmode="decimal" step="0.5" value="80"></label>
+          <label for="F">ฝาลึก<input type="number" id="F" inputmode="decimal" step="0.5" value="115"></label>
         </div>
         <div class="dims">
           <label for="tipExt">ยืดปลายแหลม<input type="number" id="tipExt" inputmode="decimal" step="0.5" value="0"></label>
           <label class="check" style="grid-column:span 2;align-self:end"><input type="checkbox" id="fullDepth" checked><span>liner เต็มตัวซอง<small>ลึกเท่าความสูงซอง −2 มม. สอดลงไปแล้วพอดี ไม่ต้องกะหรือติดกาว</small></span></label>
         </div>
-        <p class="small">ฝาลึก = วัดจากรอยพับถึงปลายแหลมของฝา · ถ้าปลาย liner ยังสั้นกว่าฝา ให้เพิ่ม “ยืดปลายแหลม” ทีละ 5 มม. (ปลายจะยืดขึ้นโดยคงรอยพับเดิม)</p>
+        <p class="small">ค่าเริ่มต้นคือซองที่วัดจริง: กว้าง 184 สูง 133 ฝาลึก 115 มม. · ฝาลึก = วัดจากรอยพับถึงปลายแหลมของฝา · ถ้าปลาย liner ยังสั้นกว่าฝา ให้เพิ่ม “ยืดปลายแหลม” ทีละ 5 มม. (ปลายจะยืดขึ้นโดยคงรอยพับเดิม)</p>
         <details>
           <summary>ค่าขั้นสูง</summary>
           <div class="dims">
-            <label for="depth">ลงในซอง<input type="number" id="depth" inputmode="decimal" step="0.5" value="65"></label>
+            <label for="depth">ลงในซอง<input type="number" id="depth" inputmode="decimal" step="0.5" value="131"></label>
             <label for="side">ห่างข้าง<input type="number" id="side" inputmode="decimal" step="0.5" value="4"></label>
             <label for="edge">ห่างขอบฝา<input type="number" id="edge" inputmode="decimal" step="0.5" value="5"></label>
             <label for="bleed">ตัดตก<input type="number" id="bleed" inputmode="decimal" step="0.5" value="3"></label>
           </div>
         </details>
         <dl class="stats">
+          <dt>ส่วนฝาของ liner สูง</dt><dd id="sFlap">–</dd>
           <dt>ขนาดตัดจริง</dt><dd id="sCut">–</dd>
           <dt>ไฟล์พิมพ์ (รวมตัดตก)</dt><dd id="sPrint">–</dd>
           <dt>ต่อ A4</dt><dd id="sA4">–</dd>
@@ -206,7 +207,7 @@ details[open] summary{margin-bottom:10px}
   const $ = (id) => document.getElementById(id);
   const view = $('view'), ctx = view.getContext('2d');
 
-  const P = { W: 184, H: 133, F: 80, depth: 131, side: 4, edge: 5, bleed: 3, tipExt: 0 };
+  const P = { W: 184, H: 133, F: 115, depth: 131, side: 4, edge: 5, bleed: 3, tipExt: 0 };
   const LIM = { W: [90, 300], H: [70, 260], F: [25, 200], depth: [15, 260], side: [0, 20], edge: [0, 20], bleed: [0, 6], tipExt: [0, 80] };
   let fullDepth = true;
   const st = { src: null, srcW: 0, srcH: 0, isSample: true, tone: 'mono', bright: 8, wn: true, cutline: false,
@@ -214,7 +215,7 @@ details[open] summary{margin-bottom:10px}
     prev: null, cx: 0, cy: 0, s: 1, sCover: 1, zoom: 1, bg: '#ffffff' };
   let downloads = null;
 
-  try { const saved = JSON.parse(localStorage.getItem('wn-liner-dims') || 'null');
+  try { const saved = JSON.parse(localStorage.getItem('wn-liner-dims-v2') || 'null');
     if (saved) for (const k of Object.keys(P)) if (typeof saved[k] === 'number') { P[k] = saved[k]; $(k).value = saved[k]; }
     const f = localStorage.getItem('wn-liner-full'); if (f !== null) fullDepth = f === '1'; } catch (e) {}
   function applyFullDepth() {
@@ -315,9 +316,9 @@ details[open] summary{margin-bottom:10px}
     return { x: P.W / 2 - half, y: top, w: half * 2, h: bottom - top };
   }
   function layoutA4(g) {
-    const pw = g.x1 - g.x0, ph = g.y1 - g.y0, m = 3, gap = 2;
+    const pw = g.x1 - g.x0, ph = g.y1 - g.y0, gap = 2;
     let best = null;
-    for (const [orient, PW, PH] of [['p', 210, 297], ['l', 297, 210]]) {
+    for (const m of [6, 3]) for (const [orient, PW, PH] of [['p', 210, 297], ['l', 297, 210]]) {
       const cols = Math.floor((PW - 2 * m + gap) / (pw + gap)), rows = Math.floor((PH - 2 * m + gap) / (ph + gap));
       if (cols < 1 || rows < 1) continue;
       const n = cols * rows;
@@ -325,7 +326,7 @@ details[open] summary{margin-bottom:10px}
         const tw = cols * pw + (cols - 1) * gap, th = rows * ph + (rows - 1) * gap;
         const ox = (PW - tw) / 2, oy = (PH - th) / 2, slots = [];
         for (let r = 0; r < rows; r++) for (let q = 0; q < cols; q++) slots.push({ x: ox + q * (pw + gap), y: oy + r * (ph + gap) });
-        best = { orient, PW, PH, n, slots, pw, ph };
+        best = { orient, PW, PH, n, slots, pw, ph, m };
       }
     }
     return best;
@@ -461,6 +462,7 @@ details[open] summary{margin-bottom:10px}
   function fmt(v) { return (Math.round(v * 10) / 10).toString(); }
   function updateStats() {
     const g = geom(), lay = layoutA4(g);
+    $('sFlap').textContent = `${fmt(P.F - g.topY)} มม. (ฝา ${fmt(P.F)})`;
     $('sCut').textContent = `${fmt(g.cutW)} × ${fmt(g.cutH)} มม.`;
     $('sPrint').textContent = `${fmt(g.x1 - g.x0)} × ${fmt(g.y1 - g.y0)} มม.`;
     $('sA4').textContent = lay ? `${lay.n} ชิ้น / แผ่น${lay.orient === 'l' ? ' (แนวนอน)' : ''}` : 'ใหญ่เกิน A4';
@@ -505,6 +507,10 @@ details[open] summary{margin-bottom:10px}
     const doc = new window.jspdf.jsPDF({ unit: 'mm', format: 'a4', orientation: lay.orient === 'l' ? 'landscape' : 'portrait', compress: true });
     const data = renderPiece(true).toDataURL('image/jpeg', 0.93);
     for (const s of lay.slots) doc.addImage(data, 'JPEG', s.x, s.y, lay.pw, lay.ph, 'liner', 'NONE');
+    // แถบตรวจสเกล 50 มม. ที่ขอบล่างซ้าย: วัดหลังพิมพ์ ถ้าไม่ได้ 50 มม. แสดงว่าเครื่องพิมพ์ย่อ/ขยาย
+    const by = lay.PH - 2.2, bx = 4;
+    doc.setDrawColor(120); doc.setLineWidth(0.2); doc.line(bx, by, bx + 50, by); doc.line(bx, by - 1.5, bx, by + 1.5); doc.line(bx + 50, by - 1.5, bx + 50, by + 1.5);
+    doc.setFontSize(6); doc.setTextColor(120); doc.text('50 mm scale check - print at 100%', bx + 52, by + 0.8);
     doc.setProperties({ title: 'WN liner ' + sizeTag(g) });
     return doc.output('blob');
   }
@@ -596,7 +602,7 @@ details[open] summary{margin-bottom:10px}
   document.querySelectorAll('input[name=wnHaloColor]').forEach((r) => r.addEventListener('change', () => { st.wnHaloColor = r.value; monoChanged(); }));
   $('fullDepth').addEventListener('change', (e) => {
     fullDepth = e.target.checked; applyFullDepth();
-    try { localStorage.setItem('wn-liner-full', fullDepth ? '1' : '0'); localStorage.setItem('wn-liner-dims', JSON.stringify(P)); } catch (err) {}
+    try { localStorage.setItem('wn-liner-full', fullDepth ? '1' : '0'); localStorage.setItem('wn-liner-dims-v2', JSON.stringify(P)); } catch (err) {}
     refit(); updateStats(); requestDraw();
   });
   $('cutline').addEventListener('change', (e) => { st.cutline = e.target.checked; });
@@ -608,7 +614,7 @@ details[open] summary{margin-bottom:10px}
       if (key === 'F') P.F = Math.min(P.F, P.H + 60);
       e.target.value = P[key];
       if (key === 'H') applyFullDepth();
-      try { localStorage.setItem('wn-liner-dims', JSON.stringify(P)); } catch (err) {}
+      try { localStorage.setItem('wn-liner-dims-v2', JSON.stringify(P)); } catch (err) {}
       refit(); updateStats(); requestDraw();
     });
   }

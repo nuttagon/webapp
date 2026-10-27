@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wanida & Nattakorn · 16 · 01 · 2027</title>
+<meta name="description" content="ขอเชิญร่วมงานเลี้ยงฉลองมงคลสมรส วนิดา & ณัฐกร วันเสาร์ที่ 16 มกราคม 2570 ณ บ้านเคียงสะหวัน">
+<meta property="og:title" content="Wanida & Nattakorn · 16 · 01 · 2027">
+<meta property="og:description" content="We saved a seat for you · บ้านเคียงสะหวัน">
+<link rel="icon" href="assets/img/wn-monogram.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Charm:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Montserrat:wght@400;500;600&family=Noto+Serif+Thai:wght@300;400;500&family=Pinyon+Script&display=swap">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- ซองเชิญเปิดก่อนเข้าเว็บ (ข้ามได้ แสดงครั้งเดียวต่อการเปิดเบราว์เซอร์) -->
+<div id="intro" aria-label="ซองเชิญ">
+  <div class="env" id="env" role="button" tabindex="0" aria-label="แตะเพื่อเปิดซอง">
+    <div class="body"></div>
+    <div class="liner"><div class="msg">We saved a seat for you</div></div>
+    <div class="card">
+      <svg data-wn aria-hidden="true"></svg>
+      <div class="names">Wanida &amp; Nattakorn</div>
+      <div class="date">16 · 01 · 2027</div>
+    </div>
+    <div class="pocket"></div>
+    <div class="flap"></div>
+    <div class="seal" aria-hidden="true"><svg data-wn></svg></div>
+  </div>
+  <div class="hint"><button id="skipIntro" class="caps" type="button">แตะซองเพื่อเปิด · ข้าม</button></div>
+</div>
+
+<nav class="nav" aria-label="เมนู">
+  <div class="wrap">
+    <a class="brand" href="#top"><svg data-wn aria-hidden="true"></svg><span>W &amp; N</span></a>
+    <ul>
+      <li><a href="#story">เรื่องราว</a></li>
+      <li><a href="#schedule">กำหนดการ</a></li>
+      <li><a href="#venue">สถานที่</a></li>
+      <li><a href="#before">ก่อนมางาน</a></li>
+      <li><a href="#seating">หาโต๊ะ</a></li>
+      <li><a href="#rsvp">RSVP</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <canvas id="petals" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <svg class="mono" data-wn role="img" aria-label="โมโนแกรม WN"></svg>
+    <p class="invite">ด้วยความยินดี ขอเรียนเชิญร่วมเป็นเกียรติในงานเลี้ยงฉลองมงคลสมรส</p>
+    <h1 data-fill="namesEn">Wanida <span class="amp">&amp;</span> Nattakorn</h1>
+    <p class="th-names" data-fill="namesTh">วนิดา · ณัฐกร</p>
+    <p class="date" data-fill="dateShort">16 · 01 · 2027</p>
+    <p class="date-th" data-fill="dateTh">วันเสาร์ที่ 16 มกราคม 2570</p>
+    <p class="place" data-fill="venue">บ้านเคียงสะหวัน</p>
+    <div class="countdown" id="countdown" aria-label="นับถอยหลัง">
+      <div><b data-cd="d">00</b><span>วัน</span></div>
+      <div><b data-cd="h">00</b><span>ชั่วโมง</span></div>
+      <div><b data-cd="m">00</b><span>นาที</span></div>
+      <div><b data-cd="s">00</b><span>วินาที</span></div>
+    </div>
+    <div class="actions">
+      <a class="btn primary" href="#rsvp">ตอบรับคำเชิญ</a>
+      <a class="btn" href="#seating">หาโต๊ะของฉัน</a>
+      <a class="btn gold" id="gcal" href="#" target="_blank" rel="noopener">เพิ่มลงปฏิทิน</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="block" id="story">
+    <div class="wrap">
+      <div class="head reveal"><span class="caps">Our story</span><h2 class="title">ก่อนจะถึงวันนี้<span class="th">เรื่องราวของเราสองคน</span></h2><span class="rule"></span></div>
+      <div class="timeline" id="storyList"></div>
+    </div>
+  </section>
+
+  <section class="block" id="schedule">
+    <div class="wrap">
+      <div class="head reveal"><span class="caps">Garden reception</span><h2 class="title">กำหนดการ<span class="th" data-fill="dateTh">วันเสาร์ที่ 16 มกราคม 2570</span></h2><span class="rule"></span>
+        <p class="lede">งานเลี้ยงในสวนช่วงแสงเย็น ธีม <em data-fill="theme">Lumière de l'Amour</em> · <span data-fill="themeTh">แสงสว่างแห่งความรัก</span></p></div>
+      <div class="schedule" id="scheduleList"></div>
+    </div>
+  </section>
+
+  <section class="block" id="venue">
+    <div class="wrap">
+      <div class="head reveal"><span class="caps">Venue</span><h2 class="title">สถานที่<span class="th">เดินทาง จอดรถ และที่พัก</span></h2><span class="rule"></span></div>
+      <div class="venue">
+        <div class="reveal">
+          <div class="name" data-fill="venue">บ้านเคียงสะหวัน</div>
+          <p class="addr" data-fill="address"></p>
+          <p class="addr" style="margin-top:14px"><span data-fill="venueNotes"></span></p>
+          <div class="actions" style="display:flex;gap:12px;flex-wrap:wrap;margin:22px 0 28px"><a class="btn primary" data-href="map" href="#" target="_blank" rel="noopener">เปิดแผนที่</a><button class="btn" id="ics" type="button">ไฟล์ปฏิทิน .ics</button></div>
+          <dl class="infolist">
+            <div><dt>จอดรถ</dt><dd data-fill="parking"></dd></div>
+            <div><dt>เดินทาง</dt><dd data-fill="transit"></dd></div>
+            <div><dt>ที่พัก</dt><dd data-fill="hotel"></dd></div>
+            <div><dt>ที่นั่ง</dt><dd><span data-fill="capacity">400</span> ที่ · โต๊ะกลม 22 · VIP 8 · Long table 2</dd></div>
+          </dl>
+        </div>
+        <div class="reveal">
+          <svg class="garden-illus" viewBox="0 0 400 300" role="img" aria-label="ภาพรวมผังสวน: เนิน backdrop ด้านบน ทางเดินกลาง โต๊ะสองฝั่ง อาคารด้านล่าง">
+            <rect width="400" height="300" fill="#EEF0E6"/>
+            <path d="M80 60 Q200 20 320 60 L320 78 Q200 46 80 78 Z" fill="#C4858F"/>
+            <text x="200" y="68" text-anchor="middle" font-size="9" fill="#fff" font-family="Montserrat" letter-spacing="2">BACKDROP</text>
+            <rect x="188" y="82" width="24" height="150" fill="#F2ECE1"/>
+            <rect x="150" y="100" width="14" height="120" rx="2" fill="#fff" stroke="#3D3B38" stroke-width=".8"/>
+            <rect x="236" y="100" width="14" height="120" rx="2" fill="#fff" stroke="#3D3B38" stroke-width=".8"/>
+            <g fill="#fff" stroke="#3D3B38" stroke-width=".8">
+              <circle cx="120" cy="100" r="8"/><circle cx="92" cy="110" r="8"/><circle cx="120" cy="130" r="8"/><circle cx="92" cy="140" r="8"/><circle cx="120" cy="160" r="8"/><circle cx="92" cy="170" r="8"/><circle cx="64" cy="120" r="8"/><circle cx="64" cy="150" r="8"/><circle cx="120" cy="190" r="8"/><circle cx="92" cy="200" r="8"/><circle cx="64" cy="180" r="8"/>
+              <circle cx="280" cy="100" r="8"/><circle cx="308" cy="110" r="8"/><circle cx="280" cy="130" r="8"/><circle cx="308" cy="140" r="8"/><circle cx="280" cy="160" r="8"/><circle cx="308" cy="170" r="8"/><circle cx="336" cy="120" r="8"/><circle cx="336" cy="150" r="8"/><circle cx="280" cy="190" r="8"/><circle cx="308" cy="200" r="8"/><circle cx="336" cy="180" r="8"/>
+            </g>
+            <g fill="#fff" stroke="#C9AB78" stroke-width="1.6"><circle cx="150" cy="80" r="8"/><circle cx="130" cy="80" r="8"/><circle cx="250" cy="80" r="8"/><circle cx="270" cy="80" r="8"/></g>
+            <circle cx="170" cy="250" r="22" fill="#9DB08A" opacity=".6"/>
+            <rect x="60" y="268" width="200" height="18" fill="#DCD6CA"/><text x="160" y="280" text-anchor="middle" font-size="8" fill="#3D3B38">อาคารที่พัก · บุฟเฟ่ต์</text>
+            <rect x="368" y="110" width="10" height="70" fill="#FBF9F5" stroke="#3D3B38" stroke-width=".6"/><text x="373" y="190" text-anchor="middle" font-size="7" fill="#3D3B38">BARS</text>
+            <rect x="22" y="110" width="10" height="60" fill="#F4EEE3" stroke="#3D3B38" stroke-width=".6"/><text x="27" y="180" text-anchor="middle" font-size="7" fill="#3D3B38">SWEET</text>
+            <text x="200" y="22" text-anchor="middle" font-size="8" fill="#6B665D">ทางเข้า · ป้าย Welcome</text>
+          </svg>
+          <p class="addr" style="margin-top:10px;font-size:14px">ผังสวนฉบับเต็มพร้อมเลขโต๊ะอยู่ในส่วน <a href="#seating">หาโต๊ะ</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="before">
+    <div class="wrap">
+      <div class="head reveal"><span class="caps">Before you come</span><h2 class="title">ก่อนมางาน<span class="th">ตั้งแต่ได้รับซองจนถึงวันงาน</span></h2><span class="rule"></span></div>
+      <ol class="steps">
+        <li class="reveal"><div><span class="when">เมื่อได้รับซอง</span><h3>หักครั่ง เปิดฝา เจอข้อความใต้ฝา</h3><p>ในซองมีการ์ดเชิญ การ์ดดอกไม้ และแท็กคาร์ทูช RSVP แตะมือถือที่แท็ก (NFC) หรือสแกน QR บนการ์ดเพื่อเปิดหน้านี้</p></div></li>
+        <li class="reveal"><div><span class="when">ภายใน <span data-fill="rsvpDeadline">16 ธันวาคม 2569</span></span><h3>ตอบรับคำเชิญ</h3><p>แจ้งจำนวนผู้ใหญ่ เด็ก และอาหารที่แพ้ เราจะได้จัดที่นั่งและเมนูให้พอดี <a href="#rsvp">ไปที่แบบฟอร์ม RSVP</a></p></div></li>
+        <li class="reveal"><div><span class="when">ทันทีที่ตอบรับ</span><h3>เพิ่มวันงานลงปฏิทิน</h3><p>ปุ่ม “เพิ่มลงปฏิทิน” ด้านบนสร้างนัดหมายพร้อมที่อยู่ให้ หรือดาวน์โหลดไฟล์ .ics ในส่วนสถานที่</p></div></li>
+        <li class="reveal"><div><span class="when">เลือกชุด</span><h3>Dress code · <span data-fill="dressTitle">Garden pastels</span></h3><p data-fill="dressDesc"></p><div class="palette" id="palette"></div></div></li>
+        <li class="reveal"><div><span class="when">1 สัปดาห์ก่อนงาน</span><h3>เช็กโต๊ะของคุณ</h3><p>พิมพ์ชื่อในส่วน <a href="#seating">หาโต๊ะ</a> จะเห็นตำแหน่งโต๊ะบนผังสวน และกลุ่มเพื่อนที่นั่งด้วยกัน หน้างานมีจอแสดงผังเดียวกันที่จุดลงทะเบียน</p></div></li>
+        <li class="reveal"><div><span class="when">วันงาน 16:30</span><h3>มาถึง ถ่ายรูป หาโต๊ะ</h3><p>ลงทะเบียนที่ทางเข้าหลังเนิน รับ welcome drink ถ่ายรูปที่ Photobooth แล้วเดินไปตามทางเดินกลางสู่โต๊ะของคุณ พิธีเริ่ม 17:30 ตอนแสงเย็น</p></div></li>
+        <li class="reveal"><div><span class="when">หลังงาน</span><h3>รูปรวมจากทุกคน</h3><p>แชร์รูปพร้อม <b data-fill="hashtag">#EternallyWN</b> เราจะรวมรูปจากช่างภาพและจากทุกคนส่งให้ทางลิงก์ภายใน 2 สัปดาห์</p></div></li>
+      </ol>
+      <div class="head reveal" style="margin-top:56px"><span class="caps">FAQ</span><h2 class="title">คำถามที่พบบ่อย</h2><span class="rule"></span></div>
+      <div class="faq" id="faqList"></div>
+    </div>
+  </section>
+
+  <section class="block" id="seating">
+    <div class="wrap">
+      <div class="head reveal"><span class="caps">Find your seat</span><h2 class="title">หาโต๊ะของคุณ<span class="th">พิมพ์ชื่อ แล้วดูตำแหน่งบนผังสวน</span></h2><span class="rule"></span></div>
+      <div class="seat-search">
+        <label class="caps" for="seatInput" style="text-align:center">ชื่อแขก</label>
+        <input id="seatInput" type="search" placeholder="พิมพ์ชื่อของคุณ…" autocomplete="off" aria-describedby="seatResult">
+        <div class="suggest" id="suggest" hidden></div>
+      </div>
+      <div class="seat-result" id="seatResult">หรือแตะโต๊ะบนผังเพื่อดูว่าใครนั่งด้วยกัน</div>
+      <div class="plan-wrap reveal"><svg id="plan" class="plan" viewBox="0 0 1000 940" role="img" aria-label="ผังโต๊ะในสวน"></svg></div>
+      <div class="legend"><span><i style="background:#fff;border-color:#3D3B38"></i>โต๊ะกลม 10 ที่</span><span><i style="background:#fff;border:2px solid #C9AB78"></i>VIP</span><span><i style="background:#F2ECE1"></i>ทางเดินบ่าวสาว</span><span><i style="background:#C4858F"></i>Backdrop</span><span><i style="background:#9DB08A"></i>ต้นไม้ · โคมหวาย</span></div>
+      <div class="table-list" id="tableList"></div>
+    </div>
+  </section>
+
+  <section class="block" id="gift">
+    <div class="wrap">
+      <div class="head reveal"><span class="caps">With love</span><h2 class="title">ของขวัญ<span class="th">ซองช่วยงาน</span></h2><span class="rule"></span></div>
+      <div class="gift reveal">
+        <p class="lede" data-fill="giftNote"></p>
+        <div class="qr"><img id="giftQr" src="assets/img/qr-gift.svg" alt="QR PromptPay (ตัวอย่าง)"><small data-fill="promptpayName">PromptPay</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="rsvp">
+    <div class="wrap">
+      <div class="head reveal"><span class="caps">RSVP</span><h2 class="title">ตอบรับคำเชิญ<span class="th">กรุณาตอบภายใน <span data-fill="rsvpDeadline">16 ธันวาคม 2569</span></span></h2><span class="rule"></span></div>
+      <form class="rsvp-form reveal" id="rsvpForm" novalidate>
+        <div class="field"><label for="rsvpName">ชื่อ–นามสกุล (ตามหน้าซอง)</label><input id="rsvpName" name="name" required autocomplete="name"><datalist id="guestNames"></datalist></div>
+        <fieldset><legend>จะมาร่วมงานได้ไหม</legend>
+          <div class="radio-row">
+            <label><input type="radio" name="attending" value="yes" checked><span>มาแน่นอน ✓</span></label>
+            <label><input type="radio" name="attending" value="no"><span>ขออภัย ไม่สะดวก</span></label>
+          </div>
+        </fieldset>
+        <div class="two">
+          <div class="field"><label for="adults">ผู้ใหญ่ (รวมคุณ)</label><select id="adults" name="adults"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
+          <div class="field"><label for="kids">เด็ก (ต่ำกว่า 12 ปี)</label><select id="kids" name="kids"><option>0</option><option>1</option><option>2</option><option>3</option></select></div>
+        </div>
+        <div class="field"><label for="diet">อาหาร</label><select id="diet" name="diet"><option value="">ทานได้ทุกอย่าง</option><option>มังสวิรัติ</option><option>ฮาลาล</option><option>แพ้อาหารทะเล</option><option>แพ้ถั่ว</option><option>อื่น ๆ (ระบุในหมายเหตุ)</option></select></div>
+        <div class="field"><label for="note">หมายเหตุ / คำอวยพร</label><textarea id="note" name="note" rows="3"></textarea></div>
+        <div class="form-foot"><small>ข้อมูลใช้สำหรับจัดที่นั่งและอาหารเท่านั้น</small><button class="btn primary" type="submit">ส่งคำตอบ</button></div>
+        <p class="status" id="rsvpStatus" role="status" aria-live="polite"></p>
+      </form>
+      <div class="thanks" id="rsvpThanks" hidden>
+        <svg data-wn aria-hidden="true" style="width:56px;fill:var(--ink);opacity:.8"></svg>
+        <div class="script">Thank you, <span data-name></span></div>
+        <p data-msg class="lede" style="text-align:center"></p>
+        <p data-demo hidden class="lede" style="text-align:center;font-size:13px">(โหมดสาธิต: ยังไม่ได้ตั้งค่าปลายทาง RSVP ใน config.js คำตอบถูกเก็บในเครื่องนี้เท่านั้น)</p>
+        <a class="btn" href="#seating">ดูโต๊ะของฉัน</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <svg data-wn aria-hidden="true"></svg>
+  <div class="tag" data-fill="hashtag">#EternallyWN</div>
+  <p>ซอง การ์ด และของชำร่วยทุกชิ้นทำเองด้วยรักที่บ้าน · พิมพ์ด้วย Epson L3250 · ตัดและพิมพ์ 3D ด้วย Bambu Lab A2L</p>
+  <p><a data-href="ecard" href="ecard/">เปิด e-card</a> · <a href="print/invitation.html">ไฟล์การ์ดสำหรับพิมพ์</a></p>
+</footer>
+
+<script src="assets/js/monogram.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/guests.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

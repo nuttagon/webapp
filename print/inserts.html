@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WN · ชิ้นประกอบในซอง (A4)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Charm:wght@400&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Montserrat:wght@400;500&family=Noto+Serif+Thai:wght@300;400;500&family=Pinyon+Script&display=swap">
+<link rel="stylesheet" href="print.css">
+<style>
+/* A4 แต่ละหน้า: 1) การ์ดที่นั่ง/แท็กโต๊ะ 85×55 มม. ×8  2) แท็กของชำร่วย 40×70 มม. ×8 + ป้ายกระดาษครั่ง  3) สติกเกอร์ครั่ง Ø30/Ø25 สำหรับ A2L print-then-cut */
+@page{size:A4;margin:0}
+.sheet{width:210mm;height:297mm;background:#fff}
+.grid{position:absolute;inset:12mm 15mm;display:grid;gap:4mm;align-content:start}
+.ttl{position:absolute;left:15mm;top:6mm;font:2.6mm/1 var(--f-caps);letter-spacing:.2em;color:var(--muted)}
+.seatcard{width:85mm;height:55mm;position:relative;background:var(--paper);outline:.2mm dashed rgba(201,171,120,.6);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2mm;text-align:center;background-image:repeating-linear-gradient(0deg,rgba(120,100,80,.025) 0 1px,transparent 1px 3px)}
+.seatcard .mono{width:9mm;fill:var(--ink);opacity:.8}
+.seatcard .name{font-family:var(--f-charm);font-size:7mm;line-height:1.3}
+.seatcard .name.en{font-family:var(--f-script);font-size:8mm}
+.seatcard .tbl{font-family:var(--f-caps);font-size:3mm;letter-spacing:.34em;color:var(--gold);padding-left:.34em}
+.seatcard .grp{font-size:2.8mm;font-weight:300;color:var(--muted)}
+.seatcard .fold{position:absolute;left:0;right:0;top:50%;border-top:.15mm dotted rgba(61,59,56,.25)}
+.seatcard.tent .top{position:absolute;top:0;left:0;right:0;height:50%;transform:rotate(180deg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1mm}
+.seatcard.tent .bottom{position:absolute;bottom:0;left:0;right:0;height:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1mm}
+.favtag{width:40mm;height:70mm;position:relative;background:var(--paper);outline:.2mm dashed rgba(201,171,120,.6);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2mm;text-align:center;padding:4mm}
+.favtag .hole{position:absolute;top:4mm;left:50%;width:4mm;height:4mm;border-radius:50%;border:.2mm dashed var(--champagne);transform:translateX(-50%)}
+.favtag .mono{width:11mm;fill:var(--ink);opacity:.85}
+.favtag .script{font-family:var(--f-script);font-size:5.4mm;line-height:1.1}
+.favtag .caps{font-size:2.2mm}
+.favtag p{margin:0;font-size:2.5mm;font-weight:300;line-height:1.5;color:var(--muted)}
+.seals{position:absolute;inset:12mm 15mm;display:grid;grid-template-columns:repeat(5,34mm);gap:4mm;align-content:start}
+.seal{width:30mm;height:30mm;border-radius:51% 47% 52% 48% / 48% 53% 47% 52%;background:radial-gradient(circle at 34% 30%,#E7D4B0 0%,#C9AB78 46%,#9A7E4F 100%);display:grid;place-items:center;position:relative;box-shadow:inset -0.8mm -1mm 1.8mm rgba(0,0,0,.18),inset .8mm .8mm 1.2mm rgba(255,255,255,.35)}
+.seal::before{content:"";position:absolute;inset:12%;border-radius:50%;box-shadow:inset .4mm .4mm .5mm rgba(0,0,0,.22),inset -.3mm -.3mm .3mm rgba(255,255,255,.35)}
+.seal svg{width:52%;fill:rgba(60,45,20,.5)}
+.seal.sm{width:25mm;height:25mm}
+.seal.blush{background:radial-gradient(circle at 34% 30%,#F4DCE0 0%,#D6A3A0 46%,#A86C70 100%)}
+.seal.sage{background:radial-gradient(circle at 34% 30%,#C6D0BA 0%,#8E9C78 46%,#5F6C4F 100%)}
+.note{position:absolute;left:15mm;right:15mm;bottom:10mm;font-size:2.8mm;font-weight:300;color:var(--muted);line-height:1.6}
+</style>
+</head>
+<body>
+<div class="toolbar"><b>WN · ชิ้นประกอบในซอง A4</b><span>หน้า 1 การ์ดที่นั่ง (tent card) · หน้า 2 แท็กของชำร่วย · หน้า 3 สติกเกอร์ครั่งสำหรับ A2L print-then-cut</span><button onclick="print()">พิมพ์ / บันทึก PDF</button></div>
+
+<section class="sheet" aria-label="การ์ดที่นั่ง">
+  <div class="ttl">01 · SEAT CARDS 85×55 mm · พับครึ่งตั้งบนโต๊ะ หรือตัดครึ่งสอดในซอง · กระดาษ 220–300 แกรม</div>
+  <div class="grid" style="grid-template-columns:repeat(2,85mm)" id="seatGrid"></div>
+  <p class="note">รายชื่อดึงจาก assets/js/guests.js (8 ชื่อแรกเป็นตัวอย่าง) · ตัด/พับด้วย A2L: ใช้เส้นประเป็นเส้นตัด เส้นจุดเป็นรอยพับ · เปลี่ยนชื่อที่แสดงได้ด้วย ?from=0&amp;count=8</p>
+</section>
+
+<section class="sheet" aria-label="แท็กของชำร่วย">
+  <div class="ttl">02 · FAVOR TAGS 40×70 mm · เจาะรูร้อยริบบิ้นไหม 12 มม. (Blush / Sage / Champagne)</div>
+  <div class="grid" style="grid-template-columns:repeat(4,40mm)" id="tagGrid"></div>
+  <p class="note">ผูกกับพวงกุญแจหัวใจ WN หรือพิมพ์กดคุกกี้ (ไฟล์ STL ในโฟลเดอร์ favors/) · กระดาษเท็กซ์เจอร์ 220 แกรม · Epson L3250 ตั้งคุณภาพสูง</p>
+</section>
+
+<section class="sheet" aria-label="สติกเกอร์ครั่ง">
+  <div class="ttl">03 · WAX SEAL STICKERS · Ø30 มม. ปิดซอง · Ø25 มม. บนแถบ vellum · พิมพ์บนสติกเกอร์ PVC/กระดาษเคลือบ แล้วตัดด้วย A2L</div>
+  <div class="seals" id="seals"></div>
+  <p class="note">ใช้ไฟล์ตัด print/out/seal-cut-A4.svg สำหรับ Bambu Suite (วงกลม Ø30 และ Ø25 ตำแหน่งเดียวกับหน้านี้) · ถ้าใช้ครั่งจริง: พิมพ์หัวตราปั๊ม 3D จาก favors/stl/wn-wax-seal-stamp-head.stl</p>
+</section>
+
+<script src="../assets/js/monogram.js"></script>
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/guests.js"></script>
+<script>
+(() => {
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const WN = `<svg class="mono" viewBox="0 0 1420 1040" aria-hidden="true"><path fill-rule="evenodd" d="${window.WN_PATH}"/></svg>`;
+  const q = new URLSearchParams(location.search), from = +q.get('from') || 0, count = +q.get('count') || 8;
+  const byId = Object.fromEntries(window.TABLES.map((t) => [String(t.id), t]));
+  const guests = window.GUESTS.slice(from, from + count);
+  document.getElementById('seatGrid').innerHTML = guests.map((g) => { const t = byId[String(g.table)] || {}; const en = /^[A-Za-z .&-]+$/.test(g.name);
+    const face = `${WN}<div class="name${en ? ' en' : ''}">${esc(g.name)}</div><div class="tbl">${esc(t.label || g.table)}</div><div class="grp">${esc(t.group || '')}</div>`;
+    return `<div class="seatcard tent"><div class="fold"></div><div class="top">${face}</div><div class="bottom">${face}</div></div>`; }).join('');
+  const W = window.WEDDING;
+  document.getElementById('tagGrid').innerHTML = Array.from({ length: 8 }, () => `<div class="favtag"><div class="hole"></div>${WN}<div class="script">With love</div><div class="caps">${esc(W.couple.bride.en)} &amp; ${esc(W.couple.groom.en)}</div><p>ขอบคุณที่มาร่วมเป็นส่วนหนึ่ง<br>ของวันสำคัญของเรา</p><div class="caps">${esc(W.date.short)}</div></div>`).join('');
+  const seal = (cls) => `<div class="seal ${cls}"><svg viewBox="0 0 1420 1040" aria-hidden="true"><path fill-rule="evenodd" d="${window.WN_PATH}"/></svg></div>`;
+  document.getElementById('seals').innerHTML = [...Array(10).fill(''), ...Array(5).fill('blush'), ...Array(5).fill('sage')].map((c) => seal(c)).join('') + Array(10).fill('').map(() => seal('sm')).join('');
+})();
+</script>
+</body>
+</html>

@@ -51,10 +51,10 @@ h1{font-family:var(--f-display);font-style:italic;font-weight:500;font-size:32px
 .btn:focus-visible,.seg input:focus-visible+span,input:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .file{position:relative;overflow:hidden}
 .file input{position:absolute;inset:0;opacity:0;cursor:pointer}
-.seg{display:flex;border:1px solid var(--line);border-radius:7px;overflow:hidden}
-.seg label{flex:1;position:relative}
+.seg{display:flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:7px;overflow:hidden}
+.seg label{flex:1 1 30%;position:relative}
 .seg input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
-.seg span{display:block;text-align:center;padding:8px 6px;font-size:13.5px;cursor:pointer;background:var(--field);border-left:1px solid var(--line)}
+.seg span{display:block;text-align:center;padding:8px 6px;font-size:13px;cursor:pointer;background:var(--field);border-left:1px solid var(--line);border-top:1px solid var(--line);margin-top:-1px}
 .seg label:first-child span{border-left:none}
 .seg input:checked+span{background:var(--ink);color:var(--surface)}
 .slider{display:grid;grid-template-columns:5.5em minmax(0,1fr) 3.5em;gap:10px;align-items:center;font-size:13.5px}
@@ -122,7 +122,30 @@ details[open] summary{margin-bottom:10px}
         <p class="small">ย่อรูปได้ต่ำกว่า 100% ส่วนที่ไม่มีรูปจะเป็นสีพื้นนี้ (ขาว = ไม่พิมพ์หมึก เหลือสีกระดาษ)</p>
         <div class="slider"><label for="bright">ความสว่าง</label><input type="range" id="bright" min="-20" max="30" step="1" value="8"><output id="brightOut">+8</output></div>
         <p class="small">หมึก Epson บนกระดาษด้านจะออกเข้มกว่าจอ แนะนำเพิ่มความสว่าง +5 ถึง +12</p>
-        <label class="check"><input type="checkbox" id="wn" checked><span>โมโนแกรม WN ที่ปลายฝา<small>เว้นเป็นสีกระดาษ (ไม่พิมพ์หมึก)</small></span></label>
+      </div>
+
+      <div class="group">
+        <h2>โมโนแกรม WN ที่ปลายฝา</h2>
+        <label class="check"><input type="checkbox" id="wn" checked><span>แสดงโมโนแกรม</span></label>
+        <div class="seg" role="radiogroup" aria-label="สไตล์โมโนแกรม">
+          <label><input type="radio" name="wnStyle" value="paper" checked><span>สีกระดาษ</span></label>
+          <label><input type="radio" name="wnStyle" value="solid"><span>สีเดียว</span></label>
+          <label><input type="radio" name="wnStyle" value="gold"><span>ทอง</span></label>
+          <label><input type="radio" name="wnStyle" value="champagne"><span>แชมเปญ</span></label>
+          <label><input type="radio" name="wnStyle" value="silver"><span>เงิน</span></label>
+          <label><input type="radio" name="wnStyle" value="rose"><span>โรสโกลด์</span></label>
+        </div>
+        <div class="slider" id="wnColorRow" hidden><label for="wnColor">สี WN</label><input type="color" id="wnColor" value="#ffffff"><output id="wnColorOut">#FFFFFF</output></div>
+        <div class="slider"><label for="wnSize">ขนาดกว้าง</label><input type="range" id="wnSize" min="6" max="45" step="0.5" value="9"><output id="wnSizeOut">9 มม.</output></div>
+        <div class="slider"><label for="wnOffset">ลงจากปลาย</label><input type="range" id="wnOffset" min="4" max="60" step="0.5" value="12"><output id="wnOffsetOut">12 มม.</output></div>
+        <div class="slider"><label for="wnHalo">ขอบตัด</label><input type="range" id="wnHalo" min="0" max="1.5" step="0.05" value="0"><output id="wnHaloOut">ไม่มี</output></div>
+        <div class="seg" role="radiogroup" aria-label="สีขอบตัด">
+          <label><input type="radio" name="wnHaloColor" value="light" checked><span>ขอบขาว</span></label>
+          <label><input type="radio" name="wnHaloColor" value="dark"><span>ขอบเข้ม</span></label>
+          <label><input type="radio" name="wnHaloColor" value="gold"><span>ขอบทอง</span></label>
+        </div>
+        <label class="check"><input type="checkbox" id="wnShadow"><span>เงาอ่อนใต้ตัวอักษร<small>ช่วยให้ WN ลอยจากรูปพื้นหลัง</small></span></label>
+        <p class="small">หมึกอิงค์เจ็ตพิมพ์ความเงาจริงไม่ได้ สไตล์ทอง/เงินเป็นการไล่เฉดเลียนแบบฟอยล์ ถ้าต้องการเงาจริง ดาวน์โหลด SVG ด้านล่างไปตัดไวนิลทอง/ฟอยล์ด้วย A2L แล้วติดทับตำแหน่งที่เว้นสีกระดาษไว้</p>
       </div>
 
       <div class="group">
@@ -165,6 +188,7 @@ details[open] summary{margin-bottom:10px}
             <div class="dl">
               <button class="btn" id="dlPng" type="button">PNG ชิ้นเดียว 300 dpi</button>
               <button class="btn" id="dlSvg1" type="button">SVG เส้นตัดชิ้นเดียว</button>
+              <button class="btn" id="dlWn" type="button">SVG โมโนแกรม WN (ตัดไวนิล/ฟอยล์)</button>
             </div>
           </details>
         </div>
@@ -186,6 +210,7 @@ details[open] summary{margin-bottom:10px}
   const LIM = { W: [90, 300], H: [70, 260], F: [25, 200], depth: [15, 260], side: [0, 20], edge: [0, 20], bleed: [0, 6], tipExt: [0, 80] };
   let fullDepth = true;
   const st = { src: null, srcW: 0, srcH: 0, isSample: true, tone: 'mono', bright: 8, wn: true, cutline: false,
+    wnStyle: 'paper', wnColor: '#ffffff', wnSize: 9, wnOffset: 12, wnHalo: 0, wnHaloColor: 'light', wnShadow: false,
     prev: null, cx: 0, cy: 0, s: 1, sCover: 1, zoom: 1, bg: '#ffffff' };
   let downloads = null;
 
@@ -197,6 +222,18 @@ details[open] summary{margin-bottom:10px}
     if (fullDepth) { P.depth = Math.max(LIM.depth[0], Math.round((P.H - 2) * 2) / 2); $('depth').value = P.depth; }
   }
   applyFullDepth();
+  const WN_KEYS = ['wn', 'wnStyle', 'wnColor', 'wnSize', 'wnOffset', 'wnHalo', 'wnHaloColor', 'wnShadow'];
+  try { const m = JSON.parse(localStorage.getItem('wn-liner-mono') || 'null'); if (m) for (const k of WN_KEYS) if (k in m) st[k] = m[k]; } catch (e) {}
+  function saveMono() { try { const o = {}; for (const k of WN_KEYS) o[k] = st[k]; localStorage.setItem('wn-liner-mono', JSON.stringify(o)); } catch (e) {} }
+  function syncMonoUI() {
+    $('wn').checked = st.wn; $('wnShadow').checked = st.wnShadow; $('wnColor').value = st.wnColor; $('wnColorOut').textContent = st.wnColor.toUpperCase();
+    $('wnSize').value = st.wnSize; $('wnSizeOut').textContent = st.wnSize + ' มม.'; $('wnOffset').value = st.wnOffset; $('wnOffsetOut').textContent = st.wnOffset + ' มม.';
+    $('wnHalo').value = st.wnHalo; $('wnHaloOut').textContent = st.wnHalo > 0 ? st.wnHalo.toFixed(2) + ' มม.' : 'ไม่มี';
+    document.querySelectorAll('input[name=wnStyle]').forEach((r) => (r.checked = r.value === st.wnStyle));
+    document.querySelectorAll('input[name=wnHaloColor]').forEach((r) => (r.checked = r.value === st.wnHaloColor));
+    $('wnColorRow').hidden = st.wnStyle !== 'solid';
+  }
+  syncMonoUI();
 
   // ---------- geometry (mm; flap tip at y=0, fold at y=F) ----------
   function geom() {
@@ -230,10 +267,46 @@ details[open] summary{margin-bottom:10px}
     if (P.bleed > 0) { c.lineWidth = P.bleed * 2; c.lineJoin = 'round'; c.strokeStyle = '#000'; c.stroke(); }
     return m;
   }
-  function wnBox(g) { const w = 9, h = w * WN_VB_H / WN_VB_W; return { x: P.W / 2 - w / 2, y: g.topY + 12 - h / 2, w, h }; }
-  function drawWN(c, g, color) {
-    const b = wnBox(g); c.save(); c.translate(b.x, b.y); c.scale(b.w / WN_VB_W, b.w / WN_VB_W);
-    c.fillStyle = color; c.fill(wnPath, 'evenodd'); c.restore();
+  function wnBox(g) {
+    const w = st.wnSize, h = w * WN_VB_H / WN_VB_W;
+    // ดันลงอัตโนมัติถ้าขนาดใหญ่จนล้นขอบเฉียงของฝา (เผื่อ 2 มม. + ขอบตัด)
+    const minOff = h / 2 + (w / 2 + 2 + st.wnHalo) * g.k + g.tipY - g.topY;
+    const off = Math.max(st.wnOffset, minOff);
+    return { x: P.W / 2 - w / 2, y: g.topY + off - h / 2, w, h };
+  }
+  const METAL = {
+    gold: ['#FFF4C8', '#E2C170', '#A97D2C', '#F6E2A0', '#BC953F', '#7A5A1E'],
+    champagne: ['#FDF6E6', '#E6D2A8', '#B89C6C', '#F7EBD2', '#CBAE7C', '#8A7650'],
+    silver: ['#FFFFFF', '#DDE0E4', '#979DA6', '#F0F2F4', '#B4B9C0', '#6E747C'],
+    rose: ['#FCE6DE', '#DFA896', '#A8685A', '#F5D1C4', '#CD8F7D', '#7E4A3E'],
+  };
+  const HALO = { light: '#FFFFFF', dark: '#2B2722', gold: '#B8923E' };
+  // วาดโมโนแกรม: opts.knockout = ไฟล์พิมพ์ (เว้นหมึก), ไม่ knockout = พรีวิว (ทาสีกระดาษแทน) · pxPerMm สำหรับเงา
+  function drawWN(c, g, opts) {
+    const b = wnBox(g), sc = b.w / WN_VB_W, mm = 1 / sc;
+    c.save(); c.translate(b.x, b.y); c.scale(sc, sc); c.lineJoin = 'round';
+    if (st.wnShadow) {
+      c.save(); c.shadowColor = 'rgba(20,14,8,0.55)'; c.shadowBlur = 1.1 * opts.pxPerMm; c.shadowOffsetX = 0.25 * opts.pxPerMm; c.shadowOffsetY = 0.4 * opts.pxPerMm;
+      c.fillStyle = '#000'; c.fill(wnPath, 'evenodd'); if (st.wnHalo > 0) { c.lineWidth = st.wnHalo * 2 * mm; c.strokeStyle = '#000'; c.stroke(wnPath); } c.restore();
+    }
+    if (st.wnHalo > 0) { c.lineWidth = st.wnHalo * 2 * mm; c.strokeStyle = HALO[st.wnHaloColor] || '#fff'; c.stroke(wnPath); }
+    if (st.wnStyle === 'paper') {
+      if (opts.knockout) { c.globalCompositeOperation = 'destination-out'; c.fillStyle = '#000'; } else c.fillStyle = opts.paperColor;
+      c.fill(wnPath, 'evenodd');
+    } else if (st.wnStyle === 'solid') {
+      c.fillStyle = st.wnColor; c.fill(wnPath, 'evenodd');
+    } else {
+      const m = METAL[st.wnStyle] || METAL.gold;
+      const gr = c.createLinearGradient(0, WN_VB_H * 0.1, WN_VB_W, WN_VB_H * 0.9);
+      gr.addColorStop(0, m[0]); gr.addColorStop(0.22, m[1]); gr.addColorStop(0.45, m[2]); gr.addColorStop(0.6, m[3]); gr.addColorStop(0.8, m[4]); gr.addColorStop(1, m[2]);
+      c.fillStyle = gr; c.fill(wnPath, 'evenodd');
+      c.lineWidth = 0.1 * mm; c.strokeStyle = m[5]; c.stroke(wnPath);
+    }
+    c.restore();
+  }
+  function buildWnSvg() {
+    const g = geom(), b = wnBox(g);
+    return `<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" width="${fmt3(b.w)}mm" height="${fmt3(b.h)}mm" viewBox="0 0 ${WN_VB_W} ${WN_VB_H}">\n<!-- WN monogram ${fmt3(b.w)} x ${fmt3(b.h)} mm · วางห่างจากปลาย liner ${fmt3(b.y - g.topY)} mm (ขอบบนของตัวอักษร) กึ่งกลางซ้าย-ขวา -->\n<path d="${WN_D}" fill="#000000" fill-rule="evenodd"/>\n</svg>\n`;
   }
   function safeZone(g) {
     const top = P.F * 0.47, bottom = P.F - 10;
@@ -355,7 +428,7 @@ details[open] summary{margin-bottom:10px}
       ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 0.35; ctx.drawImage(layer, 0, 0); ctx.restore();
       ctx.save(); tracePath(ctx, g); ctx.clip(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.drawImage(layer, 0, 0); ctx.restore();
     }
-    if (st.wn) drawWN(ctx, g, colors.paper);
+    if (st.wn) drawWN(ctx, g, { knockout: false, paperColor: colors.paper, pxPerMm: k });
 
     // inside-the-envelope part (covered by the card)
     ctx.save(); tracePath(ctx, g); ctx.clip();
@@ -396,7 +469,7 @@ details[open] summary{margin-bottom:10px}
     const dd = $('sDpi'); dd.textContent = st.src ? `${Math.min(dpi, 300)} dpi${dpi < 200 ? ' · ต่ำ อาจไม่คม' : ''}` : '–';
     dd.classList.toggle('warn', dpi < 200);
     for (const id of ['dlPdf', 'dlSvg']) $(id).disabled = !lay || !downloads;
-    for (const id of ['dlPng', 'dlSvg1']) $(id).disabled = !downloads;
+    for (const id of ['dlPng', 'dlSvg1', 'dlWn']) $(id).disabled = !downloads;
   }
 
   // ---------- exports ----------
@@ -413,7 +486,7 @@ details[open] summary{margin-bottom:10px}
     x.setTransform(1, 0, 0, 1, 0, 0); x.globalCompositeOperation = 'destination-in';
     x.drawImage(maskCanvas(w, h, tf, g), 0, 0);
     x.setTransform(...tf);
-    if (st.wn) { x.globalCompositeOperation = 'destination-out'; drawWN(x, g, '#000'); }
+    if (st.wn) drawWN(x, g, { knockout: true, paperColor: '#ffffff', pxPerMm: dpm });
     x.globalCompositeOperation = 'source-over';
     if (st.cutline && opaque) { tracePath(x, g); x.lineWidth = 0.15; x.strokeStyle = '#7d7d7d'; x.stroke(); }
     if (!opaque) return c;
@@ -512,7 +585,15 @@ details[open] summary{margin-bottom:10px}
   document.querySelectorAll('input[name=tone]').forEach((r) => r.addEventListener('change', () => { st.tone = r.value; rebuildPreview(); requestDraw(); }));
   $('bright').addEventListener('input', (e) => { st.bright = +e.target.value; $('brightOut').textContent = (st.bright > 0 ? '+' : '') + st.bright; rebuildPreview(); requestDraw(); });
   $('zoom').addEventListener('input', (e) => { setZoom(+e.target.value / 100); updateStats(); });
-  $('wn').addEventListener('change', (e) => { st.wn = e.target.checked; requestDraw(); });
+  const monoChanged = () => { saveMono(); syncMonoUI(); requestDraw(); };
+  $('wn').addEventListener('change', (e) => { st.wn = e.target.checked; monoChanged(); });
+  $('wnShadow').addEventListener('change', (e) => { st.wnShadow = e.target.checked; monoChanged(); });
+  $('wnColor').addEventListener('input', (e) => { st.wnColor = e.target.value; monoChanged(); });
+  $('wnSize').addEventListener('input', (e) => { st.wnSize = +e.target.value; monoChanged(); });
+  $('wnOffset').addEventListener('input', (e) => { st.wnOffset = +e.target.value; monoChanged(); });
+  $('wnHalo').addEventListener('input', (e) => { st.wnHalo = +e.target.value; monoChanged(); });
+  document.querySelectorAll('input[name=wnStyle]').forEach((r) => r.addEventListener('change', () => { st.wnStyle = r.value; monoChanged(); }));
+  document.querySelectorAll('input[name=wnHaloColor]').forEach((r) => r.addEventListener('change', () => { st.wnHaloColor = r.value; monoChanged(); }));
   $('fullDepth').addEventListener('change', (e) => {
     fullDepth = e.target.checked; applyFullDepth();
     try { localStorage.setItem('wn-liner-full', fullDepth ? '1' : '0'); localStorage.setItem('wn-liner-dims', JSON.stringify(P)); } catch (err) {}
@@ -545,6 +626,7 @@ details[open] summary{margin-bottom:10px}
   $('dlSvg').addEventListener('click', (e) => offer(`WN_liner_${sizeTag(geom())}_A4_cut.svg`, async () => buildSvgA4(), e.currentTarget));
   $('dlPng').addEventListener('click', (e) => offer(`WN_liner_${sizeTag(geom())}_piece.png`, pieceBlob, e.currentTarget));
   $('dlSvg1').addEventListener('click', (e) => offer(`WN_liner_${sizeTag(geom())}_piece_cut.svg`, async () => buildSvgSingle(), e.currentTarget));
+  $('dlWn').addEventListener('click', (e) => offer(`WN_monogram_${Math.round(st.wnSize)}mm.svg`, async () => buildWnSvg(), e.currentTarget));
 
   new ResizeObserver(() => requestDraw()).observe(stage);
   const themeChanged = () => { readColors(); requestDraw(); };

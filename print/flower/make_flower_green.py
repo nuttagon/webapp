@@ -35,7 +35,7 @@ ACCOUNT_TH = "ณัฐกรณ์ & วนิดา"
 DATE       = "16 · 01 · 2027"
 BLEED      = 3.0           # mm สีพื้นเลยเส้นตัด
 SAFE       = 5.0           # mm งานพิมพ์สำคัญห่างจากเส้นตัด
-WN_W_1S    = 24.0          # mm ความกว้าง WN (แบบหน้าเดียว)
+WN_W_1S    = 22.0          # mm ความกว้าง WN (แบบหน้าเดียว)
 WN_W_2S    = 34.0          # mm ความกว้าง WN (แบบสองหน้า เหมือนเดิม)
 # ────────────────────────────────────────
 
@@ -71,98 +71,104 @@ def qr_el(cx, cy, size, ink):
             if v: d += f"M{x0 + c * cell:.3f},{y0 + r * cell:.3f}h{cell:.3f}v{cell:.3f}h-{cell:.3f}z"
     return f'<path d="{d}" fill="{ink}"/>', box(x0, y0, x0 + size, y0 + size), n
 
-def text_el(txt, x, y, size, color, family, weight=400, style="normal", tracking=0, anchor="middle", est_w=None):
-    """SVG text (มม.) · คืน (svg, box โดยประมาณ)"""
+FONT_DIR = os.path.join(HERE, "fonts")
+FONTS = {  # ชื่อตระกูลใน SVG → ไฟล์ (วัดความกว้างด้วย PIL ให้ตรงกับที่พิมพ์)
+    ("Cormorant Garamond", 400, "normal"): "CormorantGaramond-Regular.ttf",
+    ("Cormorant Garamond", 500, "normal"): "CormorantGaramond-Medium.ttf",
+    ("Cormorant Garamond", 400, "italic"): "CormorantGaramond-Italic.ttf",
+    ("Montserrat", 500, "normal"): "Montserrat-Medium.ttf",
+    ("Noto Serif Thai", 400, "normal"): "NotoSerifThai-Regular.ttf",
+}
+_fcache = {}
+def text_width(txt, family, size, weight=400, style="normal", tracking=0):
+    from PIL import ImageFont
+    key = (family, weight, style)
+    if key not in _fcache: _fcache[key] = ImageFont.truetype(os.path.join(FONT_DIR, FONTS[key]), 200)
+    w = _fcache[key].getlength(txt) * size / 200
+    return w + tracking * max(0, len(txt) - 1)
+
+def text_el(txt, x, y, size, color, family, weight=400, style="normal", tracking=0, anchor="middle"):
+    """SVG text (มม.) · คืน (svg, box จากความกว้างจริงของฟอนต์)"""
     ls = f' letter-spacing="{tracking}"' if tracking else ""
-    el = (f'<text x="{x:.3f}" y="{y:.3f}" font-family="{family}" font-size="{size:.3f}" font-weight="{weight}" font-style="{style}" '
+    el = (f'<text x="{x:.3f}" y="{y:.3f}" font-family="\'{family}\'" font-size="{size:.3f}" font-weight="{weight}" font-style="{style}" '
           f'fill="{color}" text-anchor="{anchor}"{ls}>{txt}</text>')
-    w = est_w if est_w is not None else len(txt) * size * 0.55 + tracking * len(txt)
+    w = text_width(txt, family, size, weight, style, tracking)
     bx = box(x - w / 2, y - size * 0.75, x + w / 2, y + size * 0.25) if anchor == "middle" else box(x, y - size * 0.75, x + w, y + size * 0.25)
     return el, bx
 
-CAPS = "'Cormorant Garamond', serif"
-ITAL = "'Cormorant Garamond', serif"
-THAI = "'Noto Serif Thai', serif"
-SANS = "'Montserrat', sans-serif"
+CAPS = ("Cormorant Garamond", 500, "normal")
+ITAL = ("Cormorant Garamond", 400, "italic")
+THAI = ("Noto Serif Thai", 400, "normal")
+SANS = ("Montserrat", 500, "normal")
+def T(txt, x, y, size, color, font, tracking=0, anchor="middle"):
+    return text_el(txt, x, y, size, color, font[0], font[1], font[2], tracking, anchor)
 
 def check_inside(label, boxes, P, safe):
     inner = P.buffer(-safe)
-    bad = [b for b in boxes if not inner.contains(b)]
+    bad = [i for i, b in enumerate(boxes) if not inner.contains(b)]
     gap = min(P.exterior.distance(b) for b in boxes)
-    print(f"  {label}: {len(boxes)} items · ระยะใกล้เส้นตัดสุด {gap:.1f} mm · {'OK' if not bad else 'ล้ำพื้นที่ปลอดภัย %d ชิ้น' % len(bad)}")
+    print(f"  {label}: {len(boxes)} items · ระยะใกล้เส้นตัดสุด {gap:.1f} mm · {'OK' if not bad else 'ล้ำพื้นที่ปลอดภัย: ชิ้นที่ %s' % bad}")
     return not bad
 
 def flower_frames(P):
-    """ศูนย์กลาง 'ใจดอก' และรัศมีวงกลมใหญ่สุดที่ซ่อนในดอก"""
+    """ศูนย์กลาง 'ใจดอก' (วงกลมใหญ่สุดที่ซ่อนในดอก) และรัศมี"""
     c = polylabel(P, 0.2); R = P.exterior.distance(c)
     return c, R
 
 def front_one_sided(P):
-    """หน้าเดียว: พื้นเขียว · WN ขาวด้านบนของใจดอก · แผ่น QR ขาวด้านล่าง · วันที่"""
-    c, R = flower_frames(P)
+    """หน้าเดียว: พื้นเขียว · WN ขาวเหนือใจดอก · แผ่นขาว (QR + ชื่อบัญชี + PROMPTPAY) ใต้ใจดอก · วันที่ในกลีบล่าง
+    พิกัดอ้างอิงใจดอก (c) · คอลัมน์เลื่อนขวา 2.5 มม. ให้พอดีกลีบล่างที่เยื้องขวา"""
+    c, R = flower_frames(P); ax = c.x + 2.5
     els, boxes = [], []
     els.append(f'<path d="{poly_d(P.buffer(BLEED, join_style=1))}" fill="{GREEN}"/>')
-    scale = 1.0
-    while True:
-        wnw = WN_W_1S * scale; qr = max(16.0, QR_SIZE * scale); panel = qr + 2 * QR_QUIET
-        wn_c = (c.x, c.y - R * 0.43 * scale)
-        qr_c = (c.x, c.y + R * 0.30)
-        el, bwn = wn_el(wn_c[0], wn_c[1], wnw, PAPER)
-        bpanel = box(qr_c[0] - panel / 2, qr_c[1] - panel / 2, qr_c[0] + panel / 2, qr_c[1] + panel / 2)
-        date_y = qr_c[1] + panel / 2 + 4.6
-        _, bdate = text_el(DATE, c.x, date_y, 3.0, PAPER, CAPS, tracking=0.9, est_w=28)
-        inner = P.buffer(-SAFE)
-        if all(inner.contains(b) for b in (bwn, bpanel, bdate)) or scale < 0.72:
-            break
-        scale -= 0.04
-    els.append(el); boxes.append(bwn)
-    # แผ่นขาวมุมมน + QR
-    els.append(f'<rect x="{bpanel.bounds[0]:.3f}" y="{bpanel.bounds[1]:.3f}" width="{panel:.3f}" height="{panel:.3f}" rx="2.2" fill="{PAPER}"/>')
-    qel, bq, n = qr_el(qr_c[0], qr_c[1], qr, GREEN_INK); els.append(qel); boxes.append(bpanel)
-    # ป้ายเล็กบนแผ่นขาว
-    lab, bl = text_el("QR GIFT · PROMPTPAY", c.x, bpanel.bounds[1] - 1.6, 1.9, PAPER, SANS, weight=500, tracking=0.45, est_w=26)
-    els.append(lab); boxes.append(bl)
-    nm, bn = text_el(ACCOUNT_TH, c.x, bpanel.bounds[3] + 3.4 + 2.2, 2.6, PAPER, THAI, est_w=26)
-    del_, bdate = text_el(DATE, c.x, bpanel.bounds[3] + 3.4 + 2.2 + 4.6, 2.6, PAPER, CAPS, tracking=0.8, est_w=24)
-    els += [nm, del_]; boxes += [bn, bdate]
+    el, b = wn_el(ax, c.y - 12.5, WN_W_1S, PAPER); els.append(el); boxes.append(b)
+    pw, ph = QR_SIZE + 2 * QR_QUIET, QR_SIZE + 2 * QR_QUIET + 7.2
+    py = c.y - 2.0
+    bpanel = box(ax - pw / 2, py, ax + pw / 2, py + ph)
+    els.append(f'<rect x="{bpanel.bounds[0]:.3f}" y="{py:.3f}" width="{pw:.3f}" height="{ph:.3f}" rx="2.2" fill="{PAPER}"/>')
+    qel, bq, n = qr_el(ax, py + QR_QUIET + QR_SIZE / 2, QR_SIZE, GREEN_INK); els.append(qel); boxes.append(bpanel)
+    nm, _ = T(ACCOUNT_TH, ax, py + QR_QUIET + QR_SIZE + 3.3, 2.2, GREEN_INK, THAI); els.append(nm)
+    lab, _ = T("PROMPTPAY · QR GIFT", ax, py + ph - 1.6, 1.5, GREEN_INK, SANS, tracking=0.3); els.append(lab)
+    dt, bd = T(DATE, ax, py + ph + 4.3, 2.5, PAPER, CAPS, tracking=0.8); els.append(dt); boxes.append(bd)
     ok = check_inside("FRONT (one-sided)", boxes, P, SAFE)
-    return "".join(els), ok, dict(scale=scale, wn=wnw, qr=qr, modules=n, R=R)
+    return "".join(els), ok, dict(wn=WN_W_1S, qr=QR_SIZE, modules=n, R=R)
 
 def front_two_sided(P):
     c, R = flower_frames(P)
     els, boxes = [], []
     els.append(f'<path d="{poly_d(P.buffer(BLEED, join_style=1))}" fill="{GREEN}"/>')
     el, b = wn_el(c.x, c.y - 4.0, WN_W_2S, PAPER); els.append(el); boxes.append(b)
-    d, bd = text_el(DATE, c.x, c.y + 16.5 + 2.6, 3.6, PAPER, CAPS, tracking=1.0, est_w=34); els.append(d); boxes.append(bd)
+    d, bd = T(DATE, c.x, c.y + 18.0, 3.4, PAPER, CAPS, tracking=0.9); els.append(d); boxes.append(bd)
     ok = check_inside("FRONT (two-sided)", boxes, P, SAFE)
     return "".join(els), ok
 
 def back_two_sided(P):
-    """ด้านหลังสีขาว หมึกเขียว · วางบนดอกที่กลับซ้าย-ขวา (พิมพ์กลับกระดาษด้านยาว)"""
+    """ด้านหลังสีขาว หมึกเขียว · วางบนดอกที่กลับซ้าย-ขวา (พิมพ์กลับกระดาษด้านยาว) ผังเดิมของชุดแดง"""
     c, R = flower_frames(P)
     els, boxes = [], []
     ax = c.x - 3.0; y0 = c.y
-    t, b = text_el("QR GIFT", ax, y0 - 18.3, 2.4, GREEN_INK, CAPS, tracking=0.95, est_w=14); els.append(t); boxes.append(b)
+    t, b = T("QR GIFT", ax, y0 - 18.3, 2.4, GREEN_INK, CAPS, tracking=0.95); els.append(t); boxes.append(b)
     els.append(f'<path d="M{ax - 3.2:.2f},{y0 - 16.0:.2f} L{ax + 3.2:.2f},{y0 - 16.0:.2f}" stroke="{GREEN}" stroke-width="0.22"/>')
     for en, th, yy in (("NAME", "ชื่อ", -11.0), ("TIME", "เวลาโอน", -5.2)):
         half = 17.6; xa = ax - half
-        t1, b1 = text_el(f"{en} / ", xa, y0 + yy, 2.2, GREEN_INK, SANS, anchor="start", tracking=0.15, est_w=7.5)
-        t2, b2 = text_el(f"{th} :", xa + 7.5, y0 + yy, 2.4, GREEN_INK, THAI, anchor="start", est_w=9)
-        xs = xa + 7.5 + 9 + 1.2
+        w1 = text_width(en + " / ", "Montserrat", 2.2, 500, "normal", 0.15)
+        t1, b1 = T(en + " / ", xa, y0 + yy, 2.2, GREEN_INK, SANS, tracking=0.15, anchor="start")
+        t2, b2 = T(th + " :", xa + w1, y0 + yy, 2.4, GREEN_INK, THAI, anchor="start")
+        xs = b2.bounds[2] + 1.2
         els += [t1, t2, f'<path d="M{xs:.2f},{y0 + yy + 0.5:.2f} L{ax + half:.2f},{y0 + yy + 0.5:.2f}" stroke="{GREEN}" stroke-width="0.25"/>']
         boxes += [b1, b2, box(xs, y0 + yy, ax + half, y0 + yy + 0.8)]
     qel, bq, n = qr_el(ax, y0 - 1.4 + QR_SIZE / 2, QR_SIZE, GREEN_INK); els.append(qel); boxes.append(bq)
-    t, b = text_el("PROMPTPAY", ax, bq.bounds[3] + 2.9, 1.7, GREEN_INK, CAPS, tracking=0.55, est_w=12); els.append(t); boxes.append(b)
-    t, b = text_el(ACCOUNT_TH, ax, bq.bounds[3] + 6.4, 2.4, GREEN_INK, THAI, est_w=22); els.append(t); boxes.append(b)
-    t, b = text_el("Thank you for your", ax, bq.bounds[3] + 10.6, 2.75, GREEN_INK, ITAL, style="italic", est_w=24); els.append(t); boxes.append(b)
-    t, b = text_el("love and support", ax, bq.bounds[3] + 14.0, 2.75, GREEN_INK, ITAL, style="italic", est_w=22); els.append(t); boxes.append(b)
+    t, b = T("PROMPTPAY", ax, bq.bounds[3] + 2.9, 1.7, GREEN_INK, CAPS, tracking=0.55); els.append(t); boxes.append(b)
+    t, b = T(ACCOUNT_TH, ax, bq.bounds[3] + 6.4, 2.4, GREEN_INK, THAI); els.append(t); boxes.append(b)
+    t, b = T("Thank you for your", ax, bq.bounds[3] + 10.6, 2.75, GREEN_INK, ITAL); els.append(t); boxes.append(b)
+    t, b = T("love and support", ax, bq.bounds[3] + 14.0, 2.75, GREEN_INK, ITAL); els.append(t); boxes.append(b)
     ok = check_inside("BACK (two-sided)", boxes, P, 6.0)
     return "".join(els), ok
 
 def sheet_html(title, bodies, bg=PAPER):
+    faces = "".join(f"@font-face{{font-family:'{k[0]}';font-weight:{k[1]};font-style:{k[2]};src:url('{os.path.join(FONT_DIR, v)}') format('truetype')}}" for k, v in FONTS.items())
     return f"""<!doctype html><html><head><meta charset="utf-8"><title>{title}</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Montserrat:wght@400;500&family=Noto+Serif+Thai:wght@400;500&display=swap">
-<style>@page{{size:A4;margin:0}}html,body{{margin:0;background:{bg}}}svg{{display:block;width:210mm;height:297mm}}</style></head>
+<style>{faces}@page{{size:A4;margin:0}}html,body{{margin:0;background:{bg}}}svg{{display:block;width:210mm;height:297mm}}</style></head>
 <body><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 297">{"".join(bodies)}</svg></body></html>"""
 
 def main():

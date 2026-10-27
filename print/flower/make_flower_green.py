@@ -128,7 +128,10 @@ def front_one_sided(P):
     els.append(f'<rect x="{bpanel.bounds[0]:.3f}" y="{py:.3f}" width="{pw:.3f}" height="{ph:.3f}" rx="2.2" fill="{PAPER}"/>')
     qel, bq, n = qr_el(ax, py + QR_QUIET + QR_SIZE / 2, QR_SIZE, GREEN_INK); els.append(qel); boxes.append(bpanel)
     nm, _ = T(ACCOUNT_TH, ax, py + QR_QUIET + QR_SIZE + 3.3, 2.2, GREEN_INK, THAI); els.append(nm)
-    lab, _ = T("PROMPTPAY · QR GIFT", ax, py + ph - 1.6, 1.5, GREEN_INK, SANS, tracking=0.3); els.append(lab)
+    # ป้ายใต้ QR ต้องกว้างไม่เกินแผ่นขาว (ลดขนาดอัตโนมัติ)
+    lsz, ltr = 1.5, 0.3
+    while text_width("PROMPTPAY · QR GIFT", SANS[0], lsz, SANS[1], SANS[2], ltr) > pw - 3.0: lsz -= 0.05; ltr = max(0, ltr - 0.03)
+    lab, _ = T("PROMPTPAY · QR GIFT", ax, py + ph - 1.6, lsz, GREEN_INK, SANS, tracking=ltr); els.append(lab)
     dt, bd = T(DATE, ax, py + ph + 4.3, 2.5, PAPER, CAPS, tracking=0.8); els.append(dt); boxes.append(bd)
     ok = check_inside("FRONT (one-sided)", boxes, P, SAFE)
     return "".join(els), ok, dict(wn=WN_W_1S, qr=QR_SIZE, modules=n, R=R)

@@ -174,7 +174,7 @@
   };
   const showGuest = (g) => {
     const t = byId[String(g.table)];
-    highlight(g.table, `<b>${esc(g.name)}</b><span class="tbl">${esc(t ? t.label : 'โต๊ะ ' + g.table)}</span>${t ? esc(t.group) : ''} · ${g.side === 'bride' ? 'ฝั่งเจ้าสาว' : g.side === 'groom' ? 'ฝั่งเจ้าบ่าว' : 'เพื่อนบ่าวสาว'}`);
+    highlight(g.table, `<b>${esc(g.name)}</b><span class="tbl">${esc(t ? t.label : 'โต๊ะ ' + g.table)}</span>${t ? esc(t.group) : ''} · ${g.side === 'bride' ? 'ฝั่งเจ้าสาว' : g.side === 'groom' ? 'ฝั่งเจ้าบ่าว' : 'เพื่อนบ่าวสาว'}<br><a class="btn gold" style="margin-top:12px" href="garden/?guest=1&table=${encodeURIComponent(g.table)}&name=${encodeURIComponent(g.name.replace(/^คุณ\s*/, ''))}">เดินไปดูโต๊ะใน 3D</a>`);
     if (input) input.value = g.name; sug.hidden = true;
     const r = $('.plan-wrap').getBoundingClientRect(); if (r.top < 0 || r.bottom > innerHeight) $('.plan-wrap').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
   };

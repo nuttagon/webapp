@@ -656,12 +656,13 @@ const PEOPLE=new THREE.Group();scene.add(PEOPLE);
   const LADY=['#F5CED2','#C78F99','#AEBA9D','#A7AF74','#FADFA2','#E9B7C0','#9FB29A'],GENT=['#264592','#636566','#C7B68F','#2E3A5E','#4A4D52'];
   const SKIN=['#F3D9C4','#EAC3A5','#DDAE8C','#C98F6B','#B07A57','#8E5F42'],HAIR=['#1C1612','#2B1D14','#4A2E1C','#6B4A2B','#8C6A4A','#3A3A3A','#B59A7A'];
   const mats={};const mat=(h,o)=>{const k=h+JSON.stringify(o||{});return mats[k]||(mats[k]=M(h,o));};
+  const faceLoader=new THREE.TextureLoader();const faceMat=url=>{const t=faceLoader.load(url);t.encoding=THREE.sRGBEncoding;t.anisotropy=4;return new THREE.MeshStandardMaterial({map:t,roughness:.75});};
   const G={head:new THREE.SphereGeometry(.115,10,8),hair:new THREE.SphereGeometry(.125,10,8,0,Math.PI*2,0,Math.PI*.55),bun:new THREE.SphereGeometry(.07,8,6),
     longhair:new THREE.CylinderGeometry(.1,.12,.32,8),torso:new THREE.CylinderGeometry(.15,.12,.5,10),torsoF:new THREE.CylinderGeometry(.13,.11,.46,10),
     arm:new THREE.CylinderGeometry(.04,.035,.46,6).translate(0,-.2,0),leg:new THREE.CylinderGeometry(.065,.05,.8,7),thigh:new THREE.BoxGeometry(.3,.1,.42),
     gown:new THREE.ConeGeometry(.42,1.05,12,1,true),aline:new THREE.ConeGeometry(.3,.95,12,1,true),slim:new THREE.CylinderGeometry(.14,.17,.9,10),
     shoe:new THREE.BoxGeometry(.09,.04,.2),neck:new THREE.CylinderGeometry(.045,.045,.08,6),lapel:new THREE.TorusGeometry(.075,.02,6,14,Math.PI),
-    bow:new THREE.BoxGeometry(.09,.035,.03),shirt:new THREE.BoxGeometry(.045,.17,.02),veil:new THREE.ConeGeometry(.3,1.2,10,1,true),bouquet:new THREE.SphereGeometry(.1,8,6)};
+    bow:new THREE.BoxGeometry(.09,.035,.03),shirt:new THREE.BoxGeometry(.045,.17,.02),veil:new THREE.ConeGeometry(.3,1.2,10,1,true),bouquet:new THREE.SphereGeometry(.1,8,6),hairline:new THREE.SphereGeometry(.123,10,6,0,Math.PI*2,0,Math.PI*.3)};
   function mesh(g,m,x,y,z,sx,sy,sz,rx,ry,rz){const o=new THREE.Mesh(g,m);o.position.set(x,y,z);o.scale.set(sx||1,sy||1,sz||1);if(rx||ry||rz)o.rotation.set(rx||0,ry||0,rz||0);o.castShadow=true;return o;}
   /* opts: {x,z,ry,sex:'f'|'m',seated,scale,skin,hair,outfit,style,pose,bride,groom} */
   function person(o){const g=new THREE.Group();const y=(o.y!=null?o.y:H(o.x,o.z));g.position.set(o.x,y,o.z);g.rotation.y=o.ry||0;const s=o.scale||R(.9,1.08);g.scale.setScalar(s);
@@ -681,9 +682,10 @@ const PEOPLE=new THREE.Group();scene.add(PEOPLE);
     const pose=o.pose||pick(['down','down','hold','wave','hip']);
     for(const sx of [-1,1]){const a=pose==='hold'?-.9:pose==='wave'&&sx>0?-2.6:pose==='hip'?-.35:-.08;const ax=pose==='hip'?sx*.55:sx*.12;
       const arm=mesh(G.arm,(!f||o.bride)?tm:skin,sx*.17,hipY+.46,0,1,1,1,a,0,-sx*.1);g.add(arm);}
-    g.add(mesh(G.neck,skin,0,hipY+.53,0));g.add(mesh(G.head,skin,0,hipY+.67,0));
+    g.add(mesh(G.neck,skin,0,hipY+.53,0));const headM=o.face?faceMat(o.face):skin;const head=mesh(G.head,headM,0,hipY+.67,0);if(o.face)head.rotation.y=0;g.add(head);
+    if(o.face){g.add(mesh(G.hairline,hair,0,hipY+.675,0));}
     const hs=o.hairStyle||(f?pick(['bun','long','long','short','updo']):pick(['short','short','side','crop']));
-    g.add(mesh(G.hair,hair,0,hipY+.69,hs==='crop'?-.005:0,1,hs==='crop'?.8:1,1));
+    if(!o.face)g.add(mesh(G.hair,hair,0,hipY+.69,hs==='crop'?-.005:0,1,hs==='crop'?.8:1,1));
     if(hs==='bun'||hs==='updo')g.add(mesh(G.bun,hair,0,hipY+(hs==='updo'?.8:.72),-.1));
     if(hs==='long')g.add(mesh(G.longhair,hair,0,hipY+.5,-.07,1,1,.6));
     if(hs==='side')g.add(mesh(G.bun,hair,.08,hipY+.74,.03,1,.5,1));
@@ -705,8 +707,8 @@ const PEOPLE=new THREE.Group();scene.add(PEOPLE);
     person({x,z,ry:Math.atan2(gx-x,gz-z),sex:f?'f':'m',outfit:f?pick(LADY):pick(GENT),style:f?pick(['gown','aline','slim']):'',tux:!f&&rnd()<.3,trouser:pick(['#2F3238','#1F2A48','#3B3B3B','#5A5A5E'])});}});
   /* the couple on the mound in front of the backdrop, facing the guests */
   const bx=0,bz=BZ-1.9;
-  person({x:bx-.42,z:bz,ry:Math.PI+.12,sex:'f',outfit:'#FBF8F2',style:'gown',bride:true,hairStyle:'updo',pose:'hold',scale:.98});
-  person({x:bx+.42,z:bz,ry:Math.PI-.12,sex:'m',outfit:'#15151A',jacket:'#15151A',trouser:'#15151A',groom:true,hairStyle:'short',pose:'down',scale:1.05});
+  person({x:bx-.42,z:bz,ry:Math.PI+.12,sex:'f',outfit:'#FBF8F2',style:'gown',bride:true,hairStyle:'long',pose:'hold',scale:.98,skin:'#EFCDB4',hair:'#5A3A22',face:'../assets/img/faces/bride.jpg'});
+  person({x:bx+.42,z:bz,ry:Math.PI-.12,sex:'m',outfit:'#15151A',jacket:'#15151A',trouser:'#15151A',groom:true,hairStyle:'short',pose:'down',scale:1.05,skin:'#D9A684',hair:'#1E1612',face:'../assets/img/faces/groom.jpg'});
 })();
 
 /* ---------- first-person walk: arrows / WASD / d-pad, drag to look ---------- */

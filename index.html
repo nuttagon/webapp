@@ -214,28 +214,13 @@
           <div class="name" data-fill="venue">บ้านเคียงสะหวัน</div>
           <p class="addr" data-fill="address"></p>
           <p class="addr" style="margin-top:14px"><span data-fill="venueNotes"></span></p>
-          <div style="display:flex;gap:12px;flex-wrap:wrap;margin:22px 0 28px"><a class="btn primary" data-href="map" href="#" target="_blank" rel="noopener">เปิดแผนที่</a><a class="btn gold" href="garden/?guest=1">เดินชมสวน 3D</a><button class="btn" id="ics" type="button">ไฟล์ปฏิทิน .ics</button></div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin:22px 0 28px"><a class="btn primary" data-href="map" href="#" target="_blank" rel="noopener">เปิดแผนที่</a><button class="btn" id="ics" type="button">ไฟล์ปฏิทิน .ics</button></div>
           <dl class="infolist">
             <div><dt>จอดรถ</dt><dd data-fill="parking"></dd></div>
             <div><dt>เดินทาง</dt><dd data-fill="transit"></dd></div>
             <div><dt>ที่พัก</dt><dd data-fill="hotel"></dd></div>
             <div><dt>ที่นั่ง</dt><dd><span data-fill="capacity">400</span> ที่ · โต๊ะกลม 22 · VIP 8 · Long table 2</dd></div>
           </dl>
-        </div>
-        <div class="reveal">
-          <svg class="garden-illus" viewBox="0 0 400 300" role="img" aria-label="ภาพรวมผังสวน">
-            <rect width="400" height="300" fill="#EEF0E6"/>
-            <path d="M80 60 Q200 20 320 60 L320 78 Q200 46 80 78 Z" fill="#C4858F"/>
-            <text x="200" y="68" text-anchor="middle" font-size="9" fill="#fff" font-family="Montserrat" letter-spacing="2">BACKDROP</text>
-            <rect x="188" y="82" width="24" height="150" fill="#F2ECE1"/>
-            <rect x="150" y="100" width="14" height="120" rx="2" fill="#fff" stroke="#3D3B38" stroke-width=".8"/><rect x="236" y="100" width="14" height="120" rx="2" fill="#fff" stroke="#3D3B38" stroke-width=".8"/>
-            <g fill="#fff" stroke="#3D3B38" stroke-width=".8"><circle cx="120" cy="100" r="8"/><circle cx="92" cy="110" r="8"/><circle cx="120" cy="130" r="8"/><circle cx="92" cy="140" r="8"/><circle cx="120" cy="160" r="8"/><circle cx="92" cy="170" r="8"/><circle cx="64" cy="120" r="8"/><circle cx="64" cy="150" r="8"/><circle cx="120" cy="190" r="8"/><circle cx="92" cy="200" r="8"/><circle cx="64" cy="180" r="8"/><circle cx="280" cy="100" r="8"/><circle cx="308" cy="110" r="8"/><circle cx="280" cy="130" r="8"/><circle cx="308" cy="140" r="8"/><circle cx="280" cy="160" r="8"/><circle cx="308" cy="170" r="8"/><circle cx="336" cy="120" r="8"/><circle cx="336" cy="150" r="8"/><circle cx="280" cy="190" r="8"/><circle cx="308" cy="200" r="8"/><circle cx="336" cy="180" r="8"/></g>
-            <g fill="#fff" stroke="#C9AB78" stroke-width="1.6"><circle cx="150" cy="80" r="8"/><circle cx="130" cy="80" r="8"/><circle cx="250" cy="80" r="8"/><circle cx="270" cy="80" r="8"/></g>
-            <circle cx="170" cy="250" r="22" fill="#9DB08A" opacity=".6"/>
-            <rect x="60" y="268" width="200" height="18" fill="#DCD6CA"/><text x="160" y="280" text-anchor="middle" font-size="8" fill="#3D3B38">อาคารที่พัก · บุฟเฟ่ต์</text>
-            <text x="200" y="22" text-anchor="middle" font-size="8" fill="#6B665D">ทางเข้า · ป้าย Welcome</text>
-          </svg>
-          <p class="addr" style="margin-top:10px;font-size:14px">ผังสวนฉบับเต็มพร้อมเลขโต๊ะอยู่ในส่วน <a href="#seating">หาโต๊ะ</a></p>
         </div>
       </div>
     </div>
@@ -249,7 +234,7 @@
         <li class="reveal"><div><span class="when-lab">ภายใน <span data-fill="rsvpDeadline"></span></span><h3>ตอบรับคำเชิญ</h3><p>แจ้งจำนวนผู้ใหญ่ เด็ก และอาหารที่แพ้ เราจะได้จัดที่นั่งและเมนูให้พอดี <a href="#rsvp">ไปที่แบบฟอร์ม RSVP</a></p></div></li>
         <li class="reveal"><div><span class="when-lab">ทันทีที่ตอบรับ</span><h3>เพิ่มวันงานลงปฏิทิน</h3><p>ปุ่ม "เพิ่มลงปฏิทิน" ด้านบนสร้างนัดหมายพร้อมที่อยู่ให้ หรือดาวน์โหลดไฟล์ .ics ในส่วนสถานที่</p></div></li>
         <li class="reveal"><div><span class="when-lab">เลือกชุด</span><h3>Dress code · <span data-fill="dressTitle"></span></h3><p data-fill="dressDesc"></p><div class="sw-row" style="justify-content:flex-start;margin-top:10px" data-swatches="ladies"></div><div class="sw-lab" style="text-align:left">Ladies</div><div class="sw-row" style="justify-content:flex-start" data-swatches="gentlemen"></div><div class="sw-lab" style="text-align:left">Gentlemen</div></div></li>
-        <li class="reveal"><div><span class="when-lab">1 สัปดาห์ก่อนงาน</span><h3>เช็กโต๊ะของคุณ</h3><p>พิมพ์ชื่อในส่วน <a href="#seating">หาโต๊ะ</a> จะเห็นตำแหน่งโต๊ะบนผังสวน และกดเดินไปดูโต๊ะใน <a href="garden/?guest=1">สวนจำลอง 3D</a> ได้ก่อนวันจริง หน้างานมีจอแสดงผังเดียวกันที่จุดลงทะเบียน</p></div></li>
+        <li class="reveal"><div><span class="when-lab">1 สัปดาห์ก่อนงาน</span><h3>เช็กโต๊ะของคุณ</h3><p>พิมพ์ชื่อในส่วน <a href="#seating">หาโต๊ะ</a> จะเห็นตำแหน่งโต๊ะบนผังสวน และกดเดินไปดูโต๊ะในสวนจำลอง 3D ได้ก่อนวันจริง หน้างานมีจอแสดงผังเดียวกันที่จุดลงทะเบียน</p></div></li>
         <li class="reveal"><div><span class="when-lab">วันงาน <span data-fill="startTime"></span> น.</span><h3>พิธีแห่ขันหมาก ยกน้ำชา กล่าวคำมั่นสัญญา แล้วฉลองในสวน</h3><p>ลงทะเบียนที่ทางเข้าหลังเนิน รับ welcome drink ถ่ายรูปที่ Photobooth แล้วเดินตามทางเดินกลางสู่โต๊ะของคุณ งานเลี้ยงเริ่ม 17:30 น.</p></div></li>
         <li class="reveal"><div><span class="when-lab">หลังงาน</span><h3>รูปรวมจากทุกคน</h3><p>แชร์รูปพร้อม <b data-fill="hashtag"></b> เราจะรวมรูปจากช่างภาพและจากทุกคนส่งให้ทางลิงก์ภายใน 2 สัปดาห์</p></div></li>
       </ol>
@@ -260,7 +245,7 @@
 
   <section class="block" id="seating">
     <div class="wrap">
-      <div class="head reveal"><span class="caps">Find your seat</span><h2 class="title">หาโต๊ะของคุณ<span class="th">พิมพ์ชื่อ แล้วดูตำแหน่งบนผังสวน</span></h2><span class="rule"></span></div>
+      <div class="head reveal"><span class="caps">Find your seat</span><h2 class="title">หาโต๊ะของคุณ<span class="th">พิมพ์ชื่อ ดูตำแหน่งบนผังสวน แล้วเดินไปดูใน 3D</span></h2><span class="rule"></span></div>
       <div class="seat-search">
         <label class="caps" for="seatInput" style="text-align:center">ชื่อแขก</label>
         <input id="seatInput" type="search" placeholder="พิมพ์ชื่อของคุณ…" autocomplete="off" aria-describedby="seatResult">
@@ -269,6 +254,7 @@
       <div class="seat-result" id="seatResult">หรือแตะโต๊ะบนผังเพื่อดูว่าใครนั่งด้วยกัน</div>
       <div class="plan-wrap reveal"><svg id="plan" class="plan" viewBox="0 0 1000 940" role="img" aria-label="ผังโต๊ะในสวน"></svg></div>
       <div class="legend"><span><i style="background:#fff;border-color:#3D3B38"></i>โต๊ะกลม 10 ที่</span><span><i style="background:#fff;border:2px solid #C9AB78"></i>VIP</span><span><i style="background:#F2ECE1"></i>ทางเดินบ่าวสาว</span><span><i style="background:#C4858F"></i>Backdrop</span><span><i style="background:#9DB08A"></i>ต้นไม้ · โคมหวาย</span></div>
+      <div class="plan-actions"><a class="btn gold" id="walk3d" href="garden/?guest=1">เดินชมสวน 3D</a><span class="hintline">ขับกล้องชมสวนทั้งงาน หรือพิมพ์ชื่อด้านบนเพื่อเดินไปโต๊ะของคุณ</span></div>
       <div class="table-list" id="tableList"></div>
     </div>
   </section>

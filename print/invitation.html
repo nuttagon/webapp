@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>WN · การ์ดเชิญสำหรับพิมพ์ 127×178 มม.</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Charm:wght@400&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Montserrat:wght@400;500&family=Noto+Serif+Thai:wght@300;400;500&family=Pinyon+Script&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair:ital,opsz,wdth,wght@0,5..1200,87.5,300&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Prompt:wght@200;300;400;500&family=Charm:wght@400&family=Pinyon+Script&display=swap">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
 <link rel="stylesheet" href="print.css">
 <style>
 /* การ์ดเชิญ 5×7 นิ้ว (127×178 มม.) + ตัดตก 3 มม. = หน้ากระดาษ 133×184 มม. */
@@ -13,10 +14,12 @@
 .front .safe{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:3mm}
 .front .mono{width:22mm}
 .front .invite{font-weight:300;font-size:3.1mm;letter-spacing:.12em;color:var(--muted);max-width:80mm;line-height:1.7}
-.front h1{margin:2mm 0 0;font-family:var(--f-script);font-weight:400;font-size:13.5mm;line-height:1.1}
-.front h1 .amp{color:var(--rose);font-size:.8em}
-.front .th{font-size:4.6mm;font-weight:300;letter-spacing:.22em}
-.front .date{font-family:var(--f-caps);font-size:3.6mm;letter-spacing:.42em;padding-left:.42em;margin-top:3mm}
+.front h1{margin:3mm 0 0;font-family:var(--f-display);font-weight:300;font-stretch:87.5%;text-transform:uppercase;letter-spacing:-.02em;line-height:.8;display:grid;justify-items:end;width:max-content;max-width:100%;margin-inline:auto;transform:translateX(-7%);color:var(--paper);text-shadow:-0.25mm -0.25mm 0 rgba(255,255,255,.95),0.35mm 0.4mm 0.5mm rgba(60,50,40,.35)}
+.front h1 span{display:block;transform:scaleX(.86);transform-origin:100% 50%;font-size:24mm}
+.front h1 span+span{margin-top:-.05em}
+.front .blessing{font-size:2.75mm;font-weight:300;letter-spacing:.18em;color:var(--ink);margin-bottom:14mm}
+.front .th{display:none}
+.front .date{font-family:var(--f-caps);font-weight:300;font-size:2.6mm;letter-spacing:.62em;padding-left:.62em;margin-top:16mm;text-transform:uppercase}
 .front .date-th{font-size:3.3mm;font-weight:300;color:var(--muted)}
 .front .place{font-family:var(--f-display);font-style:italic;font-size:5.6mm;color:var(--thyme);margin-top:2mm}
 .front .names-caps{position:absolute;left:0;right:0;bottom:7mm;font-family:var(--f-display);font-size:2.8mm;letter-spacing:.36em;text-align:center;color:#5F574E}
@@ -47,16 +50,11 @@
 <section class="sheet front" aria-label="ด้านหน้า">
   <div class="trim"></div>
   <div class="safe">
-    <svg class="mono emboss" data-wn role="img" aria-label="WN"></svg>
-    <p class="invite">ด้วยความยินดี ขอเรียนเชิญร่วมเป็นเกียรติ<br>ในงานเลี้ยงฉลองมงคลสมรส</p>
-    <h1 data-names>Wanida <span class="amp">&amp;</span> Nattakorn</h1>
-    <div class="th" data-th>วนิดา · ณัฐกร</div>
-    <span class="rule"></span>
-    <div class="date" data-date>16 · 01 · 2027</div>
-    <div class="date-th" data-dateth></div>
-    <div class="place" data-venue></div>
+    <p class="blessing" data-blessing>สมสทฺธา สมสีลา สมจาคา สมปญฺญา</p>
+    <h1 aria-label="Wanida & Nattakorn"><span data-bride>WANIDA</span><span data-groom>NATTAKORN</span></h1>
+    <div class="date" data-dateen>Saturday, 16 January 2027</div>
+    <div class="date-th" data-hashtag style="font-family:var(--f-caps);letter-spacing:.2em;font-size:2.6mm;color:var(--muted);margin-top:1.5mm">#EternallyWN</div>
   </div>
-  <div class="names-caps" data-capsnames>WANIDA &nbsp;·&nbsp; NATTAKORN</div>
 </section>
 
 <section class="sheet back" aria-label="ด้านหลัง">
@@ -82,8 +80,7 @@
   const W = window.WEDDING, C = W.couple, esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   document.querySelectorAll('svg[data-wn]').forEach((svg) => { svg.setAttribute('viewBox', '0 0 1420 1040'); svg.innerHTML = `<path fill-rule="evenodd" d="${window.WN_PATH}"/>`; });
   const set = (sel, v, html) => document.querySelectorAll(sel).forEach((el) => (html ? (el.innerHTML = v) : (el.textContent = v)));
-  set('[data-names]', `${esc(C.bride.en)} <span class="amp">&amp;</span> ${esc(C.groom.en)}`, true); set('[data-th]', `${C.bride.th} · ${C.groom.th}`);
-  set('[data-capsnames]', `${C.bride.en.toUpperCase()} &nbsp;·&nbsp; ${C.groom.en.toUpperCase()}`, true);
+  set('[data-bride]', C.bride.en); set('[data-groom]', C.groom.en); set('[data-blessing]', C.blessing || ''); set('[data-dateen]', W.date.en);
   set('[data-date]', W.date.short); set('[data-dateth]', W.date.th); set('[data-venue]', W.venue.name); set('[data-address]', W.venue.address); set('[data-notes]', W.venue.notes);
   set('[data-dress]', W.dressCode.title); set('[data-dressdesc]', W.dressCode.desc); set('[data-deadline]', W.rsvp.deadline); set('[data-hashtag]', C.hashtag);
   document.getElementById('sched').innerHTML = W.schedule.map((s) => `<div><time>${esc(s.time)}</time><span><b>${esc(s.title)}</b></span></div>`).join('');

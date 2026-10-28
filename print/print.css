@@ -1,8 +1,8 @@
 /* ไฟล์พิมพ์ WN — ใช้ร่วมกันทุกหน้า: โทนกระดาษงาช้าง หมึกกราไฟต์ ขอบทองแชมเปญ */
-:root{--paper:#F8F6F1;--ink:#3D3B38;--muted:#6B665D;--gold:#8A7650;--champagne:#C9AB78;--rose:#C4858F;--thyme:#6F7A5F;--line:rgba(61,59,56,.18);
-  --f-script:'Pinyon Script',cursive;--f-display:'Cormorant Garamond',serif;--f-caps:'Montserrat',sans-serif;--f-th:'Noto Serif Thai',serif;--f-charm:'Charm',cursive}
+:root{--paper:#F7F5F1;--ink:#3F3A36;--muted:#8A817A;--gold:#8A7650;--champagne:#C9AB78;--rose:#C4858F;--thyme:#6F7A5F;--line:rgba(63,58,54,.18);
+  --f-script:'Pinyon Script',cursive;--f-display:'Playfair','Playfair Display',serif;--f-ital:'Cormorant Garamond',serif;--f-caps:'Prompt',sans-serif;--f-th:'Prompt',sans-serif;--f-charm:'Charm',cursive}
 *{box-sizing:border-box}
-html,body{margin:0;background:#D9D4CA;color:var(--ink);font-family:var(--f-th);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+html,body{margin:0;background:#D9D4CA;color:var(--ink);font-family:var(--f-th);font-weight:300;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .toolbar{font:13px/1.5 var(--f-caps);padding:14px 20px;background:#fff;border-bottom:1px solid var(--line);display:flex;gap:16px;flex-wrap:wrap;align-items:center}
 .toolbar b{letter-spacing:.1em}
 .toolbar button{font:inherit;padding:8px 14px;border:1px solid var(--ink);background:var(--ink);color:#fff;border-radius:999px;cursor:pointer}

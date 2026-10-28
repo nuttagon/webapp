@@ -223,6 +223,8 @@
         else { try { const all = JSON.parse(localStorage.getItem('wn-rsvp') || '[]'); all.push(data); localStorage.setItem('wn-rsvp', JSON.stringify(all)); } catch (err) {} }
         form.hidden = true; const th = $('#rsvpThanks'); th.hidden = false;
         th.querySelector('[data-name]').textContent = data.name || '';
+        const shareLink = W.site.ecardUrl + (data.name ? '?to=' + encodeURIComponent(data.name) : '');   // การ์ดใบเดียวกัน ส่งต่อให้คนที่มาด้วย
+        const sc = $('#shareCard'); if (sc) sc.href = 'https://line.me/R/share?text=' + encodeURIComponent(`การ์ดเชิญงานแต่ง ${C.bride.nick} & ${C.groom.nick} · ${W.date.th}\n${shareLink}`);
         th.querySelector('[data-msg]').textContent = data.attending === 'yes' ? 'เราเก็บที่นั่งไว้ให้แล้ว แล้วพบกันในสวน' : 'ขอบคุณที่แจ้งให้ทราบ เราจะคิดถึงคุณในวันนั้น';
         if (!W.rsvp.webhookUrl && !W.rsvp.formUrl) {   // ยังไม่ตั้งปลายทาง → ให้แขกส่งสรุปคำตอบทาง LINE แทน ไม่ให้คำตอบหาย
           const sum = `RSVP งานแต่ง ${C.bride.nick} & ${C.groom.nick}\nชื่อ: ${data.name}\nมาร่วมงาน: ${data.attending === 'yes' ? 'มา' : 'ไม่มา'}\nผู้ใหญ่ ${data.adults} · เด็ก ${data.kids}\nอาหาร: ${data.diet || 'ทานได้ทุกอย่าง'}\nหมายเหตุ: ${data.note || '-'}`;

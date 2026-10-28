@@ -119,7 +119,8 @@ ul.check{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
     <section>
       <div class="row" style="margin-bottom:8px"><h2 style="margin:0">ช่วงเวลา</h2>
         <button class="toggle" id="lblToggle" aria-pressed="true">ป้ายโซน: เปิด</button>
-        <button class="toggle" id="pplToggle" aria-pressed="true">แขกในสวน: เปิด</button></div>
+        <button class="toggle" id="pplToggle" aria-pressed="true">แขกในสวน: เปิด</button>
+        <button class="toggle" id="walkToggle" data-walk aria-pressed="false">เดินเอง (ลูกศร)</button></div>
       <div class="seg" id="modes">
         <button data-mode="day" aria-pressed="false">กลางวัน</button>
         <button data-mode="golden" aria-pressed="true">17:30 แดดเย็น</button>
@@ -623,13 +624,14 @@ const VIEWS={overview:[[-6,32,48],[1,0,-2]],fromstage:[[.6,BY+1.65,16.4],[0,1,-1
 if(window.innerWidth<760)VIEWS.overview=[[-8,50,66],[1,0,0]];
 let tween=null;const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 camera.position.set(...VIEWS.overview[0]);controls.target.set(...VIEWS.overview[1]);
-function goView(k){const [p,t]=VIEWS[k];const P1=new THREE.Vector3(...p),T1=new THREE.Vector3(...t);
+function goView(k){if(WALK.on)walk(false);const [p,t]=VIEWS[k];const P1=new THREE.Vector3(...p),T1=new THREE.Vector3(...t);
   if(reduce){camera.position.copy(P1);controls.target.copy(T1);}else tween={P0:camera.position.clone(),T0:controls.target.clone(),P1,T1,t0:performance.now(),d:1400};
   document.querySelectorAll('#views .chip').forEach(b=>b.setAttribute('aria-pressed',b.dataset.view===k));batches.canopyC.mesh.visible=k!=='plan';}
 document.getElementById('views').addEventListener('click',e=>{const b=e.target.closest('[data-view]');if(b)goView(b.dataset.view);});
 document.getElementById('modes').addEventListener('click',e=>{const b=e.target.closest('[data-mode]');if(b)setMode(b.dataset.mode);});
 const lt=document.getElementById('lblToggle');lt.addEventListener('click',()=>{const on=lt.getAttribute('aria-pressed')!=='true';lt.setAttribute('aria-pressed',on);lt.textContent='ป้ายโซน: '+(on?'เปิด':'ปิด');lblWrap.classList.toggle('off',!on);});
 controls.addEventListener('start',()=>{tween=null;});
+document.getElementById('walkToggle').addEventListener('click',()=>walk(!WALK.on));
 const pt=document.getElementById('pplToggle');pt.addEventListener('click',()=>{const on=pt.getAttribute('aria-pressed')!=='true';pt.setAttribute('aria-pressed',on);pt.textContent='แขกในสวน: '+(on?'เปิด':'ปิด');PEOPLE.visible=on;});
 
 const panel=document.getElementById('panel'),sp=document.getElementById('showPanel');let offX=0,offY=0,lastKey='';
@@ -644,7 +646,7 @@ function size(){const w=canvas.clientWidth,h=canvas.clientHeight,pr=renderer.get
 const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
 function frame(now){const [w,h]=size();
   if(tween){const k=Math.min(1,(now-tween.t0)/tween.d),e=ease(k);camera.position.lerpVectors(tween.P0,tween.P1,e);controls.target.lerpVectors(tween.T0,tween.T1,e);if(k>=1)tween=null;}
-  controls.update();renderer.render(scene,camera);updateLabels(w,h);requestAnimationFrame(frame);}
+  if(WALK.on)walkStep(now);else controls.update();renderer.render(scene,camera);updateLabels(w,h);requestAnimationFrame(frame);}
 requestAnimationFrame(frame);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>Promise.all(['500 40px "Bodoni Moda"','italic 500 40px "Bodoni Moda"','40px "Pinyon Script"','600 40px "IBM Plex Sans Thai"'].map(f=>document.fonts.load(f).catch(()=>{}))).then(()=>texts.forEach(t=>t.redraw())));
 
@@ -706,7 +708,39 @@ const PEOPLE=new THREE.Group();scene.add(PEOPLE);
   person({x:bx-.42,z:bz,ry:Math.PI+.12,sex:'f',outfit:'#FBF8F2',style:'gown',bride:true,hairStyle:'updo',pose:'hold',scale:.98});
   person({x:bx+.42,z:bz,ry:Math.PI-.12,sex:'m',outfit:'#15151A',jacket:'#15151A',trouser:'#15151A',groom:true,hairStyle:'short',pose:'down',scale:1.05});
 })();
-window.__wn={goView,setMode,VIEWS,scene,camera,controls,H,THREE,PEOPLE,snap(){tween=null;const k=document.querySelector('#views [aria-pressed=true]').dataset.view;camera.position.set(...VIEWS[k][0]);controls.target.set(...VIEWS[k][1]);controls.update();
+
+/* ---------- first-person walk: arrows / WASD / d-pad, drag to look ---------- */
+const WALK={on:false,yaw:0,pitch:-.04,keys:{},pos:new THREE.Vector3(),last:0,vel:0};
+const dpad=document.createElement('div');dpad.className='dpad';dpad.innerHTML='<button class="u" data-k="ArrowUp" aria-label="เดินหน้า">▲</button><button class="l" data-k="ArrowLeft" aria-label="หันซ้าย">◀</button><button class="r" data-k="ArrowRight" aria-label="หันขวา">▶</button><button class="d" data-k="ArrowDown" aria-label="ถอยหลัง">▼</button>';
+const walkHint=document.createElement('div');walkHint.className='walkhint';walkHint.textContent=window.matchMedia('(pointer:coarse)').matches?'ปุ่มลูกศรซ้ายล่าง = เดิน · ลากหน้าจอ = หันมอง':'ลูกศร / WASD = เดิน · ลากเมาส์ = หันมอง · Shift = วิ่ง · Esc = ออก';
+document.getElementById('app').appendChild(dpad);document.getElementById('app').appendChild(walkHint);
+dpad.addEventListener('pointerdown',e=>{const b=e.target.closest('button');if(!b)return;e.preventDefault();b.setPointerCapture(e.pointerId);b.classList.add('down');WALK.keys[b.dataset.k]=true;});
+['pointerup','pointercancel','lostpointercapture'].forEach(ev=>dpad.addEventListener(ev,e=>{const b=e.target.closest('button');if(!b)return;b.classList.remove('down');WALK.keys[b.dataset.k]=false;}));
+function walk(on){if(WALK.on===on)return;WALK.on=on;tween=null;controls.enabled=!on;dpad.classList.toggle('on',on);walkHint.classList.toggle('on',on);
+  if(on){WALK.pos.copy(camera.position);const d=new THREE.Vector3().subVectors(controls.target,camera.position);WALK.yaw=Math.atan2(-d.x,-d.z);WALK.pitch=Math.max(-.6,Math.min(.6,Math.atan2(d.y,Math.hypot(d.x,d.z))));
+    const gy=H(WALK.pos.x,WALK.pos.z)+1.6;if(WALK.pos.y>gy+6||WALK.pos.y<gy){WALK.pos.set(0,0,-15);WALK.yaw=Math.PI;WALK.pitch=0;}WALK.pos.y=gy;WALK.pitch=Math.min(WALK.pitch,.1);WALK.last=performance.now();}
+  else{const d=walkDir();controls.target.copy(camera.position).addScaledVector(d,6);}
+  document.querySelectorAll('[data-walk]').forEach(b=>b.setAttribute('aria-pressed',on));}
+function walkDir(){return new THREE.Vector3(-Math.sin(WALK.yaw)*Math.cos(WALK.pitch),Math.sin(WALK.pitch),-Math.cos(WALK.yaw)*Math.cos(WALK.pitch));}
+function walkStep(now){const dt=Math.min(.1,(now-WALK.last)/1000);WALK.last=now;const k=WALK.keys;
+  const fwd=(k.ArrowUp||k.KeyW?1:0)-(k.ArrowDown||k.KeyS?1:0),turn=(k.ArrowLeft?1:0)-(k.ArrowRight?1:0),strafe=(k.KeyD?1:0)-(k.KeyA?1:0);
+  WALK.yaw+=turn*1.6*dt;const sp=(k.ShiftLeft||k.ShiftRight?5:2.6);
+  const f=new THREE.Vector3(-Math.sin(WALK.yaw),0,-Math.cos(WALK.yaw)),r=new THREE.Vector3(f.z,0,-f.x);
+  WALK.pos.addScaledVector(f,fwd*sp*dt).addScaledVector(r,strafe*sp*dt);
+  WALK.pos.x=Math.max(-30,Math.min(30,WALK.pos.x));WALK.pos.z=Math.max(-22,Math.min(36,WALK.pos.z));
+  WALK.pos.y+=((H(WALK.pos.x,WALK.pos.z)+1.6)-WALK.pos.y)*Math.min(1,dt*8);
+  if(fwd||strafe)WALK.vel=Math.min(1,WALK.vel+dt*4);else WALK.vel=Math.max(0,WALK.vel-dt*4);
+  const bob=Math.sin(now/1000*7)*.02*WALK.vel;
+  camera.position.copy(WALK.pos);camera.position.y+=bob;const d=walkDir();camera.lookAt(camera.position.x+d.x,camera.position.y+d.y,camera.position.z+d.z);controls.target.copy(camera.position).add(d);}
+window.addEventListener('keydown',e=>{if(e.target.matches('input,textarea'))return;if(e.code==='Escape'&&WALK.on){walk(false);return;}
+  if(/^(Arrow|KeyW|KeyA|KeyS|KeyD|Shift)/.test(e.code)){if(!WALK.on&&/^Arrow/.test(e.code))walk(true);if(WALK.on){WALK.keys[e.code]=true;e.preventDefault();}}});
+window.addEventListener('keyup',e=>{WALK.keys[e.code]=false;});
+window.addEventListener('blur',()=>{for(const k in WALK.keys)WALK.keys[k]=false;});
+let lookId=null,lx=0,ly=0;
+canvas.addEventListener('pointerdown',e=>{if(!WALK.on||lookId!==null)return;lookId=e.pointerId;lx=e.clientX;ly=e.clientY;canvas.setPointerCapture(e.pointerId);});
+canvas.addEventListener('pointermove',e=>{if(!WALK.on||e.pointerId!==lookId)return;const dx=e.clientX-lx,dy=e.clientY-ly;lx=e.clientX;ly=e.clientY;WALK.yaw-=dx*.0045;WALK.pitch=Math.max(-.7,Math.min(.7,WALK.pitch-dy*.003));});
+['pointerup','pointercancel'].forEach(ev=>canvas.addEventListener(ev,e=>{if(e.pointerId===lookId)lookId=null;}));
+window.__wn={goView,setMode,VIEWS,scene,camera,controls,H,THREE,PEOPLE,walk,WALK,snap(){tween=null;const k=document.querySelector('#views [aria-pressed=true]').dataset.view;camera.position.set(...VIEWS[k][0]);controls.target.set(...VIEWS[k][1]);controls.update();
   const [w,h]=size();const t=performance.now();renderer.render(scene,camera);renderer.getContext().finish();updateLabels(w,h);return performance.now()-t;},info(){return renderer.info.render;}};
 })();
 </script>
@@ -715,6 +749,13 @@ window.__wn={goView,setMode,VIEWS,scene,camera,controls,H,THREE,PEOPLE,snap(){tw
 <!-- ===== โหมดแขก (Guest Journey): garden/?guest=1&table=9&name=แพรวา ===== -->
 <style>
 body.guest #panel,body.guest #showPanel,body.guest .hint{display:none!important}
+.dpad{position:absolute;left:max(14px,env(safe-area-inset-left,0px));bottom:max(112px,calc(env(safe-area-inset-bottom,0px) + 112px));width:150px;height:150px;display:none;z-index:5;touch-action:none;user-select:none;-webkit-user-select:none}
+.dpad.on{display:block}
+.dpad button{position:absolute;width:48px;height:48px;border-radius:14px;border:1px solid rgba(63,58,54,.3);background:rgba(247,245,241,.92);color:#3F3A36;font-size:20px;cursor:pointer;touch-action:none;-webkit-tap-highlight-color:transparent}
+.dpad button:active,.dpad button.down{background:#7E3B52;color:#fff}
+.dpad .u{left:51px;top:0}.dpad .d{left:51px;bottom:0}.dpad .l{left:0;top:51px}.dpad .r{right:0;top:51px}
+.walkhint{position:absolute;left:50%;transform:translateX(-50%);top:max(64px,calc(env(safe-area-inset-top,0px) + 64px));font:300 12.5px 'Prompt',system-ui,sans-serif;color:#fff;background:rgba(40,25,30,.55);padding:6px 14px;border-radius:999px;pointer-events:none;display:none;z-index:5;white-space:nowrap}
+.walkhint.on{display:block}
 .gbar{position:absolute;left:0;right:0;bottom:0;padding:10px max(12px,env(safe-area-inset-right,0px)) max(12px,env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px));display:flex;gap:8px;flex-wrap:wrap;justify-content:center;background:linear-gradient(180deg,rgba(247,245,241,0),rgba(247,245,241,.92) 40%);font-family:'Prompt','IBM Plex Sans Thai',system-ui,sans-serif}
 .gbar button,.gbar a{font:400 12.5px/1 'Prompt',system-ui,sans-serif;letter-spacing:.04em;border:1px solid rgba(63,58,54,.35);background:rgba(255,255,255,.9);color:#3F3A36;border-radius:999px;padding:10px 14px;cursor:pointer;text-decoration:none;min-height:40px;display:inline-flex;align-items:center;gap:6px}
 .gbar [aria-pressed="true"]{background:#3F3A36;color:#F7F5F1;border-color:#3F3A36}
@@ -758,16 +799,16 @@ body.guest #panel,body.guest #showPanel,body.guest .hint{display:none!important}
     }
     // ส่วนหัว + แถบปุ่มสำหรับแขก
     const head=document.createElement('div'); head.className='ghead';
-    head.innerHTML=`<div><b>สวนบ้านเคียงสะหวัน</b>${has?label+(name?' · '+name:'')+' · ':''}ลากหมุน · สองนิ้วซูม</div><div class="time"><button data-m="day">กลางวัน</button><button data-m="golden" aria-pressed="true">แสงเย็น</button><button data-m="night">หัวค่ำ</button></div>`;
+    head.innerHTML=`<div><b>สวนบ้านเคียงสะหวัน</b>${has?label+(name?' · '+name:'')+' · ':''}ลากหมุน · สองนิ้วซูม · กด 🚶 เพื่อเดินเอง</div><div class="time"><button data-m="day">กลางวัน</button><button data-m="golden" aria-pressed="true">แสงเย็น</button><button data-m="night">หัวค่ำ</button></div>`;
     document.getElementById('app').appendChild(head);
     head.querySelector('.time').addEventListener('click',e=>{const b=e.target.closest('button'); if(!b) return; setMode(b.dataset.m); head.querySelectorAll('.time button').forEach(x=>x.setAttribute('aria-pressed',x===b));});
     const bar=document.createElement('div'); bar.className='gbar';
     VIEWS.couple=[[1.6,BYv()+2.0,BZv()-6.2],[0,BYv()+1.5,BZv()-1.9]];
     const views=[['entrance','เดินเข้างาน'],['overview','ภาพรวม'],['couple','บ่าวสาว'],['backdrop','Backdrop'],['round','โต๊ะ sit-down'],['bars','บาร์'],['sweet','ขนม']];
     if(has) views.splice(1,0,['mytable','โต๊ะของคุณ','mine']);
-    bar.innerHTML=views.map(([k,l,c])=>`<button data-v="${k}" class="${c||''}" aria-pressed="${k===(has?'mytable':'entrance')}">${l}</button>`).join('')+`<button data-ppl="1" aria-pressed="true">แขก: เปิด</button><a href="${site}" class="back">← เว็บไซต์งาน</a>`;
+    bar.innerHTML=views.map(([k,l,c])=>`<button data-v="${k}" class="${c||''}" aria-pressed="${k===(has?'mytable':'entrance')}">${l}</button>`).join('')+`<button data-ppl="1" aria-pressed="true">แขก: เปิด</button><button data-walk class="mine" aria-pressed="false">🚶 เดินเอง</button><a href="${site}" class="back">← เว็บไซต์งาน</a>`;
     document.getElementById('app').appendChild(bar);
-    bar.addEventListener('click',e=>{const pb=e.target.closest('button[data-ppl]'); if(pb){const on=pb.getAttribute('aria-pressed')!=='true'; pb.setAttribute('aria-pressed',on); pb.textContent='แขก: '+(on?'เปิด':'ปิด'); W.PEOPLE.visible=on; return;} const b=e.target.closest('button[data-v]'); if(!b) return; goView(b.dataset.v); bar.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));});
+    bar.addEventListener('click',e=>{const wb=e.target.closest('button[data-walk]'); if(wb){W.walk(!W.WALK.on); bar.querySelectorAll('button[data-v]').forEach(x=>x.setAttribute('aria-pressed',false)); return;} const pb=e.target.closest('button[data-ppl]'); if(pb){const on=pb.getAttribute('aria-pressed')!=='true'; pb.setAttribute('aria-pressed',on); pb.textContent='แขก: '+(on?'เปิด':'ปิด'); W.PEOPLE.visible=on; return;} const b=e.target.closest('button[data-v]'); if(!b) return; goView(b.dataset.v); bar.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));});
     goView('entrance'); if(has) setTimeout(()=>goView('mytable'),1800);
   };
   if(document.readyState==='complete') run(); else window.addEventListener('load',run);

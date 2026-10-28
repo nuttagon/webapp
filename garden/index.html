@@ -118,7 +118,8 @@ ul.check{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
 
     <section>
       <div class="row" style="margin-bottom:8px"><h2 style="margin:0">ช่วงเวลา</h2>
-        <button class="toggle" id="lblToggle" aria-pressed="true">ป้ายโซน: เปิด</button></div>
+        <button class="toggle" id="lblToggle" aria-pressed="true">ป้ายโซน: เปิด</button>
+        <button class="toggle" id="pplToggle" aria-pressed="true">แขกในสวน: เปิด</button></div>
       <div class="seg" id="modes">
         <button data-mode="day" aria-pressed="false">กลางวัน</button>
         <button data-mode="golden" aria-pressed="true">17:30 แดดเย็น</button>
@@ -629,6 +630,7 @@ document.getElementById('views').addEventListener('click',e=>{const b=e.target.c
 document.getElementById('modes').addEventListener('click',e=>{const b=e.target.closest('[data-mode]');if(b)setMode(b.dataset.mode);});
 const lt=document.getElementById('lblToggle');lt.addEventListener('click',()=>{const on=lt.getAttribute('aria-pressed')!=='true';lt.setAttribute('aria-pressed',on);lt.textContent='ป้ายโซน: '+(on?'เปิด':'ปิด');lblWrap.classList.toggle('off',!on);});
 controls.addEventListener('start',()=>{tween=null;});
+const pt=document.getElementById('pplToggle');pt.addEventListener('click',()=>{const on=pt.getAttribute('aria-pressed')!=='true';pt.setAttribute('aria-pressed',on);pt.textContent='แขกในสวน: '+(on?'เปิด':'ปิด');PEOPLE.visible=on;});
 
 const panel=document.getElementById('panel'),sp=document.getElementById('showPanel');let offX=0,offY=0,lastKey='';
 function measure(){offX=offY=0;if(panel.hidden)return;if(window.innerWidth>=760)offX=panel.offsetWidth+16;else offY=panel.offsetHeight+8;}
@@ -645,7 +647,66 @@ function frame(now){const [w,h]=size();
   controls.update();renderer.render(scene,camera);updateLabels(w,h);requestAnimationFrame(frame);}
 requestAnimationFrame(frame);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>Promise.all(['500 40px "Bodoni Moda"','italic 500 40px "Bodoni Moda"','40px "Pinyon Script"','600 40px "IBM Plex Sans Thai"'].map(f=>document.fonts.load(f).catch(()=>{}))).then(()=>texts.forEach(t=>t.redraw())));
-window.__wn={goView,setMode,VIEWS,scene,camera,controls,H,THREE,snap(){tween=null;const k=document.querySelector('#views [aria-pressed=true]').dataset.view;camera.position.set(...VIEWS[k][0]);controls.target.set(...VIEWS[k][1]);controls.update();
+
+/* ---------- people: a few guests in the dress code, plus the couple at the backdrop ---------- */
+const PEOPLE=new THREE.Group();scene.add(PEOPLE);
+(function(){
+  const LADY=['#F5CED2','#C78F99','#AEBA9D','#A7AF74','#FADFA2','#E9B7C0','#9FB29A'],GENT=['#264592','#636566','#C7B68F','#2E3A5E','#4A4D52'];
+  const SKIN=['#F3D9C4','#EAC3A5','#DDAE8C','#C98F6B','#B07A57','#8E5F42'],HAIR=['#1C1612','#2B1D14','#4A2E1C','#6B4A2B','#8C6A4A','#3A3A3A','#B59A7A'];
+  const mats={};const mat=(h,o)=>{const k=h+JSON.stringify(o||{});return mats[k]||(mats[k]=M(h,o));};
+  const G={head:new THREE.SphereGeometry(.115,10,8),hair:new THREE.SphereGeometry(.125,10,8,0,Math.PI*2,0,Math.PI*.55),bun:new THREE.SphereGeometry(.07,8,6),
+    longhair:new THREE.CylinderGeometry(.1,.12,.32,8),torso:new THREE.CylinderGeometry(.15,.12,.5,10),torsoF:new THREE.CylinderGeometry(.13,.11,.46,10),
+    arm:new THREE.CylinderGeometry(.04,.035,.46,6).translate(0,-.2,0),leg:new THREE.CylinderGeometry(.065,.05,.8,7),thigh:new THREE.BoxGeometry(.3,.1,.42),
+    gown:new THREE.ConeGeometry(.42,1.05,12,1,true),aline:new THREE.ConeGeometry(.3,.95,12,1,true),slim:new THREE.CylinderGeometry(.14,.17,.9,10),
+    shoe:new THREE.BoxGeometry(.09,.04,.2),neck:new THREE.CylinderGeometry(.045,.045,.08,6),lapel:new THREE.TorusGeometry(.075,.02,6,14,Math.PI),
+    bow:new THREE.BoxGeometry(.09,.035,.03),shirt:new THREE.BoxGeometry(.045,.17,.02),veil:new THREE.ConeGeometry(.3,1.2,10,1,true),bouquet:new THREE.SphereGeometry(.1,8,6)};
+  function mesh(g,m,x,y,z,sx,sy,sz,rx,ry,rz){const o=new THREE.Mesh(g,m);o.position.set(x,y,z);o.scale.set(sx||1,sy||1,sz||1);if(rx||ry||rz)o.rotation.set(rx||0,ry||0,rz||0);o.castShadow=true;return o;}
+  /* opts: {x,z,ry,sex:'f'|'m',seated,scale,skin,hair,outfit,style,pose,bride,groom} */
+  function person(o){const g=new THREE.Group();const y=(o.y!=null?o.y:H(o.x,o.z));g.position.set(o.x,y,o.z);g.rotation.y=o.ry||0;const s=o.scale||R(.9,1.08);g.scale.setScalar(s);
+    const skin=mat(o.skin||pick(SKIN),{roughness:.7}),hair=mat(o.hair||pick(HAIR),{roughness:.95});const f=o.sex==='f';
+    const baseY=o.seated?.45:0;let hipY;
+    if(o.seated){hipY=baseY+.08;g.add(mesh(G.thigh,f?mat(o.outfit,{roughness:.8}):mat(o.trouser||'#2F3238'),0,baseY+.05,-.14));
+      if(!f||o.style==='slim')for(const sx of [-1,1])g.add(mesh(G.leg,mat(o.trouser||(f?o.outfit:'#2F3238')),sx*.08,baseY-.2,-.3,1,.5,1));}
+    else{hipY=.78;if(f&&o.style!=='slim'){const gg=o.style==='gown'?G.gown:G.aline;const h=o.style==='gown'?1.05:.95;g.add(mesh(gg,mat(o.outfit,{roughness:.75,side:THREE.DoubleSide}),0,h/2+.02,0));if(o.bride){const lace=new THREE.Mesh(G.gown,new THREE.MeshStandardMaterial({color:col('#FFFFFF'),map:laceTex.t,alphaTest:.4,side:THREE.DoubleSide,roughness:.9}));lace.position.set(0,.55,0);lace.scale.set(1.04,1.02,1.04);g.add(lace);}}
+      else{for(const sx of [-1,1]){g.add(mesh(G.leg,mat(f?o.outfit:(o.trouser||'#2F3238')),sx*.08,.4,0));g.add(mesh(G.shoe,mat(f?'#D9B9A0':'#1A1A1A'),sx*.08,.02,.03));}
+        if(f&&o.style==='slim')g.add(mesh(G.slim,mat(o.outfit,{roughness:.7}),0,.48,0));}}
+    const torsoG=f?G.torsoF:G.torso,tm=mat(o.jacket||o.outfit,{roughness:o.groom?.55:.8,metalness:o.groom?.05:0});
+    g.add(mesh(torsoG,tm,0,hipY+.25,0));
+    if(!f){g.add(mesh(G.shirt,mat('#FFFFFF',{roughness:.6}),0,hipY+.38,.13));
+      if(o.groom||o.tux){g.add(mesh(G.lapel,mat('#15151A',{roughness:.25,metalness:.15}),0,hipY+.4,.13,1,1,1,0,0,Math.PI));g.add(mesh(G.bow,mat(o.groom?'#15151A':pick(['#7E3B52','#264592','#1E1E1E']),{roughness:.5}),0,hipY+.47,.15));}
+      else g.add(mesh(G.bow,mat(pick(['#7E3B52','#4C5A7A','#8A7650','#2F3238']),{roughness:.6}),0,hipY+.47,.15,.5,2.2,1));}
+    else if(o.bride){g.add(mesh(G.bouquet,mat('#F5CED2',{roughness:.9}),0,hipY+.2,.2,1.3,1,1.1));g.add(mesh(G.bouquet,mat('#AEBA9D',{roughness:.9}),.06,hipY+.17,.22,.6,.6,.6));}
+    const pose=o.pose||pick(['down','down','hold','wave','hip']);
+    for(const sx of [-1,1]){const a=pose==='hold'?-.9:pose==='wave'&&sx>0?-2.6:pose==='hip'?-.35:-.08;const ax=pose==='hip'?sx*.55:sx*.12;
+      const arm=mesh(G.arm,(!f||o.bride)?tm:skin,sx*.17,hipY+.46,0,1,1,1,a,0,-sx*.1);g.add(arm);}
+    g.add(mesh(G.neck,skin,0,hipY+.53,0));g.add(mesh(G.head,skin,0,hipY+.67,0));
+    const hs=o.hairStyle||(f?pick(['bun','long','long','short','updo']):pick(['short','short','side','crop']));
+    g.add(mesh(G.hair,hair,0,hipY+.69,hs==='crop'?-.005:0,1,hs==='crop'?.8:1,1));
+    if(hs==='bun'||hs==='updo')g.add(mesh(G.bun,hair,0,hipY+(hs==='updo'?.8:.72),-.1));
+    if(hs==='long')g.add(mesh(G.longhair,hair,0,hipY+.5,-.07,1,1,.6));
+    if(hs==='side')g.add(mesh(G.bun,hair,.08,hipY+.74,.03,1,.5,1));
+    if(o.bride){const v=new THREE.Mesh(G.veil,new THREE.MeshStandardMaterial({color:col('#FFFFFF'),transparent:true,opacity:.45,side:THREE.DoubleSide,roughness:1,depthWrite:false}));v.position.set(0,hipY+.25,-.12);v.scale.set(1,1,.6);g.add(v);
+      g.add(mesh(G.bun,mat('#F7F3EA',{roughness:.6,metalness:.2}),0,hipY+.82,0,.9,.35,.9));}
+    PEOPLE.add(g);return g;}
+  /* seated guests: a few tables, 2–3 each, never crowded */
+  const allT=[...VIP.map(t=>({...t,vip:true})),...ROUND];const used=new Set();
+  const chosen=[];while(chosen.length<11){const i=Math.floor(rnd()*allT.length);if(!used.has(i)){used.add(i);chosen.push(allT[i]);}}
+  chosen.forEach(t=>{const n=t.vip?3:2+Math.floor(rnd()*2);const seats=new Set();while(seats.size<n)seats.add(Math.floor(rnd()*10));
+    seats.forEach(i=>{const a=i/10*Math.PI*2+Math.PI/10;const cx=t.x+Math.cos(a)*1.4,cz=t.z+Math.sin(a)*1.4;const th=Math.atan2(-(t.x-cx),-(t.z-cz));const f=rnd()<.55;
+      person({x:cx,z:cz,ry:th,y:H(cx,cz),sex:f?'f':'m',seated:true,outfit:f?pick(LADY):pick(GENT),style:f?pick(['slim','aline']):'',pose:pick(['down','hold','hold'])});});});
+  /* long tables: a handful of elders */
+  for(const t of LONG){for(let k=0;k<3;k++){const z=t.z0-.3-Math.floor(rnd()*20)*.6,sx=rnd()<.5?-1:1;const cx=t.x+sx*1.0;const th=Math.atan2(-(t.x-cx),0);const f=rnd()<.5;
+    person({x:cx,z,ry:th,sex:f?'f':'m',seated:true,outfit:f?pick(LADY):pick(GENT),style:'slim',pose:'hold'});}}
+  /* standing groups: entrance, bar, sweet table, photobooth, aisle */
+  const groups=[[-8.5,23.2,3],[20.2,-2.6,3],[-19.6,3.6,2],[-15.2,13.6,2],[0,-15.4,2],[9.8,10.6,2]];
+  groups.forEach(([gx,gz,n])=>{for(let k=0;k<n;k++){const a=k/n*Math.PI*2+rnd();const x=gx+Math.cos(a)*.75,z=gz+Math.sin(a)*.75;const f=rnd()<.5;
+    person({x,z,ry:Math.atan2(gx-x,gz-z),sex:f?'f':'m',outfit:f?pick(LADY):pick(GENT),style:f?pick(['gown','aline','slim']):'',tux:!f&&rnd()<.3,trouser:pick(['#2F3238','#1F2A48','#3B3B3B','#5A5A5E'])});}});
+  /* the couple on the mound in front of the backdrop, facing the guests */
+  const bx=0,bz=BZ-1.9;
+  person({x:bx-.42,z:bz,ry:Math.PI+.12,sex:'f',outfit:'#FBF8F2',style:'gown',bride:true,hairStyle:'updo',pose:'hold',scale:.98});
+  person({x:bx+.42,z:bz,ry:Math.PI-.12,sex:'m',outfit:'#15151A',jacket:'#15151A',trouser:'#15151A',groom:true,hairStyle:'short',pose:'down',scale:1.05});
+})();
+window.__wn={goView,setMode,VIEWS,scene,camera,controls,H,THREE,PEOPLE,snap(){tween=null;const k=document.querySelector('#views [aria-pressed=true]').dataset.view;camera.position.set(...VIEWS[k][0]);controls.target.set(...VIEWS[k][1]);controls.update();
   const [w,h]=size();const t=performance.now();renderer.render(scene,camera);renderer.getContext().finish();updateLabels(w,h);return performance.now()-t;},info(){return renderer.info.render;}};
 })();
 </script>
@@ -677,7 +738,7 @@ body.guest #panel,body.guest #showPanel,body.guest .hint{display:none!important}
   const table=(q.get('table')||'').toUpperCase().replace(/^โต๊ะ\s*/,''); const name=(q.get('name')||'').slice(0,40);
   const site=(q.get('back')||'../'); 
   const run=()=>{ const W=window.__wn; if(!W||!W.scene){ setTimeout(run,100); return; }
-    const {scene,camera,controls,THREE,VIEWS,goView,setMode,H}=W;
+    const {scene,camera,controls,THREE,VIEWS,goView,setMode,H}=W; const BZv=()=>18.6, BYv=()=>H(0,18.6);
     const label=table?('โต๊ะ '+(T[table]&&isNaN(table)?'Long '+table:table)):'';
     let has=false;
     if(table&&T[table]){ has=true; const [x,z]=T[table]; const y=H?H(x,z):0;
@@ -701,11 +762,12 @@ body.guest #panel,body.guest #showPanel,body.guest .hint{display:none!important}
     document.getElementById('app').appendChild(head);
     head.querySelector('.time').addEventListener('click',e=>{const b=e.target.closest('button'); if(!b) return; setMode(b.dataset.m); head.querySelectorAll('.time button').forEach(x=>x.setAttribute('aria-pressed',x===b));});
     const bar=document.createElement('div'); bar.className='gbar';
-    const views=[['entrance','เดินเข้างาน'],['overview','ภาพรวม'],['backdrop','Backdrop'],['round','โต๊ะ sit-down'],['bars','บาร์'],['sweet','ขนม']];
+    VIEWS.couple=[[1.6,BYv()+2.0,BZv()-6.2],[0,BYv()+1.5,BZv()-1.9]];
+    const views=[['entrance','เดินเข้างาน'],['overview','ภาพรวม'],['couple','บ่าวสาว'],['backdrop','Backdrop'],['round','โต๊ะ sit-down'],['bars','บาร์'],['sweet','ขนม']];
     if(has) views.splice(1,0,['mytable','โต๊ะของคุณ','mine']);
-    bar.innerHTML=views.map(([k,l,c])=>`<button data-v="${k}" class="${c||''}" aria-pressed="${k===(has?'mytable':'entrance')}">${l}</button>`).join('')+`<a href="${site}" class="back">← เว็บไซต์งาน</a>`;
+    bar.innerHTML=views.map(([k,l,c])=>`<button data-v="${k}" class="${c||''}" aria-pressed="${k===(has?'mytable':'entrance')}">${l}</button>`).join('')+`<button data-ppl="1" aria-pressed="true">แขก: เปิด</button><a href="${site}" class="back">← เว็บไซต์งาน</a>`;
     document.getElementById('app').appendChild(bar);
-    bar.addEventListener('click',e=>{const b=e.target.closest('button[data-v]'); if(!b) return; goView(b.dataset.v); bar.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));});
+    bar.addEventListener('click',e=>{const pb=e.target.closest('button[data-ppl]'); if(pb){const on=pb.getAttribute('aria-pressed')!=='true'; pb.setAttribute('aria-pressed',on); pb.textContent='แขก: '+(on?'เปิด':'ปิด'); W.PEOPLE.visible=on; return;} const b=e.target.closest('button[data-v]'); if(!b) return; goView(b.dataset.v); bar.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));});
     goView('entrance'); if(has) setTimeout(()=>goView('mytable'),1800);
   };
   if(document.readyState==='complete') run(); else window.addEventListener('load',run);

@@ -45,8 +45,8 @@ window.WEDDING = {
   dressCode: {
     title: "Blush, Sage & Champagne Glam",
     desc: "ชุดไทยหรือชุดราตรีก็ได้ ขอเว้นสีขาวล้วนไว้ให้เจ้าสาว",
-    ladies:    [{ hex: "#F3CDD6", name: "Blush" }, { hex: "#C98A9A", name: "Dusty rose" }, { hex: "#9DB08F", name: "Sage" }, { hex: "#7E8A5F", name: "Olive" }, { hex: "#E8D48E", name: "Champagne" }],
-    gentlemen: [{ hex: "#1E3A8A", name: "Navy" }, { hex: "#4A4A4A", name: "Charcoal" }, { hex: "#B9A36A", name: "Gold" }],
+    ladies:    [{ hex: "#F5CED2", name: "Blush" }, { hex: "#C78F99", name: "Dusty rose" }, { hex: "#AEBA9D", name: "Sage" }, { hex: "#A7AF74", name: "Olive" }, { hex: "#FADFA2", name: "Champagne" }],   // ค่าสีตามข้อความสเปกส่งโรงพิมพ์
+    gentlemen: [{ hex: "#264592", name: "Navy" }, { hex: "#636566", name: "Charcoal" }, { hex: "#C7B68F", name: "Gold" }],
     colors: [{ hex: "#F3CDD6", name: "Blush" }, { hex: "#C98A9A", name: "Dusty rose" }, { hex: "#9DB08F", name: "Sage" }, { hex: "#7E8A5F", name: "Olive" }, { hex: "#E8D48E", name: "Champagne" }, { hex: "#1E3A8A", name: "Navy" }],
   },
   rsvp: { deadline: "16 ธันวาคม 2569", formUrl: "", webhookUrl: "", lineUrl: "", phone: "[เบอร์ติดต่อผู้ประสานงาน]" },

@@ -109,4 +109,4 @@
 }
 
 /* Playfair Display (ไฟล์จากคุณ · แกนน้ำหนัก 400–900 ไม่มีตัวแคบ) ใช้เป็นสำรองของ 'Playfair' condensed 300 จาก Google Fonts */
-@font-face { font-family: 'Playfair Display'; font-style: normal; font-weight: 400 900; font-display: swap; src: url(files/PlayfairDisplay-VariableFont_wght.ttf) format('truetype'); }
+@font-face { font-family: 'Playfair Display'; font-style: normal; font-weight: 400 900; font-display: swap; src: url(files/PlayfairDisplay-wght-latin.woff2) format('woff2'), url(files/PlayfairDisplay-VariableFont_wght.ttf) format('truetype'); }

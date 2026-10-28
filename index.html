@@ -18,6 +18,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair:ital,opsz,wdth,wght@0,5..1200,87.5,300&family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&family=Prompt:wght@200;300;400;500&family=Pinyon+Script&family=Caveat:wght@500&display=swap">
 <link rel="stylesheet" href="assets/fonts/fonts.css">
 <link rel="stylesheet" href="assets/css/style.css">
+<link rel="preload" as="image" type="image/webp" href="assets/img/env/pocket.webp">
+<link rel="preload" as="image" type="image/webp" href="assets/img/env/flap.webp">
 </head>
 <body>
 
@@ -40,8 +42,8 @@
       <svg data-names class="nm emboss-svg" aria-hidden="true"></svg>
       <div class="date">16 · 01 · 2027</div>
     </div>
-    <img class="pocket" src="assets/img/env/pocket.png" alt="" draggable="false">
-    <div class="flap"><img src="assets/img/env/flap.png" alt="" draggable="false"></div>
+    <picture><source type="image/webp" srcset="assets/img/env/pocket.webp"><img class="pocket" src="assets/img/env/pocket.png" width="808" height="534" alt="" draggable="false" fetchpriority="high" decoding="async"></picture>
+    <div class="flap"><picture><source type="image/webp" srcset="assets/img/env/flap.webp"><img src="assets/img/env/flap.png" width="808" height="481" alt="" draggable="false" fetchpriority="high" decoding="async"></picture></div>
   </div>
   <div class="hint"><button id="skipIntro" class="caps" type="button">แตะซองเพื่อเปิด · ข้าม</button></div>
 </div>
@@ -100,11 +102,11 @@
   <section class="block lace" id="envelope">
     <div class="wrap">
       <div class="copy reveal">
-        <p class="caps" style="letter-spacing:.3em" data-fill="theme">Lumière de l'Amour</p>
+        <p class="caps" style="letter-spacing:.3em">Handmade with love</p>
         <div class="script-names" style="font-size:clamp(30px,5vw,48px)">We saved a seat for you</div>
-        <p data-fill="themeTh">แสงสว่างแห่งความรัก</p>
+        <p>ซองลูกไม้ไข่มุก การ์ดปั๊มนูน และของชำร่วยทุกชิ้น เราทำเองด้วยหัวใจ</p>
       </div>
-      <div class="reveal lace-photo"><img loading="lazy" src="assets/img/photos/lace-scene.jpg" alt="ซองลูกไม้ปิดไข่มุกบนดอยลี่รูปหัวใจ"></div>
+      <div class="reveal lace-photo"><picture><source type="image/webp" srcset="assets/img/photos/lace-scene-640.webp 640w, assets/img/photos/lace-scene.webp 1200w" sizes="(max-width: 800px) 92vw, 520px"><img loading="lazy" decoding="async" src="assets/img/photos/lace-scene.jpg" width="1200" height="1664" alt="ซองลูกไม้ปิดไข่มุกบนดอยลี่รูปหัวใจ"></picture></div>
     </div>
   </section>
 
@@ -153,7 +155,7 @@
 
   <!-- Marry me -->
   <section class="vows" id="story" aria-label="คำขอแต่งงาน">
-    <img loading="lazy" src="assets/img/photos/proposal.jpg" alt="">
+    <picture><source type="image/webp" srcset="assets/img/photos/proposal.webp"><img loading="lazy" decoding="async" src="assets/img/photos/proposal.jpg" alt=""></picture>
     <div class="wrap">
       <!-- รูปนี้มีข้อความ "Marry me! Yes, I will!" อยู่ในภาพแล้ว ถ้าเปลี่ยนเป็นรูปเปล่า ให้เปิดบรรทัด .hand ด้านล่าง -->
       <!-- <p class="hand"><span>Marry me!</span><span>Yes, I will!</span></p> -->
@@ -253,7 +255,7 @@
   </section>
 
   <section class="block rsvp-bg" id="rsvp">
-    <img loading="lazy" src="assets/img/photos/proposal.jpg" alt="">
+    <picture><source type="image/webp" srcset="assets/img/photos/proposal.webp"><img loading="lazy" decoding="async" src="assets/img/photos/proposal.jpg" alt=""></picture>
     <div class="wrap">
       <div class="head reveal"><span class="caps">RSVP</span><h2 class="title">ตอบรับคำเชิญ<span class="th">กรุณาตอบภายใน <span data-fill="rsvpDeadline"></span></span></h2></div>
       <div class="rsvp-card reveal">

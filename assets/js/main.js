@@ -20,6 +20,11 @@
       parking: W.venue.parking, transit: W.venue.transit, hotel: W.venue.hotelDeal, venueNotes: W.venue.notes,
       rsvpDeadline: W.rsvp.deadline, giftNote: W.gift.note, promptpayName: W.gift.promptpayName,
       dressTitle: W.dressCode.title, dressDesc: W.dressCode.desc, capacity: W.venue.capacity,
+      blessing: C.blessing, inviteText: C.inviteText, apology: C.apology, province: W.venue.province || '',
+      brideEn: C.bride.en, groomEn: C.groom.en, brideFull: C.bride.full, groomFull: C.groom.full,
+      brideNick: C.bride.nick ? `(${C.bride.nick})` : '', groomNick: C.groom.nick ? `(${C.groom.nick})` : '',
+      brideParents: (C.bride.parents || []).map(esc).join('<br>'), groomParents: (C.groom.parents || []).map(esc).join('<br>'),
+      startTime: (W.schedule[0] || {}).time || '',
     };
     if (el.dataset.fill in map) el.innerHTML = map[el.dataset.fill];
   });
@@ -100,8 +105,19 @@
   if (story) story.innerHTML = W.story.map((s) => `<div class="item reveal pending"><div class="year">${esc(s.year)}</div><div class="dot"></div><div><h3>${esc(s.title)}</h3><p>${esc(s.text)}</p></div></div>`).join('');
   const sched = $('#scheduleList');
   if (sched) sched.innerHTML = W.schedule.map((s) => `<div class="row reveal pending"><time>${esc(s.time)}</time><div><h3>${esc(s.title)}</h3><p>${esc(s.desc)}</p></div></div>`).join('');
-  const pal = $('#palette');
-  if (pal) pal.innerHTML = W.dressCode.colors.map((c) => `<div class="sw"><i style="background:${c.hex}"></i>${esc(c.name)}</div>`).join('');
+  const sw = (list) => (list || []).map((c) => `<i style="background:${c.hex}" title="${esc(c.name)}"></i>`).join('');
+  $$('[data-swatches="ladies"]').forEach((el) => (el.innerHTML = sw(W.dressCode.ladies)));
+  $$('[data-swatches="gentlemen"]').forEach((el) => (el.innerHTML = sw(W.dressCode.gentlemen)));
+  const grid = $('#schedGrid');
+  if (grid) grid.innerHTML = W.schedule.map((s) => `<div><b>${esc(s.time)} น.</b><span>${esc(s.title)}</span></div>`).join('');
+  // cross-stitch rose ornaments (9x9 pixel map · x = stitch)
+  const ROSE = ['....gg...', '...g.gg..', '..ppp.g..', '.prrrp.g.', 'prRRRrp..', '.prRrp.g.', '..ppp.gg.', '...g.g...', '..gg.....'];
+  const COL = { g: '#8E9E86', p: '#E7B7C8', r: '#C98A9A', R: '#A86370' };
+  $$('svg.stitch').forEach((svg) => {
+    svg.setAttribute('viewBox', '0 0 90 90'); let d = '';
+    ROSE.forEach((row, y) => [...row].forEach((ch, x) => { if (ch !== '.') d += `<path d="M${x * 10 + 2},${y * 10 + 2}l6,6m0,-6l-6,6" stroke="${COL[ch]}" stroke-width="2.2" stroke-linecap="round"/>`; }));
+    svg.innerHTML = d;
+  });
   const faq = $('#faqList');
   if (faq) faq.innerHTML = W.faq.map((f) => `<details><summary>${esc(f.q)}</summary><div class="a">${esc(f.a)}</div></details>`).join('');
 

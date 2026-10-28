@@ -36,9 +36,8 @@ body{margin:0;background:var(--stage);color:var(--ink);font-family:var(--f-th);f
 .env .flap{position:absolute;left:0;right:0;top:0;height:46%;background:#F9F5EE;clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:50% 0;transition:transform 1.2s cubic-bezier(.6,.05,.3,1);z-index:3}
 .env .flap::before{content:"";position:absolute;inset:0;background:var(--liner);clip-path:polygon(5% 0,95% 0,50% 90%);opacity:0;transition:opacity .2s .6s}
 .env .flap .names{position:absolute;left:0;right:0;top:12%;text-align:center;font-family:var(--f-script);font-size:clamp(20px,6vw,30px);color:var(--ink);transition:opacity .3s}
-.stack{font-family:var(--f-display);font-weight:300;font-stretch:87.5%;text-transform:uppercase;letter-spacing:-.02em;line-height:.82;display:grid;justify-items:end;width:max-content;max-width:100%;margin:8px auto 0;transform:translateX(-7%);color:var(--paper);text-shadow:-1px -1px 0 rgba(255,255,255,.95),1.2px 1.5px 2px rgba(60,50,40,.34)}
-.stack span{display:block;transform:scaleX(.86);transform-origin:100% 50%;font-size:clamp(30px,9.5vw,46px)}
-.stack span+span{margin-top:-.05em}
+.stack{width:78%;margin:14px auto 6px}
+.stack svg{display:block;width:100%;height:auto;overflow:visible;fill:var(--paper);filter:drop-shadow(-0.6px -0.6px 0 rgba(255,255,255,.95)) drop-shadow(1px 1.2px 1px rgba(60,50,40,.36))}
 .env .flap .d{position:absolute;left:0;right:0;top:40%;text-align:center;font-family:var(--f-caps);font-size:10px;letter-spacing:.42em;color:var(--muted);transition:opacity .3s}
 .open .env .flap{transform:rotateX(180deg)}
 .open .env .flap::before{opacity:1}
@@ -117,7 +116,7 @@ body{margin:0;background:var(--stage);color:var(--ink);font-family:var(--f-th);f
         <svg class="mono" data-wn aria-hidden="true"></svg>
         <div class="blessing" id="blessing">สมสทฺธา สมสีลา สมจาคา สมปญฺญา</div>
         <div class="to" id="to"></div>
-        <h1 class="stack" id="namesEn" aria-label="Wanida & Nattakorn"><span id="nmB">WANIDA</span><span id="nmG">NATTAKORN</span></h1>
+        <h1 class="stack" aria-label="Wanida & Nattakorn"><svg data-names role="img" aria-label="WANIDA NATTAKORN"></svg></h1>
         <div class="date" id="dateShort">Saturday, 16 January 2027</div>
         <div class="date-th" id="dateTh"></div>
         <div class="place" id="venue"></div>
@@ -152,6 +151,7 @@ body{margin:0;background:var(--stage);color:var(--ink);font-family:var(--f-th);f
 
 <script src="../assets/js/monogram.js"></script>
 <script src="../assets/js/config.js"></script>
+<script src="../assets/js/names.js"></script>
 <script>
 (() => {
   const W = window.WEDDING, C = W.couple, $ = (s) => document.querySelector(s);
@@ -162,7 +162,7 @@ body{margin:0;background:var(--stage);color:var(--ink);font-family:var(--f-th);f
   const params = new URLSearchParams(location.search); const to = (params.get('to') || '').trim().slice(0, 60);
   if (to) { $('#to').textContent = 'เรียน ' + to; document.title = `${to} · ${document.title}`; }
   $('#flapNames').innerHTML = `${esc(C.bride.en)} &amp; ${esc(C.groom.en)}`; $('#flapDate').textContent = W.date.short;
-  $('#nmB').textContent = C.bride.en; $('#nmG').textContent = C.groom.en; $('#blessing').textContent = C.blessing || ''; $('#tagline').textContent = C.hashtag;
+  $('#blessing').textContent = C.blessing || ''; $('#tagline').textContent = C.hashtag;
   $('#dateShort').textContent = W.date.en; $('#dateTh').textContent = W.date.th; $('#venue').textContent = W.venue.name; $('#venue2').textContent = W.venue.name;
   $('#address').textContent = W.venue.address; $('#dressTitle').textContent = W.dressCode.title; $('#dressDesc').textContent = W.dressCode.desc; $('#hashtag').textContent = C.hashtag;
   $('#pal').innerHTML = W.dressCode.colors.map((c) => `<i style="background:${c.hex}" title="${esc(c.name)}"></i>`).join('');

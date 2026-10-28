@@ -76,7 +76,10 @@ section.block { padding-block: clamp(60px, 9vw, 110px); position: relative; }
 
 /* ---------- blind emboss ---------- */
 .emboss { color: var(--paper); text-shadow: -1px -1px 0 rgba(255, 255, 255, .95), 1.4px 1.8px 2.2px rgba(60, 50, 40, .34), 0 0 1px rgba(60, 50, 40, .1); }
-.emboss-svg { filter: drop-shadow(-0.6px -0.6px 0 rgba(255, 255, 255, .95)) drop-shadow(1px 1.2px .8px rgba(60, 50, 40, .35)); }
+.emboss-svg { fill: var(--paper); filter: drop-shadow(-0.7px -0.7px 0 rgba(255, 255, 255, .95)) drop-shadow(1.2px 1.5px 1.2px rgba(60, 50, 40, .36)); }
+/* ชื่อปั๊มนูน = เวกเตอร์จากไฟล์บล็อกของการ์ดจริง (95.3 × 27.8 มม. บนการ์ด 127 มม. ≈ 75% ของความกว้างการ์ด) */
+.names-svg { width: min(100%, 760px); margin: 0 auto; }
+.names-svg svg { display: block; width: 100%; height: auto; overflow: visible; }
 .names-stack { font-family: var(--f-emboss); font-weight: 300; font-stretch: 87.5%; font-variation-settings: "opsz" 1200; text-transform: uppercase; letter-spacing: -.02em; line-height: .8; display: grid; justify-items: end; width: max-content; max-width: 100%; margin-inline: auto; transform: translateX(-7%); }
 .names-stack span { display: block; transform: scaleX(.86); transform-origin: 100% 50%; font-size: clamp(56px, 17vw, 170px); }
 .names-stack .g { margin-top: -.05em; }
@@ -98,7 +101,7 @@ section.block { padding-block: clamp(60px, 9vw, 110px); position: relative; }
 .env.open .pearl { transform: translate(-50%, -50%) scale(.5); opacity: 0; }
 .env .card { position: absolute; left: 10%; right: 10%; top: 12%; height: 86%; background: var(--paper); border: 1px solid var(--line); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-align: center; transform: translateY(14%); transition: transform 1s .5s cubic-bezier(.2, .7, .2, 1); z-index: 1; }
 .env.open .card { transform: translateY(-34%); }
-.env .card .nm { font-family: var(--f-emboss); font-weight: 300; font-stretch: 87.5%; font-size: clamp(16px, 4.6vw, 28px); line-height: .9; transform: scaleX(.86); }
+.env .card .nm { width: 75%; height: auto; margin-top: 4px; }
 .env .card .date { font-family: var(--f-caps); font-size: 9px; letter-spacing: .4em; color: var(--muted); margin-top: 6px; }
 .env .pocket, .env .flap { z-index: 2; } .env .flap { z-index: 3; }
 #intro .hint { position: absolute; bottom: max(28px, env(safe-area-inset-bottom, 0px)); left: 0; right: 0; text-align: center; }
@@ -122,7 +125,7 @@ section.block { padding-block: clamp(60px, 9vw, 110px); position: relative; }
 #petals { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .hero .wrap { position: relative; display: flex; flex-direction: column; align-items: center; gap: 14px; }
 .hero .blessing { font-weight: 300; font-size: clamp(15px, 2.2vw, 20px); letter-spacing: .12em; color: var(--ink); margin-bottom: clamp(24px, 6vw, 70px); }
-.hero .names-stack { margin-block: 0 clamp(26px, 6vw, 70px); }
+.hero .names-svg { margin-block: clamp(10px, 4vw, 40px) clamp(26px, 6vw, 70px); }
 .hero .date-en { font-family: var(--f-caps); font-size: clamp(12px, 1.6vw, 15px); letter-spacing: .32em; padding-left: .32em; color: var(--ink); font-weight: 300; text-transform: uppercase; }
 .hero .tag { font-family: var(--f-caps); font-size: 13px; letter-spacing: .1em; color: var(--muted); font-weight: 300; }
 .hero .actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 10px; }
@@ -145,7 +148,7 @@ section.block { padding-block: clamp(60px, 9vw, 110px); position: relative; }
 
 /* ---------- invitation = card back ---------- */
 .card-back { position: relative; max-width: 720px; margin: 0 auto; padding: clamp(28px, 6vw, 64px) clamp(18px, 5vw, 56px); background: var(--paper); border: 1px solid var(--line); box-shadow: 0 30px 50px -30px rgba(60, 50, 40, .35); text-align: center; overflow: hidden; }
-.card-back .wm { position: absolute; left: 50%; top: 52%; transform: translate(-50%, -50%) scaleX(-.86); font-family: var(--f-emboss); font-weight: 300; font-stretch: 87.5%; text-transform: uppercase; font-size: clamp(60px, 12vw, 120px); line-height: .8; letter-spacing: -.02em; pointer-events: none; opacity: .9; white-space: nowrap; text-align: right; }
+.card-back .wm { position: absolute; left: 50%; top: 53%; width: 75%; height: auto; transform: translate(-50%, -50%) scaleX(-1); pointer-events: none; opacity: .9; }
 .card-back > :not(.wm) { position: relative; }
 .card-back .mono { width: 64px; fill: var(--ink); margin: 0 auto 22px; display: block; }
 .parents { display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px 18px; align-items: center; font-size: clamp(14px, 1.9vw, 17px); font-weight: 300; line-height: 1.8; }

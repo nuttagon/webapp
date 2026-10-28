@@ -33,7 +33,7 @@
     <div class="liner"><div class="msg">We saved a seat for you</div></div>
     <div class="card">
       <svg data-wn aria-hidden="true" style="width:22%;fill:var(--ink);opacity:.75"></svg>
-      <div class="nm emboss">WANIDA<br>NATTAKORN</div>
+      <svg data-names class="nm emboss-svg" aria-hidden="true"></svg>
       <div class="date">16 · 01 · 2027</div>
     </div>
     <div class="pocket"></div>
@@ -72,7 +72,7 @@
   <canvas id="petals" aria-hidden="true"></canvas>
   <div class="wrap">
     <p class="blessing" data-fill="blessing">สมสทฺธา สมสีลา สมจาคา สมปญฺญา</p>
-    <h1 class="names-stack emboss" aria-label="Wanida & Nattakorn"><span class="b" data-fill="brideEn">WANIDA</span><span class="g" data-fill="groomEn">NATTAKORN</span></h1>
+    <h1 class="names-svg" aria-label="Wanida & Nattakorn"><svg data-names class="emboss-svg" role="img" aria-label="WANIDA NATTAKORN"></svg></h1>
     <p class="date-en" data-fill="dateEn">Saturday, 16 January 2027</p>
     <p class="tag" data-fill="hashtag">#EternallyWN</p>
     <div class="countdown" id="countdown" aria-label="นับถอยหลัง">
@@ -127,7 +127,7 @@
     <div class="wrap">
       <div class="head reveal"><span class="caps">The invitation</span><h2 class="title">คำเชิญ</h2><svg class="stitch" aria-hidden="true"></svg></div>
       <article class="card-back reveal">
-        <div class="wm emboss" aria-hidden="true"><span data-fill="brideEn">WANIDA</span><br><span data-fill="groomEn">NATTAKORN</span></div>
+        <svg data-names class="wm emboss-svg" aria-hidden="true"></svg>
         <svg class="mono" data-wn role="img" aria-label="WN"></svg>
         <div class="parents"><div data-fill="brideParents"></div><div class="and">และ</div><div data-fill="groomParents"></div></div>
         <p class="invite-text" data-fill="inviteText"></p>
@@ -311,6 +311,7 @@
 <script src="assets/js/config.js"></script>
 <script src="assets/js/guests.js"></script>
 <script src="assets/js/main.js"></script>
+<script src="assets/js/names.js"></script>
 <script>document.querySelectorAll('[data-wn-path]').forEach((p) => p.setAttribute('d', window.WN_PATH));</script>
 </body>
 </html>

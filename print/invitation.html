@@ -14,12 +14,16 @@
 .front .safe{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:3mm}
 .front .mono{width:22mm}
 .front .invite{font-weight:300;font-size:3.1mm;letter-spacing:.12em;color:var(--muted);max-width:80mm;line-height:1.7}
-.front h1{margin:3mm 0 0;font-family:var(--f-display);font-weight:300;font-stretch:87.5%;text-transform:uppercase;letter-spacing:-.02em;line-height:.8;display:grid;justify-items:end;width:max-content;max-width:100%;margin-inline:auto;transform:translateX(-7%);color:var(--paper);text-shadow:-0.25mm -0.25mm 0 rgba(255,255,255,.95),0.35mm 0.4mm 0.5mm rgba(60,50,40,.35)}
-.front h1 span{display:block;transform:scaleX(.86);transform-origin:100% 50%;font-size:24mm}
-.front h1 span+span{margin-top:-.05em}
-.front .blessing{font-size:2.75mm;font-weight:300;letter-spacing:.18em;color:var(--ink);margin-bottom:14mm}
-.front .th{display:none}
-.front .date{font-family:var(--f-caps);font-weight:300;font-size:2.6mm;letter-spacing:.62em;padding-left:.62em;margin-top:16mm;text-transform:uppercase}
+/* ตำแหน่งตามไฟล์การ์ดจริง (หน่วย มม. บนการ์ด 127×178 · หน้ากระดาษนี้มีตัดตก 3 มม. จึง +3) */
+.front .safe{display:block;inset:0;padding:0}
+.front .pos{position:absolute;left:3mm;width:127mm;text-align:center;margin:0}
+.front h1{position:absolute;left:calc(3mm + 15.84mm);top:calc(3mm + 68.09mm);width:95.31mm;margin:0}
+.front h1 svg{display:block;width:100%;height:auto;overflow:visible;fill:var(--paper);filter:drop-shadow(-0.2mm -0.2mm 0 rgba(255,255,255,.95)) drop-shadow(0.3mm 0.35mm 0.3mm rgba(60,50,40,.36))}
+.front .blessing{top:calc(3mm + 27.2mm);font-size:2.75mm;font-weight:300;letter-spacing:.18em;color:var(--ink)}
+.front .date{top:calc(3mm + 143.3mm);font-family:var(--f-caps);font-weight:300;font-size:2.6mm;letter-spacing:.62em;padding-left:.62em;text-transform:uppercase;margin:0}
+.front .tagl{top:calc(3mm + 149.5mm);font-family:var(--f-caps);font-weight:300;font-size:2.6mm;letter-spacing:.2em;color:var(--muted)}
+.front .th,.front .mono,.front .rule{display:none}
+
 .front .date-th{font-size:3.3mm;font-weight:300;color:var(--muted)}
 .front .place{font-family:var(--f-display);font-style:italic;font-size:5.6mm;color:var(--thyme);margin-top:2mm}
 .front .names-caps{position:absolute;left:0;right:0;bottom:7mm;font-family:var(--f-display);font-size:2.8mm;letter-spacing:.36em;text-align:center;color:#5F574E}
@@ -50,10 +54,10 @@
 <section class="sheet front" aria-label="ด้านหน้า">
   <div class="trim"></div>
   <div class="safe">
-    <p class="blessing" data-blessing>สมสทฺธา สมสีลา สมจาคา สมปญฺญา</p>
-    <h1 aria-label="Wanida & Nattakorn"><span data-bride>WANIDA</span><span data-groom>NATTAKORN</span></h1>
-    <div class="date" data-dateen>Saturday, 16 January 2027</div>
-    <div class="date-th" data-hashtag style="font-family:var(--f-caps);letter-spacing:.2em;font-size:2.6mm;color:var(--muted);margin-top:1.5mm">#EternallyWN</div>
+    <p class="blessing pos" data-blessing>สมสทฺธา สมสีลา สมจาคา สมปญฺญา</p>
+    <h1 aria-label="Wanida & Nattakorn"><svg data-names role="img" aria-label="WANIDA NATTAKORN"></svg></h1>
+    <p class="date pos" data-dateen>Saturday, 16 January 2027</p>
+    <p class="tagl pos" data-hashtag>#EternallyWN</p>
   </div>
 </section>
 
@@ -75,12 +79,13 @@
 
 <script src="../assets/js/monogram.js"></script>
 <script src="../assets/js/config.js"></script>
+<script src="../assets/js/names.js"></script>
 <script>
 (() => {
   const W = window.WEDDING, C = W.couple, esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   document.querySelectorAll('svg[data-wn]').forEach((svg) => { svg.setAttribute('viewBox', '0 0 1420 1040'); svg.innerHTML = `<path fill-rule="evenodd" d="${window.WN_PATH}"/>`; });
   const set = (sel, v, html) => document.querySelectorAll(sel).forEach((el) => (html ? (el.innerHTML = v) : (el.textContent = v)));
-  set('[data-bride]', C.bride.en); set('[data-groom]', C.groom.en); set('[data-blessing]', C.blessing || ''); set('[data-dateen]', W.date.en);
+  set('[data-blessing]', C.blessing || ''); set('[data-dateen]', W.date.en);
   set('[data-date]', W.date.short); set('[data-dateth]', W.date.th); set('[data-venue]', W.venue.name); set('[data-address]', W.venue.address); set('[data-notes]', W.venue.notes);
   set('[data-dress]', W.dressCode.title); set('[data-dressdesc]', W.dressCode.desc); set('[data-deadline]', W.rsvp.deadline); set('[data-hashtag]', C.hashtag);
   document.getElementById('sched').innerHTML = W.schedule.map((s) => `<div><time>${esc(s.time)}</time><span><b>${esc(s.title)}</b></span></div>`).join('');

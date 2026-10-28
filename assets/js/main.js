@@ -239,6 +239,19 @@
     const dl = $('#guestNames'); if (dl) dl.innerHTML = G.map((g) => `<option value="${esc(g.name)}"></option>`).join('');
   }
 
+  // ---------- zoom the printed card (same as e-card) ----------
+  const zoom = $('#zoom'), invCard = $('#invCard');
+  if (zoom && invCard) {
+    let cloned = false;
+    $('#invZoom').addEventListener('click', () => {
+      if (!cloned) { const c = invCard.cloneNode(true); c.removeAttribute('id'); c.classList.remove('reveal', 'pending'); $('#zoomIn').appendChild(c); cloned = true; }
+      zoom.classList.add('on'); document.body.style.overflow = 'hidden'; zoom.scrollTo((zoom.scrollWidth - zoom.clientWidth) / 2, 0);
+    });
+    const close = () => { zoom.classList.remove('on'); document.body.style.overflow = ''; };
+    $('#zoomClose').addEventListener('click', close);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+  }
+
   // ---------- reveal on scroll ----------
   const revealEls = $$('.reveal');
   if ('IntersectionObserver' in window && !reduce) {

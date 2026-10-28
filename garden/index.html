@@ -707,8 +707,8 @@ const PEOPLE=new THREE.Group();scene.add(PEOPLE);
     person({x,z,ry:Math.atan2(gx-x,gz-z),sex:f?'f':'m',outfit:f?pick(LADY):pick(GENT),style:f?pick(['gown','aline','slim']):'',tux:!f&&rnd()<.3,trouser:pick(['#2F3238','#1F2A48','#3B3B3B','#5A5A5E'])});}});
   /* the couple on the mound in front of the backdrop, facing the guests */
   const bx=0,bz=BZ-1.9;
-  person({x:bx-.42,z:bz,ry:Math.PI+.12,sex:'f',outfit:'#FBF8F2',style:'gown',bride:true,hairStyle:'long',pose:'hold',scale:.98,skin:'#EFCDB4',hair:'#5A3A22',face:'../assets/img/faces/bride.jpg'});
-  person({x:bx+.42,z:bz,ry:Math.PI-.12,sex:'m',outfit:'#15151A',jacket:'#15151A',trouser:'#15151A',groom:true,hairStyle:'short',pose:'down',scale:1.05,skin:'#D9A684',hair:'#1E1612',face:'../assets/img/faces/groom.jpg'});
+  person({x:bx-.42,z:bz,ry:Math.PI+.12,sex:'f',outfit:'#FBF8F2',style:'gown',bride:true,hairStyle:'long',pose:'hold',scale:.98,skin:'#EFCDB4',hair:'#5A3A22'});
+  person({x:bx+.42,z:bz,ry:Math.PI-.12,sex:'m',outfit:'#15151A',jacket:'#15151A',trouser:'#15151A',groom:true,hairStyle:'short',pose:'down',scale:1.05,skin:'#D9A684',hair:'#1E1612'});
 })();
 
 /* ---------- first-person walk: arrows / WASD / d-pad, drag to look ---------- */

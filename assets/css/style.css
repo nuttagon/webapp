@@ -88,6 +88,7 @@ section.block { padding-block: clamp(60px, 9vw, 110px); position: relative; }
 /* ---------- envelope intro ---------- */
 #intro { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; background: var(--paper-3); transition: opacity .9s ease, visibility .9s; padding-left: var(--gutter-l); padding-right: var(--gutter-r); }
 #intro.gone { opacity: 0; visibility: hidden; pointer-events: none; }
+body.intro-open { overflow: hidden; height: 100vh; }
 .env { position: relative; width: min(80vw, 440px); aspect-ratio: 184 / 133; cursor: pointer; filter: drop-shadow(0 24px 30px rgba(60, 50, 40, .22)) drop-shadow(0 2px 3px rgba(60, 50, 40, .12)); }
 .env .body { position: absolute; inset: 0; background: #F6F3EE; }
 .env .liner { position: absolute; inset: 0; background: var(--blush); clip-path: polygon(0 0, 100% 0, 50% 62%); background-image: radial-gradient(circle, rgba(255, 255, 255, .55) 1.2px, transparent 1.4px); background-size: 9px 9px; }

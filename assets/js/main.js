@@ -4,6 +4,10 @@
   const html = document.documentElement; html.classList.add('js');
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const params = new URLSearchParams(location.search);
+  const toName = (params.get('to') || '').trim().slice(0, 60);
+  const PH = /\[[^\]]*\]/;                                  // ข้อความในวงเล็บเหลี่ยม = ยังเป็นตัวอย่าง
+  const clean = (s) => String(s || '').replace(/\s*\[[^\]]*\]\s*/g, ' ').replace(/\s+/g, ' ').trim();
 
   // ---------- monogram ----------
   $$('svg[data-wn]').forEach((svg) => { svg.setAttribute('viewBox', '0 0 1420 1040'); svg.innerHTML = `<path fill-rule="evenodd" d="${window.WN_PATH}"/>`; });
@@ -15,7 +19,7 @@
       namesEn: `${C.bride.en} <span class="amp">&amp;</span> ${C.groom.en}`,
       namesTh: `${C.bride.th} · ${C.groom.th}`,
       dateShort: W.date.short, dateTh: W.date.th, dateEn: W.date.en,
-      venue: W.venue.name, venueEn: W.venue.nameEn, address: W.venue.address,
+      venue: W.venue.name, venueEn: W.venue.nameEn, address: clean(W.venue.address),
       hashtag: C.hashtag, theme: C.theme, themeTh: C.themeTh,
       parking: W.venue.parking, transit: W.venue.transit, hotel: W.venue.hotelDeal, venueNotes: W.venue.notes,
       rsvpDeadline: W.rsvp.deadline, giftNote: W.gift.note, promptpayName: W.gift.promptpayName,
@@ -26,7 +30,10 @@
       brideParents: (C.bride.parents || []).map(esc).join('<br>'), groomParents: (C.groom.parents || []).map(esc).join('<br>'),
       startTime: (W.schedule[0] || {}).time || '',
     };
-    if (el.dataset.fill in map) el.innerHTML = map[el.dataset.fill];
+    if (!(el.dataset.fill in map)) return;
+    const v = map[el.dataset.fill];
+    if (typeof v === 'string' && PH.test(v)) { const row = el.closest('dl > div, li') || el; row.hidden = true; return; }   // ซ่อนข้อมูลที่ยังไม่ได้กรอก
+    el.innerHTML = v;
   });
   $$('a[data-href="map"]').forEach((a) => (a.href = W.venue.mapUrl));
   $$('a[data-href="ecard"]').forEach((a) => (a.href = W.site.ecardUrl));
@@ -35,8 +42,10 @@
   // ---------- intro envelope ----------
   const intro = $('#intro'), env = $('#env');
   let seen = false; try { seen = sessionStorage.getItem('wn-intro') === '1'; } catch (e) {}
-  const dismiss = () => { intro.classList.add('gone'); try { sessionStorage.setItem('wn-intro', '1'); } catch (e) {} };
-  if (!intro) {} else if (seen || reduce) { dismiss(); } else {
+  const dismiss = () => { intro.classList.add('gone'); document.body.classList.remove('intro-open'); try { sessionStorage.setItem('wn-intro', '1'); } catch (e) {} };
+  const skipIntro = params.has('from') || !!toName || location.hash.length > 1;   // มาจาก e-card หรือลิงก์ตรง → ไม่ต้องเปิดซองซ้ำ
+  if (!intro) {} else if (seen || reduce || skipIntro) { intro.remove(); } else {
+    document.body.classList.add('intro-open'); window.scrollTo(0, 0);
     let opened = false;
     const open = () => { if (opened) return; opened = true; env.classList.add('open'); setTimeout(dismiss, 2100); };
     env.addEventListener('click', open);
@@ -69,12 +78,12 @@
   const title = `งานแต่งงาน ${C.bride.en} & ${C.groom.en}`;
   const desc = `${W.date.th} · ${W.venue.name}\n${W.site.url}`;
   const gcal = $('#gcal');
-  if (gcal) gcal.href = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${fmtUtc(W.date.startLocal)}/${fmtUtc(W.date.endLocal)}&details=${encodeURIComponent(desc)}&location=${encodeURIComponent(W.venue.name + ' ' + W.venue.address)}&ctz=Asia/Bangkok`;
+  if (gcal) gcal.href = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${fmtUtc(W.date.startLocal)}/${fmtUtc(W.date.endLocal)}&details=${encodeURIComponent(desc)}&location=${encodeURIComponent(clean(W.venue.name + ' ' + W.venue.address))}&ctz=Asia/Bangkok`;
   const ics = $('#ics');
   if (ics) ics.addEventListener('click', () => {
     const body = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//WN//Wedding//TH', 'BEGIN:VEVENT', `UID:wn-${W.date.iso}@wedding`, `DTSTAMP:${fmtUtc(new Date().toISOString())}`,
       `DTSTART;TZID=Asia/Bangkok:${fmtLocal(W.date.startLocal)}`, `DTEND;TZID=Asia/Bangkok:${fmtLocal(W.date.endLocal)}`, `SUMMARY:${title}`,
-      `LOCATION:${W.venue.name} ${W.venue.address}`, `DESCRIPTION:${desc.replace(/\n/g, '\\n')}`, 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+      `LOCATION:${clean(W.venue.name + ' ' + W.venue.address)}`, `DESCRIPTION:${desc.replace(/\n/g, '\\n')}`, 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
     const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([body], { type: 'text/calendar' })); a.download = 'WN-wedding.ics'; document.body.appendChild(a); a.click(); a.remove();
   });
 
@@ -102,7 +111,7 @@
 
   // ---------- story / schedule / dress / faq / steps ----------
   const story = $('#storyList');
-  if (story) story.innerHTML = W.story.map((s) => `<div class="item reveal pending"><div class="year">${esc(s.year)}</div><div class="dot"></div><div><h3>${esc(s.title)}</h3><p>${esc(s.text)}</p></div></div>`).join('');
+  if (story) story.innerHTML = W.story.filter((s) => !PH.test(s.year + s.title + s.text)).map((s) => `<div class="item reveal pending"><div class="year">${esc(s.year)}</div><div class="dot"></div><div><h3>${esc(s.title)}</h3><p>${esc(s.text)}</p></div></div>`).join('');
   const sched = $('#scheduleList');
   if (sched) sched.innerHTML = W.schedule.map((s) => `<div class="row reveal pending"><time>${esc(s.time)}</time><div><h3>${esc(s.title)}</h3><p>${esc(s.desc)}</p></div></div>`).join('');
   const sw = (list) => (list || []).map((c) => `<i style="background:${c.hex}" title="${esc(c.name)}"></i>`).join('');
@@ -172,11 +181,11 @@
     if (t && ping) { ping.setAttribute('cx', X(t.x)); ping.setAttribute('cy', Y(t.z)); ping.style.display = reduce ? 'none' : ''; }
     if (result) result.innerHTML = text;
   };
-  const showGuest = (g) => {
+  const showGuest = (g, opts = {}) => {
     const t = byId[String(g.table)];
     highlight(g.table, `<b>${esc(g.name)}</b><span class="tbl">${esc(t ? t.label : 'โต๊ะ ' + g.table)}</span>${t ? esc(t.group) : ''} · ${g.side === 'bride' ? 'ฝั่งเจ้าสาว' : g.side === 'groom' ? 'ฝั่งเจ้าบ่าว' : 'เพื่อนบ่าวสาว'}<br><a class="btn gold" style="margin-top:12px" href="garden/?guest=1&table=${encodeURIComponent(g.table)}&name=${encodeURIComponent(g.name.replace(/^คุณ\s*/, ''))}">เดินไปดูโต๊ะใน 3D</a>`);
     if (input) input.value = g.name; sug.hidden = true;
-    const r = $('.plan-wrap').getBoundingClientRect(); if (r.top < 0 || r.bottom > innerHeight) $('.plan-wrap').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+    const r = $('.plan-wrap').getBoundingClientRect(); if (!opts.quiet && (r.top < 0 || r.bottom > innerHeight)) $('.plan-wrap').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
   };
   if (input) {
     let matches = [];
@@ -191,6 +200,7 @@
     sug.addEventListener('click', (e) => { const b = e.target.closest('button[data-i]'); if (b) showGuest(matches[+b.dataset.i]); });
     input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); if (matches[0]) showGuest(matches[0]); } if (e.key === 'Escape') sug.hidden = true; });
     document.addEventListener('click', (e) => { if (!e.target.closest('.seat-search')) sug.hidden = true; });
+    if (toName) { const q = norm(toName); const hit = G.find((g) => norm(g.name) === q) || G.find((g) => norm(g.name).includes(q)); if (hit) showGuest(hit, { quiet: true }); else input.value = toName; }
   }
   if (plan) plan.addEventListener('click', (e) => {
     const g = e.target.closest('.tbl'); if (!g) return; const t = byId[g.dataset.id];
@@ -205,7 +215,7 @@
     const guestSel = $('#rsvpName');
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const data = Object.fromEntries(new FormData(form).entries()); data.at = new Date().toISOString();
+      const data = Object.fromEntries(new FormData(form).entries()); data.at = new Date().toISOString(); data.from = toName; data.ua = navigator.userAgent;
       const status = $('#rsvpStatus'); status.textContent = 'กำลังส่งคำตอบ…';
       try {
         if (W.rsvp.webhookUrl) { await fetch(W.rsvp.webhookUrl, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(data) }); }
@@ -214,11 +224,15 @@
         form.hidden = true; const th = $('#rsvpThanks'); th.hidden = false;
         th.querySelector('[data-name]').textContent = data.name || '';
         th.querySelector('[data-msg]').textContent = data.attending === 'yes' ? 'เราเก็บที่นั่งไว้ให้แล้ว แล้วพบกันในสวน' : 'ขอบคุณที่แจ้งให้ทราบ เราจะคิดถึงคุณในวันนั้น';
-        if (!W.rsvp.webhookUrl && !W.rsvp.formUrl) th.querySelector('[data-demo]').hidden = false;
+        if (!W.rsvp.webhookUrl && !W.rsvp.formUrl) {   // ยังไม่ตั้งปลายทาง → ให้แขกส่งสรุปคำตอบทาง LINE แทน ไม่ให้คำตอบหาย
+          const sum = `RSVP งานแต่ง ${C.bride.nick} & ${C.groom.nick}\nชื่อ: ${data.name}\nมาร่วมงาน: ${data.attending === 'yes' ? 'มา' : 'ไม่มา'}\nผู้ใหญ่ ${data.adults} · เด็ก ${data.kids}\nอาหาร: ${data.diet || 'ทานได้ทุกอย่าง'}\nหมายเหตุ: ${data.note || '-'}`;
+          const fb = th.querySelector('[data-demo]'); fb.hidden = false;
+          fb.innerHTML = `<span>ระบบรับคำตอบอัตโนมัติยังไม่เปิด กรุณาส่งข้อความนี้ให้เราทาง LINE</span><br><a class="btn" style="margin-top:10px" target="_blank" rel="noopener" href="https://line.me/R/share?text=${encodeURIComponent(sum)}">ส่งคำตอบทาง LINE</a>`;
+        }
         th.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
       } catch (err) { status.textContent = 'ส่งไม่สำเร็จ ลองใหม่อีกครั้ง หรือแจ้งทาง LINE / โทร ' + (W.rsvp.phone || ''); }
     });
-    if (guestSel) guestSel.setAttribute('list', 'guestNames');
+    if (guestSel) { guestSel.setAttribute('list', 'guestNames'); if (toName && !guestSel.value) guestSel.value = toName; }   // เติมชื่อจาก e-card (?to=)
     const dl = $('#guestNames'); if (dl) dl.innerHTML = G.map((g) => `<option value="${esc(g.name)}"></option>`).join('');
   }
 

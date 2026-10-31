@@ -94,6 +94,8 @@
       <figure><picture><source type="image/webp" srcset="assets/img/photos/pw-09-640.webp 640w, assets/img/photos/pw-09.webp 1400w" sizes="(max-width: 760px) 72vw, 30vw"><img loading="lazy" decoding="async" src="assets/img/photos/pw-09.jpg" alt="ยิ้มให้กันหน้าตึกเหลือง"></picture></figure>
       <figure><picture><source type="image/webp" srcset="assets/img/photos/pw-10-640.webp 640w, assets/img/photos/pw-10.webp 1400w" sizes="(max-width: 760px) 72vw, 30vw"><img loading="lazy" decoding="async" src="assets/img/photos/pw-10.jpg" alt="จูบกันหน้าผนังจิตรกรรมสีคราม"></picture></figure>
       <figure><picture><source type="image/webp" srcset="assets/img/photos/pw-05-640.webp 640w, assets/img/photos/pw-05.webp 1400w" sizes="(max-width: 760px) 72vw, 30vw"><img loading="lazy" decoding="async" src="assets/img/photos/pw-05.jpg" alt="เดินลงบันไดหัวเราะด้วยกันยามค่ำ"></picture></figure>
+      <figure><picture><source type="image/webp" srcset="assets/img/photos/pw-03-640.webp 640w, assets/img/photos/pw-03.webp 1400w" sizes="(max-width: 760px) 72vw, 30vw"><img loading="lazy" decoding="async" src="assets/img/photos/pw-03.jpg" alt="จูบกันหน้าภาพจิตรกรรมจีนใต้โคมแดง"></picture></figure>
+      <figure><picture><source type="image/webp" srcset="assets/img/photos/pw-04-640.webp 640w, assets/img/photos/pw-04.webp 1400w" sizes="(max-width: 760px) 72vw, 30vw"><img loading="lazy" decoding="async" src="assets/img/photos/pw-04.jpg" alt="นั่งพิงไหล่กันบนม้านั่งสีเขียวยามค่ำ"></picture></figure>
     </div>
   </section>
 
@@ -154,15 +156,14 @@
   </section>
 
   <section class="block" id="story-more">
+    <div class="wrap love">
+      <p class="love-side l reveal">OUR LOVE<br>FOR GARDENS</p>
+      <figure class="love-photo reveal"><picture><source type="image/webp" srcset="assets/img/photos/pw-11-640.webp 640w, assets/img/photos/pw-11.webp 1400w" sizes="(max-width: 760px) 70vw, 340px"><img loading="lazy" decoding="async" src="assets/img/photos/pw-11.jpg" alt="กอดกันหัวเราะใต้ไฟสายยามค่ำ"></picture></figure>
+      <p class="love-side r reveal">(AND EACH<br>OTHER)</p>
+    </div>
     <div class="wrap">
-      <div class="head reveal"><h2 class="title">OUR STORY</h2><p class="mono-sub">Eve &amp; Bob</p></div>
-      <div class="story-grid">
-        <div class="prints reveal">
-          <figure class="print a"><picture><source type="image/webp" srcset="assets/img/photos/pw-03-640.webp"><img loading="lazy" decoding="async" src="assets/img/photos/pw-03.jpg" alt="จูบกันหน้าภาพจิตรกรรมจีนใต้โคมแดง"></picture><figcaption>Frame 03</figcaption><span class="datestamp sm">16 1 '27</span></figure>
-          <figure class="print b"><picture><source type="image/webp" srcset="assets/img/photos/pw-04-640.webp"><img loading="lazy" decoding="async" src="assets/img/photos/pw-04.jpg" alt="นั่งพิงไหล่กันบนม้านั่งสีเขียวยามค่ำ"></picture><figcaption>Frame 04</figcaption><span class="datestamp sm">16 1 '27</span></figure>
-        </div>
-        <div class="timeline" id="storyList"></div>
-      </div>
+      <p class="love-text reveal" data-fill="storyText"></p>
+      <div class="timeline" id="storyList"></div>
     </div>
   </section>
 
@@ -201,11 +202,24 @@
 
   <section class="block" id="gift">
     <div class="wrap gift2">
-      <div class="reveal gift-photo"><picture><source type="image/webp" srcset="assets/img/photos/pw-01-640.webp 640w, assets/img/photos/pw-01.webp 1400w" sizes="(max-width: 760px) 92vw, 46vw"><img loading="lazy" decoding="async" src="assets/img/photos/pw-01.jpg" alt="บ่าวสาวเดินจูงมือบนถนนเมืองเก่า ขาวดำ"></picture></div>
+      <div class="reveal gift-photo"><picture><source type="image/webp" srcset="assets/img/photos/pw-01-640.webp 640w, assets/img/photos/pw-01.webp 1400w" sizes="(max-width: 760px) 92vw, 46vw"><img loading="lazy" decoding="async" src="assets/img/photos/pw-01.jpg" alt="บ่าวสาวเดินจูงมือบนถนนเมืองเก่า ขาวดำ"></picture><div class="gift-over"><span>16 · 01 · 2027</span><p class="script">With love,</p><p class="script sm">Eve &amp; Bob</p></div></div>
       <div class="reveal gift-copy">
         <h2 class="lead">Your presence is truly the best gift we could ask for.</h2>
         <p data-fill="giftNote"></p>
-        <div class="qr"><img id="giftQr" src="assets/img/qr-promptpay.svg" alt="QR PromptPay"><small data-fill="promptpayName">PromptPay</small></div>
+        <div class="pp">
+          <div class="pp-qr"><img id="giftQr" src="assets/img/qr-promptpay.svg" alt="QR PromptPay บัญชี ณัฐกรณ์ และ วนิดา" width="150" height="150"><b>PromptPay</b><small data-fill="promptpayName">ณัฐกรณ์ &amp; วนิดา</small></div>
+          <div class="pp-how">
+            <p class="mono-caps">How to give</p>
+            <ol>
+              <li>เปิดแอปธนาคาร เลือก "สแกน QR"</li>
+              <li>สแกน QR นี้ หรือ QR บนการ์ดดอกไม้ในซอง</li>
+              <li>ตรวจชื่อบัญชี <span data-fill="promptpayName">ณัฐกรณ์ &amp; วนิดา</span> แล้วใส่จำนวนเงิน</li>
+            </ol>
+            <a class="btn" href="assets/img/promptpay-qr.png" download="WN-PromptPay.png">บันทึกรูป QR</a>
+            <p class="pp-note">เปิดเว็บนี้ในมือถือ? กดบันทึกรูป แล้วเลือก "สแกนจากรูปภาพ" ในแอปธนาคาร</p>
+          </div>
+          <figure class="pp-card"><picture><source type="image/webp" srcset="assets/img/flower-card.webp"><img loading="lazy" src="assets/img/flower-card.png" alt="การ์ดดอกไม้สีเขียวที่มี QR PromptPay อยู่ในซองเชิญ"></picture><figcaption>QR เดียวกันอยู่บนการ์ดดอกไม้ในซองของคุณ</figcaption></figure>
+        </div>
       </div>
     </div>
   </section>

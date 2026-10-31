@@ -16,6 +16,7 @@ window.WEDDING = {
     apology: "(ขออภัยหากมิได้เรียนเชิญด้วยตนเอง)",
     apologyEn: "(We apologise if this invitation did not reach you in person)",
     hashtag: "#EternallyWN",
+    storyText: "",            // ย่อหน้าใต้รูป "Our love for gardens (and each other)" เล่าเรื่องของเราสั้น ๆ ว่างไว้ = ไม่แสดง
     theme: "Lumière de l'Amour",
     themeTh: "แสงสว่างแห่งความรัก",
   },

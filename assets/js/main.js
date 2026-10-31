@@ -29,8 +29,10 @@
       brideNick: C.bride.nick ? `(${C.bride.nick})` : '', groomNick: C.groom.nick ? `(${C.groom.nick})` : '',
       brideParents: (C.bride.parents || []).map(esc).join('<br>'), groomParents: (C.groom.parents || []).map(esc).join('<br>'),
       startTime: (W.schedule[0] || {}).time || '',
+      storyText: C.storyText || '',
     };
     if (!(el.dataset.fill in map)) return;
+    if (map[el.dataset.fill] === '' && el.dataset.fill === 'storyText') { el.hidden = true; return; }
     const v = map[el.dataset.fill];
     if (typeof v === 'string' && PH.test(v)) { const row = el.closest('dl > div, li') || el; row.hidden = true; return; }   // ซ่อนข้อมูลที่ยังไม่ได้กรอก
     el.innerHTML = v;

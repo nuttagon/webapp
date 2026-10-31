@@ -572,3 +572,4 @@ footer p, footer .tag { font-family: var(--f-mono); }
   .hero .countdown { margin-top: 12px; }
   .hero .wrap.hero-copy { padding-bottom: 28px; }
 }
+.pp { align-items: end; }

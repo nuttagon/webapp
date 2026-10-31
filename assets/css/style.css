@@ -610,3 +610,8 @@ footer p, footer .tag { font-family: var(--f-mono); }
 .pp { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-top: 34px; }
 .pp-qr { width: 190px; }
 .pp-how { text-align: center; }
+/* reception uses the same paper colour as the rest of the page */
+#reception { background: transparent; }
+/* "Are getting married": centred a quarter of the way up from the bottom of the photo */
+.gift-over { display: block; padding: 0; }
+.gift-over .script { position: absolute; left: 6%; right: 6%; bottom: 25%; transform: translateY(50%); }

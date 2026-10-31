@@ -125,6 +125,20 @@
     for (let i = 0; i < 16; i++) { const an = Math.PI / 8 * i - Math.PI / 2, r = i % 2 ? 2.8 : 9; pts += `${(r * Math.cos(an)).toFixed(2)},${(r * Math.sin(an)).toFixed(2)} `; }
     svg.innerHTML = `<polygon points="${pts}" fill="#A8372A"/><circle r="1.3" fill="#C8893B"/>`;
   });
+  // PROGRAM (Wanida's layout: time in serif, title in mono, Thai below)
+  const prog = $('#programList');
+  if (prog) prog.innerHTML = W.schedule.map((s) => `<div class="row"><time>${esc(s.time)}</time><div><b>${esc(s.titleEn || s.title)}</b><span>${esc(s.title)}</span></div></div>`).join('');
+  // CONTACT US: only the channels that are filled in config.js, plus the hashtag
+  const cr = $('#contactRow');
+  if (cr) {
+    const K = W.contact || {}; const items = [];
+    if (K.phone) items.push(`<a href="tel:${esc(K.phone.replace(/[^0-9+]/g, ''))}">${esc(K.phone)}</a>`);
+    if (K.line) items.push(`<a href="${esc(K.lineUrl || '#')}" target="_blank" rel="noopener">LINE ${esc(K.line)}</a>`);
+    if (K.email) items.push(`<a href="mailto:${esc(K.email)}">${esc(K.email)}</a>`);
+    if (K.instagram) items.push(`<a href="https://instagram.com/${esc(K.instagram.replace(/^@/, ''))}" target="_blank" rel="noopener">@${esc(K.instagram.replace(/^@/, ''))}</a>`);
+    items.push(`<span>${esc(C.hashtag)}</span>`);
+    cr.innerHTML = items.map((x) => `<li>${x}</li>`).join('');
+  }
   const faq = $('#faqList');
   if (faq) faq.innerHTML = W.faq.map((f) => `<details><summary>${esc(f.q)}</summary><div class="a">${esc(f.a)}</div></details>`).join('');
 

@@ -590,3 +590,23 @@ footer p, footer .tag { font-family: var(--f-mono); }
   .hero-names { font-size: 48px; }
   .hero .mono-caps { font-size: 10px; letter-spacing: .22em; }
 }
+
+/* PROGRAM on its own, centred */
+.program-wrap { max-width: 720px; }
+.program-wrap h2.title { text-align: center; margin-bottom: clamp(20px, 4vw, 40px); }
+/* RECEPTION: three illustrated columns, short centred text (Wanida's "The Ceremony" layout) */
+#reception { background: #EFECE6; }
+.rx3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(30px, 6vw, 80px); max-width: 1000px; margin: 0 auto; }
+@media (max-width: 760px) { .rx3 { grid-template-columns: minmax(0, 1fr); gap: 48px; } }
+.rx { text-align: center; display: flex; flex-direction: column; align-items: center; }
+.rx img { width: 104px; height: auto; margin-bottom: 14px; }
+.rx h3 { font-family: var(--f-serif); font-weight: 400; font-size: clamp(22px, 2.2vw, 28px); margin: 0 0 10px; }
+.rx p { font-family: var(--f-th); font-size: 15px; line-height: 1.6; max-width: 26ch; margin: 0 0 10px; }
+.rx a { font-size: 12.5px; letter-spacing: .08em; color: var(--ink); text-underline-offset: 4px; }
+.rx .sw-row { justify-content: center; margin: 2px 0 6px; } .rx .sw-row i { width: 18px; height: 18px; }
+/* gift photo text lower */
+.gift-over { align-content: end; padding-bottom: 16%; background: linear-gradient(180deg, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, .35)); }
+/* PromptPay QR in the middle */
+.pp { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-top: 34px; }
+.pp-qr { width: 190px; }
+.pp-how { text-align: center; }

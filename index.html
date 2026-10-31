@@ -55,6 +55,7 @@
       <li><a href="#invitation">Invitation</a></li>
       <li><a href="#story-more">Our story</a></li>
       <li><a href="#program">Program</a></li>
+      <li><a href="#reception">Reception</a></li>
       <li><a href="#gift">Gift</a></li>
       <li><a href="#rsvp">RSVP</a></li>
       <li><a href="#contact">Contact</a></li>
@@ -168,27 +169,28 @@
   </section>
 
   <section class="block" id="program">
-    <div class="wrap two-col">
-      <div class="reveal">
-        <h2 class="title">PROGRAM</h2>
-        <div class="program" id="programList"></div>
-      </div>
-      <div class="reveal reception">
-        <h2 class="title">RECEPTION</h2>
-        <h3>Reception Venue</h3>
-        <p><span data-fill="venue">บ้านเคียงสะหวัน</span> · <span data-fill="address"></span></p>
-        <p data-fill="venueNotes"></p>
-        <p class="links"><a data-href="map" href="#" target="_blank" rel="noopener">Open map ↗</a> · <a href="garden/?guest=1">Walk the garden in 3D ↗</a> · <button class="linkbtn" id="ics" type="button">Calendar (.ics)</button></p>
-        <h3>Dress Code</h3>
-        <p><span data-fill="dressTitle"></span> — <span data-fill="dressDesc"></span></p>
-        <div class="sw-row" data-swatches="ladies"></div><div class="sw-lab">Ladies</div>
-        <div class="sw-row" data-swatches="gentlemen"></div><div class="sw-lab">Gentlemen</div>
-        <h3>Parking &amp; Directions</h3>
-        <dl class="infolist">
-          <div><dt>Getting there</dt><dd data-fill="transit"></dd></div>
-          <div><dt>Parking</dt><dd data-fill="parking"></dd></div>
-          <div><dt>Stay</dt><dd data-fill="hotel"></dd></div>
-        </dl>
+    <div class="wrap program-wrap reveal">
+      <h2 class="title">PROGRAM</h2>
+      <div class="program" id="programList"></div>
+    </div>
+  </section>
+
+  <section class="block" id="reception">
+    <div class="wrap">
+      <div class="head reveal"><h2 class="title">RECEPTION</h2></div>
+      <div class="rx3">
+        <div class="rx reveal"><img src="assets/img/botanical/rose.svg" alt="" width="120" height="140" loading="lazy">
+          <h3>Reception Venue</h3>
+          <p><span data-fill="venue">บ้านเคียงสะหวัน</span><br>ริมแม่น้ำโขง จังหวัดมุกดาหาร</p>
+          <a data-href="map" href="#" target="_blank" rel="noopener">Open map ↗</a></div>
+        <div class="rx reveal"><img src="assets/img/botanical/sprig.svg" alt="" width="120" height="140" loading="lazy">
+          <h3>Dress Code</h3>
+          <p data-fill="dressTitle">Blush, Sage &amp; Champagne Glam</p>
+          <div class="sw-row" data-swatches="ladies"></div><div class="sw-row" data-swatches="gentlemen"></div></div>
+        <div class="rx reveal"><img src="assets/img/botanical/tulip.svg" alt="" width="120" height="140" loading="lazy">
+          <h3>Parking &amp; Directions</h3>
+          <p>40 นาทีจากตัวเมืองมุกดาหาร<br>หน้าหาดมโนภิรมย์</p>
+          <a href="garden/?guest=1">Walk the garden in 3D ↗</a></div>
       </div>
     </div>
   </section>

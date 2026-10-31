@@ -140,7 +140,7 @@ body.out .stage{padding-bottom:138px}
 </head>
 <body>
 <canvas id="petals" aria-hidden="true"></canvas>
-<div class="hint" id="hint">แตะที่ครั่งทองเพื่อเปิดซอง<small>หรือรอสักครู่ ซองจะเปิดเอง</small></div>
+<div class="hint" id="hint">แตะที่ครั่งทองเพื่อเปิดซอง<small>เปิดเสียงไว้ มีเพลงคลอเบา ๆ ♪</small></div>
 <div class="stage">
   <div class="scene" id="scene">
     <div class="env" aria-hidden="true">
@@ -248,7 +248,7 @@ body.out .stage{padding-bottom:138px}
   const flip = () => { if (stage < 2) return; scene.classList.toggle('flipped'); };
   $('#card').addEventListener('click', flip);
   $('#card').addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); stage ? flip() : open(); } });
-  if (params.get('auto') === '1') setTimeout(open, 900); else if (!reduce) setTimeout(open, 4500);   // เปิดเองถ้าไม่แตะ
+  if (params.get('auto') === '1') setTimeout(open, 900);   // ไม่เปิดเอง: การแตะครั่งเปิดซองและเริ่มเพลงพร้อมกัน
   $('#flipBtn').addEventListener('click', () => { flip(); $('#tip').textContent = scene.classList.contains('flipped') ? 'แตะการ์ดอีกครั้งเพื่อกลับด้านหน้า' : 'แตะการ์ดเพื่อพลิกดูด้านหลัง'; });
   $('#card').addEventListener('click', () => { $('#tip').textContent = scene.classList.contains('flipped') ? 'แตะการ์ดอีกครั้งเพื่อกลับด้านหน้า · ตัวเล็ก? กด "อ่านรายละเอียด"' : 'แตะการ์ดเพื่อพลิกดูด้านหลัง'; });
   // readable details sheet (TH / EN)

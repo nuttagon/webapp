@@ -33,15 +33,18 @@
   const play = () => {
     setupGraph(); if (ctx && ctx.state === 'suspended') ctx.resume();
     if (gain) gain.gain.value = TARGET * .45; else a.volume = TARGET * .45;          // audible at once, then settle to the target
-    const p = a.play(); if (p && p.then) p.then(() => { fade(TARGET, 500); label(); }).catch(() => label()); else label(); };
+    started = true; const p = a.play(); if (p && p.then) p.then(() => { fade(TARGET, 500); label(); }).catch(() => label()); else label(); };
   const stop = () => fade(0, 600, () => { a.pause(); label(); });
   btn.addEventListener('click', (e) => { e.stopPropagation(); if (a.paused) { want = true; play(); } else { want = false; stop(); } save(); });
   const evs = ['click', 'touchend', 'keydown'];
   const first = (e) => { if (e.target && e.target.closest && e.target.closest('.wn-music')) return; evs.forEach((t) => document.removeEventListener(t, first, true)); if (want && a.paused) play(); };
   evs.forEach((t) => document.addEventListener(t, first, true));
   document.addEventListener('visibilitychange', () => { if (document.hidden) { if (!a.paused) { a.pause(); a.dataset.resume = '1'; } } else if (a.dataset.resume) { delete a.dataset.resume; play(); } });
-  // fetch the song quietly once the page has loaded, so it is ready the moment the guest taps
-  const warm = () => { if (!want) return; a.preload = 'auto'; try { a.load(); } catch (e) {} };
-  if (document.readyState === 'complete') setTimeout(warm, 600); else window.addEventListener('load', () => setTimeout(warm, 600));
+  // fetch the whole song into memory once the page has loaded (iPhone ignores media preload but allows fetch),
+  // so the tap that opens the envelope plays it from memory with no network wait
+  let started = false;
+  const warm = () => { if (!want || !window.fetch || !window.URL) return;
+    fetch(base + M.src).then((r) => (r.ok ? r.blob() : null)).then((b) => { if (b && !started) { a.src = URL.createObjectURL(b); a.preload = 'auto'; try { a.load(); } catch (e) {} } }).catch(() => { a.preload = 'auto'; }); };
+  if (document.readyState === 'complete') setTimeout(warm, 300); else window.addEventListener('load', () => setTimeout(warm, 300));
   label(); (document.body || document.documentElement).appendChild(btn);
 })();

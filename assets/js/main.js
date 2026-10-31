@@ -53,7 +53,7 @@
     env.addEventListener('click', open);
     env.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
     $('#skipIntro').addEventListener('click', dismiss);
-    setTimeout(open, 1600);
+    // no auto-open: the guest's tap opens the envelope and starts the music in the same moment
   }
 
   // ---------- countdown ----------

@@ -142,7 +142,7 @@
     cr.innerHTML = items.map((x) => `<li>${x}</li>`).join('');
   }
   const faq = $('#faqList');
-  if (faq) faq.innerHTML = W.faq.map((f) => `<details><summary>${esc(f.q)}</summary><div class="a">${esc(f.a)}</div></details>`).join('');
+  if (faq) faq.innerHTML = W.faq.map((f) => `<details${W.faq.length === 1 ? ' open' : ''}><summary>${esc(f.q)}</summary><div class="a">${esc(f.a)}</div></details>`).join('');
 
   // ---------- seating plan ----------
   const plan = $('#plan');

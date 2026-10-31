@@ -637,3 +637,5 @@ footer p, footer .tag { font-family: var(--f-mono); }
 /* liner fills the whole open flap: hide the lace photo's back completely and run the liner to the flap's outer edge */
 .env .flap .flap-out, .env .flap .flap-out img, .env .flap .flap-out source { backface-visibility: hidden; -webkit-backface-visibility: hidden; transform: translateZ(0); }
 .env .flap .flap-in { transform: rotateX(180deg) translateZ(1px); clip-path: polygon(-1% 101%, 101% 101%, 101% 92.4%, 51.1% 1.2%, -1% 92.4%); background-size: 102% 102%; background-position: 50% 100%; }
+.rx img { width: auto; height: 104px; max-width: 150px; }
+.rx img { height: 128px; max-width: 200px; margin-bottom: 18px; } @media (max-width: 760px) { .rx img { height: 112px; } }

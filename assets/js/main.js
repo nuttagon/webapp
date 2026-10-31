@@ -90,16 +90,16 @@
   // ---------- petals ----------
   const cv = $('#petals');
   if (cv && !reduce) {
-    const ctx = cv.getContext('2d'); const colors = ['#EBD0DF', '#F2C5CE', '#E7B7C8', '#BCDCCB', '#D9C29A'];
+    const ctx = cv.getContext('2d'); const colors = ['#F1EADC', '#E9DFCB', '#C8893B', '#FFFFFF'];   // film dust and a few warm flecks
     let w = 0, h = 0, petals = [], raf = 0;
-    const mk = (first) => ({ x: Math.random() * w, y: first ? Math.random() * h : -20, r: 5 + Math.random() * 7, a: Math.random() * 6.28, va: (Math.random() - .5) * .03, vy: .25 + Math.random() * .5, sway: Math.random() * 6.28, c: colors[Math.floor(Math.random() * colors.length)] });
-    const resize = () => { const p = cv.parentElement; w = cv.width = p.clientWidth; h = cv.height = p.clientHeight; petals = Array.from({ length: Math.min(34, Math.round(w / 32)) }, () => mk(true)); };
+    const mk = (first) => ({ x: Math.random() * w, y: first ? Math.random() * h : -20, r: .6 + Math.random() * 1.6, a: Math.random() * 6.28, va: (Math.random() - .5) * .03, vy: .08 + Math.random() * .22, sway: Math.random() * 6.28, c: colors[Math.floor(Math.random() * colors.length)] });
+    const resize = () => { const p = cv.parentElement; w = cv.width = p.clientWidth; h = cv.height = p.clientHeight; petals = Array.from({ length: Math.min(70, Math.round(w / 16)) }, () => mk(true)); };
     const draw = () => {
       ctx.clearRect(0, 0, w, h);
       for (const p of petals) {
         p.y += p.vy; p.sway += .012; p.x += Math.sin(p.sway) * .35; p.a += p.va;
         if (p.y > h + 20) Object.assign(p, mk(false));
-        ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.a); ctx.globalAlpha = .75; ctx.fillStyle = p.c;
+        ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.a); ctx.globalAlpha = .35 + (p.r / 2.2) * .3; ctx.fillStyle = p.c;
         ctx.beginPath(); ctx.ellipse(0, 0, p.r, p.r * .55, 0, 0, 6.283); ctx.fill(); ctx.restore();
       }
       raf = requestAnimationFrame(draw);
@@ -119,13 +119,11 @@
   $$('[data-swatches="gentlemen"]').forEach((el) => (el.innerHTML = sw(W.dressCode.gentlemen)));
   const grid = $('#schedGrid');
   if (grid) grid.innerHTML = W.schedule.map((s) => `<div><b>${esc(s.time)} น.</b><span>${esc(s.title)}</span></div>`).join('');
-  // cross-stitch rose ornaments (9x9 pixel map · x = stitch)
-  const ROSE = ['....gg...', '...g.gg..', '..ppp.g..', '.prrrp.g.', 'prRRRrp..', '.prRrp.g.', '..ppp.gg.', '...g.g...', '..gg.....'];
-  const COL = { g: '#8E9E86', p: '#E7B7C8', r: '#C98A9A', R: '#A86370' };
+  // section ornament: eight-point lantern star (same as the envelope liner)
   $$('svg.stitch').forEach((svg) => {
-    svg.setAttribute('viewBox', '0 0 90 90'); let d = '';
-    ROSE.forEach((row, y) => [...row].forEach((ch, x) => { if (ch !== '.') d += `<path d="M${x * 10 + 2},${y * 10 + 2}l6,6m0,-6l-6,6" stroke="${COL[ch]}" stroke-width="2.2" stroke-linecap="round"/>`; }));
-    svg.innerHTML = d;
+    svg.setAttribute('viewBox', '-10 -10 20 20'); let pts = '';
+    for (let i = 0; i < 16; i++) { const an = Math.PI / 8 * i - Math.PI / 2, r = i % 2 ? 2.8 : 9; pts += `${(r * Math.cos(an)).toFixed(2)},${(r * Math.sin(an)).toFixed(2)} `; }
+    svg.innerHTML = `<polygon points="${pts}" fill="#A8372A"/><circle r="1.3" fill="#C8893B"/>`;
   });
   const faq = $('#faqList');
   if (faq) faq.innerHTML = W.faq.map((f) => `<details><summary>${esc(f.q)}</summary><div class="a">${esc(f.a)}</div></details>`).join('');

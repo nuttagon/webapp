@@ -8,9 +8,11 @@
 | `index.html` | เว็บไซต์งานตามดีไซน์การ์ดจริง: หน้าการ์ดปั๊มนูน + คำอวยพร, ซองลูกไม้บนดอยลี่หัวใจ, คำเชิญแบบหลังการ์ด (พ่อแม่ ชื่อเต็ม กำหนดการ dress code QR แผนที่), Marry me!, ล็อกเก็ตหัวใจ + เรื่องราว, กรอบเงิน/photobooth, สถานที่, ก่อนมางาน + FAQ, **หาโต๊ะบนผังสวน**, ของขวัญ (PromptPay จริง), RSVP บนรูปขาวดำ · รูปจริงใส่ที่ `assets/img/photos/` |
 | `ecard/` | e-card ส่วนตัว `ecard/?to=ชื่อแขก` — แตะครั่ง เปิดฝา การ์ดเลื่อนออก พลิกดูรายละเอียด แชร์ LINE |
 | `garden/` | สวน 3D (three.js) ของงาน — `garden/?guest=1&table=9&name=ชื่อ` = Guest Journey: กล้องเดินจากทางเข้าไปหยุดที่โต๊ะของแขก มีวงแหวน+ป้ายชื่อบอกโต๊ะ เลือกเวลา กลางวัน/แสงเย็น/หัวค่ำ และเดินดู backdrop/บาร์/ขนม (ลิงก์จากผลค้นหาที่นั่งและส่วนสถานที่) ไลบรารีอยู่ใน `garden/vendor/` ไม่ต้องพึ่ง CDN |
-| `tools/ecard-links.html` | สร้างลิงก์ e-card รายคนจากรายชื่อแขก + ข้อความ LINE สำเร็จรูป + QR พิมพ์ใส่ซอง (A4 20 ดวง) ทำงานในเครื่อง |
+| `tools/ecard-links.html` | สร้างลิงก์ e-card รายคนจากรายชื่อแขก + ข้อความ LINE สำเร็จรูป + ตั๋ว Admit One พร้อม QR ส่วนตัวใส่ซอง (A4 10 ใบ) ทำงานในเครื่อง |
 | `tools/rsvp-apps-script.gs` | สคริปต์รับ RSVP ลง Google Sheet — วางใน Apps Script ของชีต แล้วใส่ URL ใน `config.js` (rsvp.webhookUrl) |
 | `assets/img/og.jpg` | รูปพรีวิวลิงก์ 1200×630 สำหรับ LINE/Facebook (สร้างใหม่ได้จาก e-card หน้าการ์ด) |
+| `print/liner/` | ลายซับในซอง 3 แบบ (ข้าวหลามตัดจิตรกรรม · กระเบื้องตึกแถว · แถบฟิล์ม) `python3 print/liner/make_liners.py && node print/liner/render.js` → `print/out/liner/` PNG 300 dpi |
+| `print/photo-prints/` | รูปฟิล์ม 54 × 86 มม. 9 ใบ/A4 ใส่ซอง → `print/out/WN_film_prints_54x86_A4.pdf` |
 | `print/invitation.html` | การ์ดเชิญ 127 × 178 มม. (+ตัดตก 3 มม.) หน้า/หลัง → `print/out/*.pdf`, PNG 300 dpi |
 | `print/inserts.html` | A4: การ์ดที่นั่ง 85 × 55, แท็กของชำร่วย 40 × 70, สติกเกอร์ครั่ง Ø30/Ø25 + ไฟล์ตัด `seal-cut-A4.svg` สำหรับ A2L |
 | `favors/` | STL 8 ชิ้นสำหรับ Bambu Lab A2L + สคริปต์ `generate.js` + คู่มือพิมพ์ |

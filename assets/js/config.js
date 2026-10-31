@@ -68,6 +68,9 @@ window.WEDDING = {
     lineUrl: "",              // ลิงก์ LINE ของผู้ประสานงาน เช่น https://line.me/ti/p/~yourid (ใช้เป็นช่องทางสำรองตอบรับ)
     phone: "",                // เบอร์ผู้ประสานงาน (ว่างไว้ = ไม่แสดง)
   },
+  // เพลงคลอเบา ๆ — เริ่มเล่นหลังแขกแตะหน้าจอครั้งแรก มีปุ่ม ♪ ปิดได้ · เปลี่ยนเพลง: ใส่ไฟล์ .mp3 ใน assets/audio/ แล้วแก้ src
+  // wn-theme.mp3 เป็นเพลงเปียโนที่แต่งขึ้นใหม่ (tools/music/make_theme.py) ไม่ติดลิขสิทธิ์ · ว่าง src = ปิดเพลงทั้งเว็บ
+  music: { src: "assets/audio/wn-theme.mp3", volume: 0.35, title: "WN theme" },
   // ส่วน Contact Us ท้ายเว็บ — ช่องที่ว่างจะไม่แสดง
   contact: { phone: "", line: "", lineUrl: "", instagram: "", email: "" },
   gift: {

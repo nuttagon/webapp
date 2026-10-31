@@ -563,3 +563,12 @@ footer p, footer .tag { font-family: var(--f-mono); }
 .pp-card figcaption { font-size: 13px; color: var(--muted); }
 @media (max-width: 480px) { .pp { grid-template-columns: minmax(0, 1fr); } .pp-qr { width: 180px; } }
 .pp-how .btn, .rsvp-form .btn, .thanks .btn { letter-spacing: .04em; font-family: var(--f-th); font-size: 13px; }
+/* phones: show the whole street photo (both faces) as a band, words underneath */
+@media (max-width: 760px) {
+  .hero { display: block; min-height: 0; padding: 0; }
+  .hero-photo { position: relative; display: block; inset: auto; height: auto; }
+  .hero-photo img { position: relative; inset: auto; height: auto; aspect-ratio: 4 / 3; object-fit: cover; object-position: 30% 50%; }
+  .hero::before { display: none; }
+  .hero-photo::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 30%; background: linear-gradient(180deg, rgba(43, 41, 37, 0), var(--char)); }
+  .hero .wrap.hero-copy { padding-top: 6px; padding-bottom: 40px; }
+}

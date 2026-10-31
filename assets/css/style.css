@@ -624,3 +624,13 @@ footer p, footer .tag { font-family: var(--f-mono); }
 /* envelope liner: the painted flower meadow */
 .env .liner { background: #E9E2D2 url(../img/liner-floral.jpg) 50% 30% / cover no-repeat; }
 @media (min-width: 761px) { #intro { place-items: end center; padding-bottom: 14vh; } #intro { background-position: 50% 18%; } }
+
+/* envelope: the flap opens upward and shows its lined inside (your liner art, WN on the flap) */
+.env .liner { background: #DCD6C6 url(../img/liner-wn-body.jpg) 50% 0 / cover no-repeat; }
+.env .flap { transform-style: preserve-3d; backface-visibility: visible; -webkit-backface-visibility: visible; transition: transform 1.1s cubic-bezier(.6, .05, .3, 1), z-index 0s .55s; }
+.env .flap .flap-out { display: block; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.env .flap .flap-in { position: absolute; inset: 0; transform: rotateX(180deg); backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  background: #DCD6C6 url(../img/liner-wn-flap.jpg) 50% 100% / 100% 100% no-repeat;
+  clip-path: polygon(0 100%, 100% 100%, 100% 93.6%, 51.1% 3.3%, 0 93.6%); }
+.env.open .flap { z-index: 0; }
+.env .card { z-index: 1; }

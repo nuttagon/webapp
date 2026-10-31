@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>You're invited · Wanida & Nattakorn</title>
+<meta name="description" content="e-card เชิญร่วมงานเลี้ยงฉลองมงคลสมรส วนิดา & ณัฐกร · 16 มกราคม 2570 · บ้านเคียงสะหวัน">
+<meta property="og:title" content="Wanida & Nattakorn · 16 · 01 · 2027">
+<meta property="og:description" content="We saved a seat for you · วันเสาร์ที่ 16 มกราคม 2570 · บ้านเคียงสะหวัน มุกดาหาร">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://nuttagon.github.io/webapp/ecard/">
+<meta property="og:image" content="https://nuttagon.github.io/webapp/assets/img/og.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/img/wn-monogram.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair:ital,opsz,wdth,wght@0,5..1200,87.5,300&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Prompt:wght@200;300;400;500&family=Charm:wght@400&family=Pinyon+Script&display=swap">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<style>
+/* e-card: the physical "Reveal" sequence on a phone — seal, flap, liner message, card, flip. Portrait first. */
+:root{
+  --paper:#F7F5F1;--paper-2:#F1EEE8;--stage:#151312;--ink:#3F3A36;--cream:#F1EADC;--lantern:#A8372A;--tungsten:#C8893B;--muted:#8A817A;--line:rgba(63,58,54,.16);
+  --gold:#8A7650;--champagne:#C9AB78;--blush:#EBC3C9;--rose:#C4858F;--sage:#8E9E86;--thyme:#6F7A5F;--liner:#E9DCC4;
+  --f-script:'Pinyon Script',cursive;--f-display:'Playfair','Playfair Display',serif;--f-ital:'Cormorant Garamond',serif;--f-caps:'Prompt',sans-serif;--f-th:'Prompt',sans-serif;--f-charm:'Charm','Prompt',cursive;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--stage);color:var(--ink);font-family:var(--f-th);font-weight:300;line-height:1.6;overflow:hidden;background-image:radial-gradient(ellipse at 50% 30%,#2E2925 0,var(--stage) 70%)}
+#petals{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
+.stage{position:relative;height:100%;display:grid;place-items:center;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:env(safe-area-inset-top,0px) env(safe-area-inset-bottom,0px);perspective:1400px}
+.scene{position:relative;width:min(92vw,400px);aspect-ratio:133/184;transition:transform 1s cubic-bezier(.2,.7,.2,1)}
+/* envelope: back view, portrait 133 x 184 */
+.env{position:absolute;inset:0;filter:drop-shadow(0 28px 34px rgba(60,40,20,.25)) drop-shadow(0 2px 3px rgba(60,40,20,.12));transition:opacity .8s,transform .8s}
+.env .back{position:absolute;inset:0;background:var(--paper);background-image:repeating-linear-gradient(0deg,rgba(120,100,80,.03) 0 1px,transparent 1px 3px)}
+.env .liner{position:absolute;inset:0;background:#F2EADB url(../assets/img/liner-harlequin.svg) 50% 0/31px 44px repeat;clip-path:polygon(0 0,100% 0,50% 45%)}
+.env .liner .msg{position:absolute;left:50%;top:11%;transform:translateX(-50%);white-space:nowrap;padding:3px 14px;background:var(--cream);text-align:center;font-family:var(--f-ital);font-style:italic;font-weight:500;font-size:clamp(15px,4.4vw,21px);color:var(--lantern);opacity:0;transition:opacity .6s .6s}
+.env .pocket{position:absolute;inset:0;background:var(--paper);clip-path:polygon(0 0,50% 44%,100% 0,100% 100%,0 100%);box-shadow:inset 0 0 0 1px rgba(90,70,50,.08)}
+.env .pocket::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(90,70,50,.14),transparent 30%);clip-path:polygon(0 0,50% 44%,100% 0,100% 100%,0 100%)}
+.env .flap{position:absolute;left:0;right:0;top:0;height:46%;background:#F9F5EE;clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:50% 0;transition:transform 1.2s cubic-bezier(.6,.05,.3,1);z-index:3}
+.env .flap::before{content:"";position:absolute;inset:0;background:#F2EADB url(../assets/img/liner-harlequin.svg) 50% 0/31px 44px repeat;clip-path:polygon(5% 0,95% 0,50% 90%);opacity:0;transition:opacity .2s .6s}
+.env .flap .names{position:absolute;left:0;right:0;top:12%;text-align:center;font-family:var(--f-script);font-size:clamp(20px,6vw,30px);color:var(--ink);transition:opacity .3s}
+.stack{width:78%;margin:14px auto 6px}
+.stack svg{display:block;width:100%;height:auto;overflow:visible;fill:var(--paper);filter:drop-shadow(-0.6px -0.6px 0 rgba(255,255,255,.95)) drop-shadow(1px 1.2px 1px rgba(60,50,40,.36))}
+.env .flap .d{position:absolute;left:0;right:0;top:40%;text-align:center;font-family:var(--f-caps);font-size:10px;letter-spacing:.42em;color:var(--muted);transition:opacity .3s}
+.open .env .flap{transform:rotateX(180deg)}
+.open .env .flap::before{opacity:1}
+.open .env .flap .names,.open .env .flap .d{opacity:0}
+.open .env .liner .msg{opacity:1}
+.seal{position:absolute;left:50%;top:44.5%;width:24%;aspect-ratio:1;transform:translate(-50%,-50%);z-index:4;cursor:pointer;border:0;padding:0;
+  border-radius:51% 47% 52% 48% / 48% 53% 47% 52%;background:radial-gradient(circle at 34% 30%,#E7D4B0 0%,var(--champagne) 46%,#9A7E4F 100%);
+  box-shadow:0 4px 8px rgba(60,40,20,.34),inset -3px -4px 7px rgba(0,0,0,.18),inset 3px 3px 5px rgba(255,255,255,.35);display:grid;place-items:center;transition:transform .6s,opacity .6s}
+.seal::before{content:"";position:absolute;inset:12%;border-radius:50%;box-shadow:inset 1.5px 1.5px 2px rgba(0,0,0,.22),inset -1px -1px 1px rgba(255,255,255,.35)}
+.seal svg{width:52%;fill:rgba(60,45,20,.45);filter:drop-shadow(0 1px 0 rgba(255,255,255,.35))}
+@keyframes pulse{0%,100%{box-shadow:0 4px 8px rgba(60,40,20,.34),0 0 0 0 rgba(201,171,120,.5),inset -3px -4px 7px rgba(0,0,0,.18),inset 3px 3px 5px rgba(255,255,255,.35)}50%{box-shadow:0 4px 8px rgba(60,40,20,.34),0 0 0 14px rgba(201,171,120,0),inset -3px -4px 7px rgba(0,0,0,.18),inset 3px 3px 5px rgba(255,255,255,.35)}}
+.scene:not(.open) .seal{animation:pulse 2s ease-out infinite}
+.open .seal{transform:translate(-50%,-50%) scale(.5) rotate(-25deg);opacity:0;pointer-events:none}
+/* the card inside */
+.card{position:absolute;left:7%;right:7%;top:9%;height:88%;z-index:2;transform-style:preserve-3d;transition:transform 1.1s .7s cubic-bezier(.2,.7,.2,1),opacity .5s .9s;cursor:pointer;opacity:0;transform:translateY(6%) scale(.96)}
+.open .card{opacity:1}
+.open .card{transform:translateY(-60%) scale(1.02)}
+.out .card{transform:translateY(0) scale(1.16);z-index:6}
+.out .env{opacity:0;transform:translateY(40%) scale(.9);pointer-events:none}
+.flipped .card{transform:translateY(0) scale(1.16) rotateY(180deg)}
+.card{aspect-ratio:127/178;height:auto;container-type:inline-size}
+.face{position:absolute;inset:0;background:var(--paper);background-image:repeating-linear-gradient(0deg,rgba(120,100,80,.03) 0 1px,transparent 1px 3px);box-shadow:0 0 0 1px rgba(63,58,54,.08),0 26px 40px -20px rgba(60,40,20,.45),0 2px 5px rgba(60,40,20,.14);backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden}
+.face.back{transform:rotateY(180deg)}
+.t{position:absolute;text-align:center;white-space:nowrap;font-family:var(--f-th);margin:0}
+.nm{position:absolute;height:auto;overflow:visible;fill:var(--paper);filter:drop-shadow(-0.5px -0.5px 0 rgba(255,255,255,.95)) drop-shadow(0.9px 1.1px 0.9px rgba(60,50,40,.36))}
+.wn{position:absolute;height:auto;fill:var(--ink)}
+.hair{position:absolute;width:1px;background:var(--muted);opacity:.7;transform:translateX(-.5px)}
+.dot{position:absolute;border-radius:50%;display:block}
+.qr{position:absolute;display:block}
+.qr img{display:block;width:100%;height:100%}
+body.out .stage{padding-bottom:138px}
+@media (max-height:700px){body.out .stage{padding-bottom:118px} .out .card{transform:translateY(0) scale(1.06)} .flipped .card{transform:translateY(0) scale(1.06) rotateY(180deg)}}
+.toLine{position:fixed;top:max(14px,env(safe-area-inset-top,0px));left:0;right:0;text-align:center;font-family:var(--f-th);font-weight:300;font-size:clamp(15px,4.2vw,19px);letter-spacing:.06em;color:var(--cream);opacity:0;transition:opacity .5s 1.2s;pointer-events:none}
+.out .toLine{opacity:1}
+.btn{font:400 10.5px/1 var(--f-caps);letter-spacing:.12em;text-transform:uppercase;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:40px;padding:0 12px;border-radius:999px;border:1px solid var(--ink);background:rgba(247,245,241,.92);color:var(--ink);text-decoration:none;cursor:pointer;white-space:nowrap}
+.btn svg{width:16px;height:16px;fill:currentColor}
+.btn.icon{width:40px;padding:0}
+.chip{font:300 12px/1 var(--f-th);letter-spacing:.02em;display:inline-flex;align-items:center;gap:5px;min-height:32px;padding:0 12px;border-radius:999px;border:1px solid rgba(63,58,54,.25);background:rgba(247,245,241,.85);color:var(--ink);cursor:pointer;white-space:nowrap}
+.chip svg{width:14px;height:14px;fill:currentColor}
+.btn.primary{background:var(--ink);color:var(--paper)}
+.btn.gold{border-color:var(--champagne);color:var(--gold)}
+.btn:hover{background:var(--gold);border-color:var(--gold);color:var(--paper)}
+/* bottom bar */
+.bar{position:fixed;left:0;right:0;bottom:0;padding:8px max(8px,env(safe-area-inset-right,0px)) max(12px,env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px));display:grid;gap:8px;justify-items:center;max-width:560px;margin:0 auto;opacity:0;transition:opacity .5s 1.4s;pointer-events:none;background:linear-gradient(180deg,rgba(21,19,18,0),rgba(21,19,18,.92) 30%)}
+.out .bar{opacity:1;pointer-events:auto}
+.bar .row{display:flex;gap:5px;justify-content:center;flex-wrap:wrap}
+.bar .tip{font:300 12px/1.3 var(--f-th);color:var(--cream);letter-spacing:.02em;text-align:center;opacity:.85}
+.bar .btn{background:rgba(247,245,241,.95)}
+.bar .btn.primary{background:var(--ink);color:var(--paper)}
+.hint{position:fixed;top:max(16px,env(safe-area-inset-top,0px));left:16px;right:16px;text-align:center;font-family:var(--f-th);font-weight:300;font-size:15px;letter-spacing:.04em;color:var(--cream);transition:opacity .4s;line-height:1.5}
+.hint small{display:block;font-size:11.5px;color:rgba(241,234,220,.6);letter-spacing:.06em}
+.open .hint{opacity:0}
+/* readable details sheet */
+.dim{position:fixed;inset:0;background:rgba(40,35,30,.45);opacity:0;pointer-events:none;transition:opacity .4s;z-index:19}
+.dim.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;max-height:88%;margin:0 auto;max-width:560px;background:var(--paper);color:var(--ink);border-radius:22px 22px 0 0;box-shadow:0 -10px 40px rgba(60,40,20,.25);transform:translateY(104%);transition:transform .5s cubic-bezier(.2,.7,.2,1);z-index:20;overflow:auto;-webkit-overflow-scrolling:touch;padding:10px 22px max(28px,env(safe-area-inset-bottom,0px));font-size:15px;line-height:1.7}
+.sheet.on{transform:none}
+.sheet .grip{width:40px;height:4px;border-radius:2px;background:rgba(63,58,54,.25);margin:4px auto 10px}
+.sheet .top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
+.sheet .lang{display:flex;border:1px solid rgba(63,58,54,.25);border-radius:999px;overflow:hidden}
+.sheet .lang button{font:400 12px var(--f-caps);letter-spacing:.1em;border:0;background:transparent;padding:6px 12px;color:var(--muted);cursor:pointer}
+.sheet .lang button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.sheet .x{border:0;background:transparent;font-size:22px;line-height:1;color:var(--muted);cursor:pointer;padding:4px 8px}
+.sheet h2{font-family:var(--f-th);font-weight:300;font-size:21px;margin:14px 0 6px;letter-spacing:.02em;text-align:center}
+.sheet h2.en{font-family:var(--f-display);font-weight:300;font-size:26px}
+.sheet .caps{font:400 10px var(--f-caps);letter-spacing:.3em;text-transform:uppercase;color:var(--muted);text-align:center;margin:18px 0 4px}
+.sheet .parents{display:grid;grid-template-columns:1fr 1fr;gap:8px;text-align:center;font-size:14.5px}
+.sheet .parents small{display:block;color:var(--muted);font-size:12px;letter-spacing:.08em}
+.sheet p{margin:6px 0;text-align:center}
+.sheet .names{font-size:19px;font-weight:400;text-align:center;line-height:1.5}
+.sheet .names span{display:block;color:var(--muted);font-size:13px;font-weight:300}
+.sheet .sch{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;max-width:320px;margin:4px auto 0}
+.sheet .sch b{font-weight:400;text-align:right}
+.sheet .sch span{color:var(--muted)}
+.sheet .dots{display:flex;justify-content:center;gap:8px;margin:6px 0}
+.sheet .dots i{width:20px;height:20px;border-radius:50%;display:block;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.sheet .acts{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:18px 0 4px}
+.sheet .acts .btn{background:var(--paper)}
+.sheet .foot{color:var(--muted);font-size:12.5px;text-align:center;margin-top:14px}
+/* zoomed card */
+.zoom{position:fixed;inset:0;background:#2E2A26;z-index:30;display:none;overflow:auto;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y pinch-zoom}
+.zoom.on{display:block}
+.zoom .in{width:max-content;min-width:100%;padding:76px 20px 120px;display:flex;justify-content:center}
+.zoom .card{position:relative;left:auto;right:auto;top:auto;width:min(980px,250vw);height:auto;opacity:1;transform:none;transition:none;cursor:default;z-index:auto;box-shadow:0 30px 60px rgba(0,0,0,.4)}
+.zoom .card .face{backface-visibility:visible;-webkit-backface-visibility:visible;transform:none}
+.zoom:not(.front) .card .face.front{display:none}
+.zoom.front .card .face.back{display:none}
+.zoom .zbar{position:fixed;top:max(14px,env(safe-area-inset-top,0px));left:16px;right:16px;display:flex;justify-content:space-between;align-items:center;gap:8px;z-index:31}
+.zoom .zbar .chip{background:rgba(247,245,241,.95)}
+.zoom .ztip{position:fixed;left:0;right:0;bottom:max(22px,env(safe-area-inset-bottom,0px));text-align:center;font:300 12.5px var(--f-th);color:rgba(247,245,241,.85);pointer-events:none}
+.status{position:fixed;left:0;right:0;bottom:max(142px,calc(env(safe-area-inset-bottom,0px) + 142px));z-index:12;text-align:center;font-size:12px;color:var(--thyme);min-height:1.4em;pointer-events:none}
+@media (prefers-reduced-motion:reduce){*{transition-duration:.01ms!important;animation:none!important}}
+@media (max-height:640px){.scene{width:min(92vw,300px)}}
+</style>
+</head>
+<body>
+<canvas id="petals" aria-hidden="true"></canvas>
+<div class="hint" id="hint">แตะที่ครั่งทองเพื่อเปิดซอง<small>เปิดเสียงไว้ มีเพลงคลอเบา ๆ ♪</small></div>
+<div class="stage">
+  <div class="scene" id="scene">
+    <div class="env" aria-hidden="true">
+      <div class="back"></div>
+      <div class="liner"><div class="msg">We saved a seat for you</div></div>
+      <div class="pocket"></div>
+      <div class="flap"><div class="names" id="flapNames">Wanida &amp; Nattakorn</div><div class="d" id="flapDate">16 · 01 · 2027</div></div>
+    </div>
+    <button class="seal" id="seal" type="button" aria-label="เปิดซอง"><svg data-wn aria-hidden="true"></svg></button>
+    <div class="card" id="card" role="button" tabindex="0" aria-label="การ์ดเชิญ แตะเพื่อพลิก">
+      <div class="face front">
+        <div class="t" style="left:6.693%;top:15.169%;width:86.614%;height:2.360%;font-size:2.165cqw;line-height:1.527;font-weight:300;color:#3F3A36;letter-spacing:0.142cqw;padding-left:0.142cqw">สมสทฺธา สมสีลา สมจาคา สมปญฺญา</div>
+        <svg data-names class="nm" role="img" aria-label="WANIDA NATTAKORN" style="left:12.472%;top:38.253%;width:75.047%"></svg>
+        <div class="t" style="left:6.693%;top:80.449%;width:86.614%;height:2.191%;font-size:2.047cqw;line-height:1.500;font-weight:300;color:#3F3A36;letter-spacing:0.488cqw;padding-left:0.488cqw">SATURDAY, 16 JANUARY 2027</div>
+        <div class="t" style="left:6.693%;top:83.933%;width:86.614%;height:2.191%;font-size:2.047cqw;line-height:1.500;font-weight:300;color:#8A817A;letter-spacing:0.157cqw;padding-left:0.157cqw">#EternallyWN</div>
+      </div>
+      <div class="face back">
+        <svg data-wn class="wn" aria-hidden="true" style="left:44.882%;top:7.303%;width:10.236%"></svg>
+        <div class="t" style="left:-12.992%;top:15.730%;width:86.614%;height:2.360%;font-size:2.165cqw;line-height:1.527;font-weight:300;color:#3F3A36;letter-spacing:0.000cqw;padding-left:0.000cqw">นายสหชัย อัครโชติสกุล</div>
+        <div class="t" style="left:26.378%;top:15.730%;width:86.614%;height:2.360%;font-size:2.165cqw;line-height:1.527;font-weight:300;color:#3F3A36;letter-spacing:0.000cqw;padding-left:0.000cqw">นายเสรี ศรีบุรมย์</div>
+        <div class="t" style="left:-12.992%;top:18.315%;width:86.614%;height:2.360%;font-size:2.165cqw;line-height:1.527;font-weight:300;color:#3F3A36;letter-spacing:0.000cqw;padding-left:0.000cqw">นางวรินทร อัครโชติสกุล</div>
+        <div class="t" style="left:26.378%;top:18.315%;width:86.614%;height:2.360%;font-size:2.165cqw;line-height:1.527;font-weight:300;color:#3F3A36;letter-spacing:0.000cqw;padding-left:0.000cqw">นางนันทวัน ศรีบุรมย์</div>
+        <div class="t" style="left:6.693%;top:17.191%;width:86.614%;height:2.135%;font-size:1.969cqw;line-height:1.520;font-weight:300;color:#8A817A;letter-spacing:0.000cqw;padding-left:0.000cqw">และ</div>
+        <div class="t" style="left:6.693%;top:22.753%;width:86.614%;height:2.360%;font-size:2.165cqw;line-height:1.527;font-weight:300;color:#3F3A36;letter-spacing:0.000cqw;padding-left:0.000cqw">มีความยินดีขอเรียนเชิญท่านเพื่อเป็นเกียรติ</div>
+        <div class="t" style="left:6.693%;top:25.337%;width:86.614%;height:2.360%;font-size:2.165cqw;line-height:1.527;font-weight:300;color:#3F3A36;letter-spacing:0.000cqw;padding-left:0.000cqw">และร่วมเป็นสักขีพยานในพิธีมงคลสมรส ระหว่าง</div>
+        <div class="t" style="left:6.693%;top:30.225%;width:86.614%;height:3.652%;font-size:3.386cqw;line-height:1.512;font-weight:400;color:#3F3A36;letter-spacing:0.000cqw;padding-left:0.000cqw">ทันตแพทย์หญิงวนิดา อัครโชติสกุล (อีฟ)</div>
+        <div class="t" style="left:6.693%;top:35.112%;width:86.614%;height:2.360%;font-size:2.205cqw;line-height:1.500;font-weight:300;color:#8A817A;letter-spacing:0.000cqw;padding-left:0.000cqw">และ</div>
+        <div class="t" style="left:6.693%;top:38.090%;width:86.614%;height:3.652%;font-size:3.386cqw;line-height:1.512;font-weight:400;color:#3F3A36;letter-spacing:0.000cqw;padding-left:0.000cqw">เภสัชกรณัฐกรณ์ ศรีบุรมย์ (บ็อบ)</div>
+        <div class="t" style="left:6.693%;top:45.506%;width:86.614%;height:2.753%;font-size:2.520cqw;line-height:1.531;font-weight:400;color:#3F3A36;letter-spacing:0.000cqw;padding-left:0.000cqw">วันเสาร์ที่ 16 มกราคม พ.ศ. 2570</div>
+        <div class="t" style="left:6.693%;top:48.708%;width:86.614%;height:2.360%;font-size:2.165cqw;line-height:1.527;font-weight:300;color:#3F3A36;letter-spacing:0.000cqw;padding-left:0.000cqw">ณ บ้านเคียงสะหวัน จังหวัดมุกดาหาร</div>
+        <div class="t" style="left:-10.630%;top:54.382%;width:86.614%;height:2.528%;font-size:2.362cqw;line-height:1.500;font-weight:400;color:#3F3A36;letter-spacing:0.000cqw;padding-left:0.000cqw">14:30 น.</div>
+        <div class="t" style="left:-10.630%;top:57.022%;width:86.614%;height:2.191%;font-size:2.008cqw;line-height:1.529;font-weight:300;color:#8A817A;letter-spacing:0.000cqw;padding-left:0.000cqw">พิธีแห่ขันหมาก</div>
+        <div class="t" style="left:24.016%;top:54.382%;width:86.614%;height:2.528%;font-size:2.362cqw;line-height:1.500;font-weight:400;color:#3F3A36;letter-spacing:0.000cqw;padding-left:0.000cqw">15:30 น.</div>
+        <div class="t" style="left:24.016%;top:57.022%;width:86.614%;height:2.191%;font-size:2.008cqw;line-height:1.529;font-weight:300;color:#8A817A;letter-spacing:0.000cqw;padding-left:0.000cqw">พิธียกน้ำชา</div>
+        <div class="t" style="left:-10.630%;top:60.843%;width:86.614%;height:2.528%;font-size:2.362cqw;line-height:1.500;font-weight:400;color:#3F3A36;letter-spacing:0.000cqw;padding-left:0.000cqw">16:30 น.</div>
+        <div class="t" style="left:-10.630%;top:63.483%;width:86.614%;height:2.191%;font-size:2.008cqw;line-height:1.529;font-weight:300;color:#8A817A;letter-spacing:0.000cqw;padding-left:0.000cqw">พิธีกล่าวคำมั่นสัญญา</div>
+        <div class="t" style="left:24.016%;top:60.843%;width:86.614%;height:2.528%;font-size:2.362cqw;line-height:1.500;font-weight:400;color:#3F3A36;letter-spacing:0.000cqw;padding-left:0.000cqw">17:30 น.</div>
+        <div class="t" style="left:24.016%;top:63.483%;width:86.614%;height:2.191%;font-size:2.008cqw;line-height:1.529;font-weight:300;color:#8A817A;letter-spacing:0.000cqw;padding-left:0.000cqw">ฉลองมงคลสมรส</div>
+        <div class="hair" style="left:50.000%;top:53.652%;height:11.292%"></div>
+        <div class="t" style="left:-1.969%;top:70.562%;width:86.614%;height:1.854%;font-size:1.732cqw;line-height:1.500;font-weight:300;color:#8A817A;letter-spacing:0.394cqw;padding-left:0.394cqw">DRESS CODE</div>
+        <div class="t" style="left:-1.969%;top:72.753%;width:86.614%;height:2.191%;font-size:2.047cqw;line-height:1.500;font-weight:300;color:#3F3A36;letter-spacing:0.000cqw;padding-left:0.000cqw">Blush, Sage &amp; Champagne Glam</div>
+        <i class="dot" style="left:33.425%;top:76.320%;width:2.283%;height:1.629%;background:#F5CED2"></i><i class="dot" style="left:36.811%;top:76.320%;width:2.283%;height:1.629%;background:#C78F99"></i><i class="dot" style="left:40.197%;top:76.320%;width:2.283%;height:1.629%;background:#AEBA9D"></i><i class="dot" style="left:43.583%;top:76.320%;width:2.283%;height:1.629%;background:#A7AF74"></i><i class="dot" style="left:46.969%;top:76.320%;width:2.283%;height:1.629%;background:#FADFA2"></i>
+        <div class="t" style="left:-1.969%;top:78.090%;width:86.614%;height:1.742%;font-size:1.575cqw;line-height:1.550;font-weight:300;color:#8A817A;letter-spacing:0.276cqw;padding-left:0.276cqw">LADIES</div>
+        <i class="dot" style="left:36.811%;top:81.713%;width:2.283%;height:1.629%;background:#264592"></i><i class="dot" style="left:40.197%;top:81.713%;width:2.283%;height:1.629%;background:#636566"></i><i class="dot" style="left:43.583%;top:81.713%;width:2.283%;height:1.629%;background:#C7B68F"></i>
+        <div class="t" style="left:-1.969%;top:83.483%;width:86.614%;height:1.742%;font-size:1.575cqw;line-height:1.550;font-weight:300;color:#8A817A;letter-spacing:0.276cqw;padding-left:0.276cqw">GENTLEMEN</div>
+        <div class="t" style="left:24.016%;top:70.562%;width:86.614%;height:1.854%;font-size:1.732cqw;line-height:1.500;font-weight:300;color:#8A817A;letter-spacing:0.394cqw;padding-left:0.394cqw">MAP</div>
+        <a class="qr" id="mapQr" href="#" target="_blank" rel="noopener" style="left:61.811%;top:73.876%;width:11.024%;height:7.865%"><img src="../assets/img/qr-map.svg" alt="QR แผนที่"></a>
+        <div class="t" style="left:6.693%;top:87.303%;width:86.614%;height:2.022%;font-size:1.890cqw;line-height:1.500;font-weight:300;color:#8A817A;letter-spacing:0.000cqw;padding-left:0.000cqw">(ขออภัยหากมิได้เรียนเชิญด้วยตนเอง)</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="toLine" id="to"></div>
+<div class="bar" id="bar">
+  <div class="tip" id="tip">แตะการ์ดเพื่อพลิกดูด้านหลัง</div>
+  <div class="row">
+    <button class="chip" id="flipBtn" type="button"><svg viewBox="0 0 24 24"><path d="M12 4a8 8 0 0 1 7.4 5h-2.2A6 6 0 0 0 6.3 9.7L8 11H3V6l1.9 1.9A8 8 0 0 1 12 4zm9 9v5l-1.9-1.9A8 8 0 0 1 4.6 15h2.2a6 6 0 0 0 10.9-.7L16 13h5z"/></svg>พลิกการ์ด</button>
+    <button class="chip" id="readBtn" type="button"><svg viewBox="0 0 24 24"><path d="M4 5h16v2H4zm0 4h16v2H4zm0 4h10v2H4zm0 4h16v2H4z"/></svg>อ่านรายละเอียด</button>
+    <button class="chip" id="zoomBtn" type="button"><svg viewBox="0 0 24 24"><path d="M10 2a8 8 0 0 1 6.3 12.9l5.4 5.4-1.4 1.4-5.4-5.4A8 8 0 1 1 10 2zm0 2a6 6 0 1 0 0 12 6 6 0 0 0 0-12zm-1 3h2v2h2v2h-2v2H9v-2H7V9h2z"/></svg>ซูมอ่าน</button>
+  </div>
+  <div class="row">
+    <a class="btn primary" id="rsvp" href="../#rsvp">RSVP</a>
+    <a class="btn" id="map" href="#" target="_blank" rel="noopener">แผนที่</a>
+    <a class="btn gold" id="gcal" href="#" target="_blank" rel="noopener">ปฏิทิน</a>
+    <a class="btn" id="site" href="../">เว็บไซต์</a>
+    <a class="btn icon" id="lineShare" href="#" target="_blank" rel="noopener" aria-label="แชร์ทาง LINE" title="แชร์ทาง LINE"><svg viewBox="0 0 24 24"><path d="M12 3C6.5 3 2 6.6 2 11c0 3.9 3.5 7.2 8.2 7.9.3.1.8.2.9.5.1.3.1.7 0 1l-.1.9c0 .3-.2 1 .9.5s5.9-3.5 8-6c1.5-1.6 2.1-3.2 2.1-4.8C22 6.6 17.5 3 12 3zM8.6 13.5H6.4c-.3 0-.5-.2-.5-.5V9c0-.3.2-.5.5-.5s.5.2.5.5v3.5h1.7c.3 0 .5.2.5.5s-.2.5-.5.5zm1.9-.5c0 .3-.2.5-.5.5s-.5-.2-.5-.5V9c0-.3.2-.5.5-.5s.5.2.5.5v4zm4.5 0c0 .2-.1.4-.3.5h-.2c-.2 0-.3-.1-.4-.2l-1.9-2.6V13c0 .3-.2.5-.5.5s-.5-.2-.5-.5V9c0-.2.1-.4.3-.5h.2c.2 0 .3.1.4.2l1.9 2.6V9c0-.3.2-.5.5-.5s.5.2.5.5v4zm3.5-2.5c.3 0 .5.2.5.5s-.2.5-.5.5h-1.7v1h1.7c.3 0 .5.2.5.5s-.2.5-.5.5h-2.2c-.3 0-.5-.2-.5-.5V9c0-.3.2-.5.5-.5h2.2c.3 0 .5.2.5.5s-.2.5-.5.5h-1.7v1h1.7z"/></svg></a>
+    <button class="btn icon" id="copy" type="button" aria-label="คัดลอกลิงก์" title="คัดลอกลิงก์"><svg viewBox="0 0 24 24"><path d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h11v14z"/></svg></button>
+  </div>
+</div>
+<div class="dim" id="dim"></div>
+<section class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="รายละเอียดคำเชิญ"></section>
+<div class="zoom" id="zoom" aria-label="ซูมการ์ด">
+  <div class="zbar"><button class="chip" id="zoomFace" type="button">ดูด้านหน้า</button><button class="chip" id="zoomClose" type="button">✕ ปิด</button></div>
+  <div class="in" id="zoomIn"></div>
+  <div class="ztip">เลื่อนดูได้ทุกทิศ · ถ่างสองนิ้วเพื่อขยายเพิ่ม</div>
+</div>
+<p class="status" id="status" role="status" aria-live="polite"></p>
+
+<script src="../assets/js/monogram.js"></script>
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/names.js"></script>
+<script src="../assets/js/music.js" data-base="../" data-pos="top"></script>
+<script>
+(() => {
+  const W = window.WEDDING, C = W.couple, $ = (s) => document.querySelector(s);
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  document.querySelectorAll('svg[data-wn]').forEach((svg) => { svg.setAttribute('viewBox', '0 0 1420 1040'); svg.innerHTML = `<path fill-rule="evenodd" d="${window.WN_PATH}"/>`; });
+  // personalise: ?to=ชื่อแขก
+  const params = new URLSearchParams(location.search); const to = (params.get('to') || '').trim().slice(0, 60);
+  if (to) { $('#to').textContent = 'เรียน ' + to; document.title = `${to} · ${document.title}`; }
+  $('#flapNames').innerHTML = `${esc(C.bride.en)} &amp; ${esc(C.groom.en)}`; $('#flapDate').textContent = W.date.short;
+  const q = (to ? '&to=' + encodeURIComponent(to) : '');
+  $('#map').href = W.venue.mapUrl; $('#mapQr').href = W.venue.mapUrl; $('#site').href = W.site.url + '?from=ecard' + q; $('#rsvp').href = W.site.url + '?from=ecard' + q + '#rsvp';
+  const clean = (s) => String(s || '').replace(/\s*\[[^\]]*\]\s*/g, ' ').replace(/\s+/g, ' ').trim();
+  const pad = (n) => String(n).padStart(2, '0'); const fmtUtc = (iso) => { const d = new Date(iso); return `${d.getUTCFullYear()}${pad(d.getUTCMonth() + 1)}${pad(d.getUTCDate())}T${pad(d.getUTCHours())}${pad(d.getUTCMinutes())}00Z`; };
+  $('#gcal').href = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('งานแต่งงาน ' + C.bride.en + ' & ' + C.groom.en)}&dates=${fmtUtc(W.date.startLocal)}/${fmtUtc(W.date.endLocal)}&details=${encodeURIComponent(W.site.url)}&location=${encodeURIComponent(clean(W.venue.name + ' ' + W.venue.address))}&ctz=Asia/Bangkok`;
+  const shareUrl = W.site.ecardUrl + (to ? '?to=' + encodeURIComponent(to) : '');
+  $('#lineShare').href = 'https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(shareUrl);
+  $('#copy').addEventListener('click', async () => { const st = $('#status'); try { await navigator.clipboard.writeText(shareUrl); st.textContent = 'คัดลอกลิงก์แล้ว'; } catch (e) { st.textContent = shareUrl; } setTimeout(() => (st.textContent = ''), 3500); });
+  // sequence
+  const scene = $('#scene'); let stage = 0;
+  const open = () => { if (stage) return; stage = 1; scene.classList.add('open'); $('#hint').style.opacity = 0; setTimeout(() => { scene.classList.add('out'); document.body.classList.add('out'); stage = 2; }, reduce ? 50 : 2300); };
+  $('#seal').addEventListener('click', open);
+  const flip = () => { if (stage < 2) return; scene.classList.toggle('flipped'); };
+  $('#card').addEventListener('click', flip);
+  $('#card').addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); stage ? flip() : open(); } });
+  if (params.get('auto') === '1') setTimeout(open, 900);   // ไม่เปิดเอง: การแตะครั่งเปิดซองและเริ่มเพลงพร้อมกัน
+  $('#flipBtn').addEventListener('click', () => { flip(); $('#tip').textContent = scene.classList.contains('flipped') ? 'แตะการ์ดอีกครั้งเพื่อกลับด้านหน้า' : 'แตะการ์ดเพื่อพลิกดูด้านหลัง'; });
+  $('#card').addEventListener('click', () => { $('#tip').textContent = scene.classList.contains('flipped') ? 'แตะการ์ดอีกครั้งเพื่อกลับด้านหน้า · ตัวเล็ก? กด "อ่านรายละเอียด"' : 'แตะการ์ดเพื่อพลิกดูด้านหลัง'; });
+  // readable details sheet (TH / EN)
+  const sheet = $('#sheet'), dim = $('#dim'); let lang = (params.get('lang') === 'en' || (navigator.language || '').slice(0, 2) === 'en' && params.get('lang') !== 'th') ? 'en' : 'th';
+  const dots = (arr) => `<div class="dots">${arr.map((c) => `<i style="background:${c.hex}" title="${esc(c.name)}"></i>`).join('')}</div>`;
+  const renderSheet = () => {
+    const th = lang === 'th', B = C.bride, G = C.groom;
+    sheet.innerHTML = `<div class="grip"></div>
+      <div class="top"><div class="lang" role="group" aria-label="ภาษา"><button type="button" data-lang="th" aria-pressed="${th}">ไทย</button><button type="button" data-lang="en" aria-pressed="${!th}">EN</button></div><button class="x" type="button" id="sheetClose" aria-label="ปิด">×</button></div>
+      <div class="caps">${th ? 'คำเชิญ' : 'Invitation'}</div>
+      <div class="parents"><div><small>${th ? 'ฝ่ายเจ้าสาว' : 'Bride'}</small>${(B.parents || []).map(esc).join('<br>')}</div><div><small>${th ? 'ฝ่ายเจ้าบ่าว' : 'Groom'}</small>${(G.parents || []).map(esc).join('<br>')}</div></div>
+      <p>${esc(th ? C.inviteText : C.inviteTextEn)}</p>
+      <div class="names">${th ? esc(B.full) + ' <span>(' + esc(B.nick) + ')</span>' : esc(B.fullEn || B.en) + ' <span>' + esc(B.nick) + '</span>'}<div style="color:var(--muted);font-size:13px;font-weight:300">${th ? 'และ' : '&amp;'}</div>${th ? esc(G.full) + ' <span>(' + esc(G.nick) + ')</span>' : esc(G.fullEn || G.en) + ' <span>' + esc(G.nick) + '</span>'}</div>
+      <div class="caps">${th ? 'วัน เวลา สถานที่' : 'When & where'}</div>
+      <p><b style="font-weight:400">${esc(th ? W.date.th : W.date.en)}</b><br>${esc(th ? W.venue.name + ' ' + W.venue.province : W.venue.nameEn + ', Mukdahan')}<br><span style="color:var(--muted);font-size:13.5px">${esc(clean(W.venue.address))}</span></p>
+      <div class="sch">${W.schedule.map((x) => `<b>${esc(x.time)}</b><span>${esc(th ? x.title : x.titleEn || x.title)}</span>`).join('')}</div>
+      <div class="caps">Dress code</div>
+      <p>${esc(W.dressCode.title)}</p>${dots(W.dressCode.ladies)}<p style="font-size:12px;color:var(--muted);margin-top:-2px">${th ? 'สุภาพสตรี' : 'Ladies'}</p>${dots(W.dressCode.gentlemen)}<p style="font-size:12px;color:var(--muted);margin-top:-2px">${th ? 'สุภาพบุรุษ' : 'Gentlemen'}</p>
+      <p style="font-size:13.5px;color:var(--muted)">${esc(th ? W.dressCode.desc : W.dressCode.descEn || W.dressCode.desc)}</p>
+      <div class="acts"><a class="btn primary" href="${$('#rsvp').href}">RSVP</a><a class="btn" href="${W.venue.mapUrl}" target="_blank" rel="noopener">${th ? 'แผนที่' : 'Map'}</a><a class="btn gold" href="${$('#gcal').href}" target="_blank" rel="noopener">${th ? 'ปฏิทิน' : 'Calendar'}</a></div>
+      <div class="acts"><a class="btn" href="../assets/img/card-front.png" download="WN-card-front.png">${th ? 'บันทึกรูปหน้าการ์ด' : 'Save front'}</a><a class="btn" href="../assets/img/card-back.png" download="WN-card-back.png">${th ? 'บันทึกรูปหลังการ์ด' : 'Save back'}</a></div>
+      <p class="foot">${esc(th ? C.apology : C.apologyEn || C.apology)}<br>${esc(C.hashtag)}</p>`;
+    sheet.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('click', () => { lang = b.dataset.lang; renderSheet(); }));
+    $('#sheetClose').addEventListener('click', closeSheet);
+  };
+  const openSheet = () => { renderSheet(); sheet.classList.add('on'); dim.classList.add('on'); sheet.scrollTop = 0; };
+  const closeSheet = () => { sheet.classList.remove('on'); dim.classList.remove('on'); };
+  $('#readBtn').addEventListener('click', openSheet); dim.addEventListener('click', closeSheet);
+  // zoomed card (scroll + pinch)
+  const zoom = $('#zoom'); let zoomed = false;
+  const openZoom = () => { if (!zoomed) { const c = $('#card').cloneNode(true); c.removeAttribute('id'); c.removeAttribute('role'); c.removeAttribute('tabindex'); $('#zoomIn').appendChild(c); zoomed = true; }
+    const showFront = !scene.classList.contains('flipped'); zoom.classList.toggle('front', showFront); $('#zoomFace').textContent = showFront ? 'ดูด้านหลัง' : 'ดูด้านหน้า'; zoom.classList.add('on'); zoom.scrollTo((zoom.scrollWidth - zoom.clientWidth) / 2, 0); };
+  $('#zoomBtn').addEventListener('click', openZoom);
+  $('#zoomFace').addEventListener('click', () => { const f = !zoom.classList.contains('front'); zoom.classList.toggle('front', f); $('#zoomFace').textContent = f ? 'ดูด้านหลัง' : 'ดูด้านหน้า'; zoom.scrollTo(0, 0); });
+  $('#zoomClose').addEventListener('click', () => zoom.classList.remove('on'));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { zoom.classList.remove('on'); closeSheet(); } });
+  // petals
+  const cv = $('#petals');
+  if (!reduce) {
+    const ctx = cv.getContext('2d'); const colors = ['#F1EADC', '#E9DFCB', '#C8893B', '#FFFFFF']; let w, h, ps = [];
+    const mk = (f) => ({ x: Math.random() * w, y: f ? Math.random() * h : -20, r: .6 + Math.random() * 1.6, a: Math.random() * 6.28, va: (Math.random() - .5) * .03, vy: .08 + Math.random() * .22, sw: Math.random() * 6.28, c: colors[Math.floor(Math.random() * 5)] });
+    const rs = () => { w = cv.width = innerWidth; h = cv.height = innerHeight; ps = Array.from({ length: Math.min(60, Math.round(w / 14)) }, () => mk(true)); };
+    const dr = () => { ctx.clearRect(0, 0, w, h); for (const p of ps) { p.y += p.vy; p.sw += .012; p.x += Math.sin(p.sw) * .35; p.a += p.va; if (p.y > h + 20) Object.assign(p, mk(false)); ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.a); ctx.globalAlpha = .5; ctx.fillStyle = p.c; ctx.beginPath(); ctx.ellipse(0, 0, p.r, p.r * .55, 0, 0, 6.283); ctx.fill(); ctx.restore(); } requestAnimationFrame(dr); };
+    rs(); dr(); addEventListener('resize', rs);
+  }
+})();
+</script>
+</body>
+</html>

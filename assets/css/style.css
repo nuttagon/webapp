@@ -653,3 +653,14 @@ footer p, footer .tag { font-family: var(--f-mono); }
 .lb button { position: absolute; border: 0; background: rgba(248, 241, 228, .14); color: #F8F1E4; width: 46px; height: 46px; border-radius: 50%; font: 300 28px/1 var(--f-serif); cursor: pointer; }
 .lb-x { top: max(12px, env(safe-area-inset-top, 0px)); right: 14px; }
 .lb-p { left: 10px; top: 50%; transform: translateY(-50%); } .lb-n { right: 10px; top: 50%; transform: translateY(-50%); }
+
+/* ---- speed: nothing below the envelope downloads until it is opened ---- */
+html.intro-pending main, html.intro-pending footer, body.intro-open main, body.intro-open footer { display: none; }
+@supports (background-image: image-set(url("a.webp") type("image/webp"))) {
+  .env .liner { background-image: image-set(url(../img/liner-wn-body.webp) type("image/webp"), url(../img/liner-wn-body.jpg) type("image/jpeg")); }
+  .env .flap .flap-in { background-image: image-set(url(../img/liner-wn-flap.webp) type("image/webp"), url(../img/liner-wn-flap.jpg) type("image/jpeg")); }
+  @media (max-width: 760px) {
+    #intro { background-image: linear-gradient(180deg, rgba(15, 13, 12, .35), rgba(15, 13, 12, .55)), image-set(url(../img/photos/pw-12-1000.webp) type("image/webp"), url(../img/photos/pw-12.jpg) type("image/jpeg")); }
+    .hero-photo { background-image: image-set(url(../img/photos/pw-06-1000.webp) type("image/webp"), url(../img/photos/pw-06.jpg) type("image/jpeg")); }
+  }
+}

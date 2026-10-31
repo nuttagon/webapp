@@ -33,6 +33,7 @@
   const play = () => {
     setupGraph(); if (ctx && ctx.state === 'suspended') ctx.resume();
     if (gain) gain.gain.value = TARGET * .45; else a.volume = TARGET * .45;          // audible at once, then settle to the target
+    if (!started && !a.src.startsWith('blob:') && ctl) { try { ctl.abort(); } catch (e) {} a.preload = 'auto'; }   // tapped before the download finished: stream instead of downloading twice
     started = true; const p = a.play(); if (p && p.then) p.then(() => { fade(TARGET, 500); label(); }).catch(() => label()); else label(); };
   const stop = () => fade(0, 600, () => { a.pause(); label(); });
   btn.addEventListener('click', (e) => { e.stopPropagation(); if (a.paused) { want = true; play(); } else { want = false; stop(); } save(); });
@@ -43,8 +44,12 @@
   // fetch the whole song into memory once the page has loaded (iPhone ignores media preload but allows fetch),
   // so the tap that opens the envelope plays it from memory with no network wait
   let started = false;
-  const warm = () => { if (!want || !window.fetch || !window.URL) return;
-    fetch(base + M.src).then((r) => (r.ok ? r.blob() : null)).then((b) => { if (b && !started) { a.src = URL.createObjectURL(b); a.preload = 'auto'; try { a.load(); } catch (e) {} } }).catch(() => { a.preload = 'auto'; }); };
-  if (document.readyState === 'complete') setTimeout(warm, 300); else window.addEventListener('load', () => setTimeout(warm, 300));
+  let ctl = null;
+  const warm = () => { if (!want || !window.fetch || !window.URL) return; ctl = window.AbortController ? new AbortController() : null;
+    const get = (tries) => fetch(base + M.src, { signal: ctl && ctl.signal }).then((r) => (r.ok ? r.blob() : null))
+      .then((b) => { if (b && !started) { a.src = URL.createObjectURL(b); a.preload = 'auto'; try { a.load(); } catch (e) {} } })
+      .catch(() => { if (tries > 0 && !started && !(ctl && ctl.signal.aborted)) setTimeout(() => get(tries - 1), 800); });
+    get(1); };
+  warm();   // start at once, not after every image has loaded
   label(); (document.body || document.documentElement).appendChild(btn);
 })();

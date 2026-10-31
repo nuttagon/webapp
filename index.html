@@ -18,6 +18,10 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair:ital,opsz,wdth,wght@0,5..1200,87.5,300&family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&family=Prompt:wght@200;300;400;500&family=Pinyon+Script&family=Quattrocento:wght@400;700&family=Roboto+Mono:wght@300;400&display=swap">
 <link rel="stylesheet" href="assets/fonts/fonts.css">
 <link rel="stylesheet" href="assets/css/style.css">
+<script>/* decide before anything loads: if the envelope intro will show, hold back everything below it */
+(function(){try{var q=location.search,seen=sessionStorage.getItem('wn-intro')==='1';if(!seen&&!/[?&](from|to)=/.test(q)&&location.hash.length<2&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('intro-pending');}catch(e){}})();</script>
+<link rel="preload" as="image" type="image/webp" href="assets/img/photos/pw-12-1000.webp" media="(max-width: 760px)" fetchpriority="high">
+<link rel="preload" as="image" type="image/webp" href="assets/img/photos/pw-12.webp" media="(min-width: 761px)" fetchpriority="high">
 <link rel="preload" as="image" type="image/webp" href="assets/img/env/pocket.webp">
 <link rel="preload" as="image" type="image/webp" href="assets/img/env/flap.webp">
 </head>
@@ -89,7 +93,7 @@
 <main>
   <!-- ซองลูกไม้บนดอยลี่หัวใจ -->
   <section class="moments" id="moments" aria-label="ภาพพรีเวดดิ้ง">
-    <picture class=moments-bg><source type="image/webp" srcset="assets/img/photos/pw-02-640.webp 640w, assets/img/photos/pw-02.webp 1400w" sizes="100vw"><img loading="lazy" decoding="async" src="assets/img/photos/pw-02.jpg" alt=""></picture>
+    <picture class=moments-bg><source type="image/webp" srcset="assets/img/photos/pw-02-640.webp0vw"><img loading="lazy" decoding="async" src="assets/img/photos/pw-02.jpg" alt=""></picture>
     <div class="moments-row reveal" tabindex="0" aria-label="รูปของเรา เลื่อนซ้ายขวาได้">
       <figure><picture><source type="image/webp" srcset="assets/img/photos/pw-08-640.webp 640w, assets/img/photos/pw-08.webp 1400w" sizes="(max-width: 760px) 72vw, 30vw"><img loading="lazy" decoding="async" src="assets/img/photos/pw-08.jpg" alt="หัวเราะด้วยกันหน้าประตูไม้สีฟ้า"></picture></figure>
       <figure><picture><source type="image/webp" srcset="assets/img/photos/pw-09-640.webp 640w, assets/img/photos/pw-09.webp 1400w" sizes="(max-width: 760px) 72vw, 30vw"><img loading="lazy" decoding="async" src="assets/img/photos/pw-09.jpg" alt="ยิ้มให้กันหน้าตึกเหลือง"></picture></figure>

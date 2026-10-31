@@ -44,8 +44,9 @@
   // ---------- intro envelope ----------
   const intro = $('#intro'), env = $('#env');
   let seen = false; try { seen = sessionStorage.getItem('wn-intro') === '1'; } catch (e) {}
-  const dismiss = () => { intro.classList.add('gone'); document.body.classList.remove('intro-open'); try { sessionStorage.setItem('wn-intro', '1'); } catch (e) {} };
+  const dismiss = () => { intro.classList.add('gone'); document.body.classList.remove('intro-open'); html.classList.remove('intro-pending'); try { sessionStorage.setItem('wn-intro', '1'); } catch (e) {} };
   const skipIntro = params.has('from') || !!toName || location.hash.length > 1;   // มาจาก e-card หรือลิงก์ตรง → ไม่ต้องเปิดซองซ้ำ
+  if (!intro || seen || reduce || skipIntro) html.classList.remove('intro-pending');
   if (!intro) {} else if (seen || reduce || skipIntro) { intro.remove(); } else {
     document.body.classList.add('intro-open'); window.scrollTo(0, 0);
     let opened = false;

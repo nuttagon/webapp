@@ -64,6 +64,16 @@ class Song:
         n = int(.06 * SR); t = np.arange(n) / SR; return vel * bandpass(s.rng.normal(0, 1, n), 6000, 12000) * np.exp(-t * 70) * .5
     def shaker(s, vel):
         n = int(.09 * SR); t = np.arange(n) / SR; return vel * bandpass(s.rng.normal(0, 1, n), 4000, 11000) * np.minimum(1, t / .02) * np.exp(-t * 45) * .4
+    def snare(s, vel):
+        n = int(.22 * SR); t = np.arange(n) / SR
+        body = np.sin(2 * np.pi * 190 * t) * np.exp(-t * 30) * .5
+        return vel * (bandpass(s.rng.normal(0, 1, n), 1500, 8000) * np.exp(-t * 18) * .6 + body)
+    def vibes(s, note, dur, vel):
+        f = hz(note); n = int((dur + 2.2) * SR); t = np.arange(n) / SR
+        x = np.sin(2 * np.pi * f * t) + .22 * np.sin(2 * np.pi * f * 4 * t) * np.exp(-t * 5) + .08 * np.sin(2 * np.pi * f * 10 * t) * np.exp(-t * 12)
+        trem = 1 + .22 * np.sin(2 * np.pi * 5.2 * t)
+        rel = np.where(t > dur, np.exp(-(t - dur) * 2.5), 1)
+        return vel * x * trem * env_ad(n, .003, .9) * rel
     def rim(s, vel):
         n = int(.08 * SR); t = np.arange(n) / SR
         return vel * (np.sin(2 * np.pi * 1700 * t) * .6 + bandpass(s.rng.normal(0, 1, n), 2000, 6000) * .5) * np.exp(-t * 80)
@@ -74,7 +84,7 @@ class Song:
             ir = s.rng.normal(0, 1, n_ir) * np.exp(-t * 3.4); ir[: int(.012 * SR)] = 0; ir /= np.sqrt((ir ** 2).sum())
             size = 1 << int(np.ceil(np.log2(s.n + n_ir))); wet[ch] = np.fft.irfft(np.fft.rfft(s.wet[ch], size) * np.fft.rfft(ir, size), size)[: s.n]
         mix = s.dry + .6 * wet
-        a, b = int(s.L * SR), int(2 * s.L * SR); loop = mix[:, a:b]           # middle cycle → seamless loop
+        a, b = int((s.cycles - 1 if s.cycles < 3 else 1) * s.L * SR), int((s.cycles if s.cycles < 3 else 2) * s.L * SR); loop = mix[:, a:b]   # a cycle whose reverb tails come from the one before
         for ch in range(2): loop[ch] = highpass(lowpass(loop[ch], cutoff, 1.5), 75)   # phone speakers can't play sub-bass
         if lofi:
             m = loop.shape[1]; crack = np.zeros(m); pos = s.rng.integers(0, m, int(m / SR * 7)); crack[pos] = s.rng.uniform(-1, 1, pos.size)
@@ -140,6 +150,38 @@ def song_indie():                                                     # C · ind
                 for k in range(2): S.add(S.glock(MEL[((bar - 8) * 2 + k) % 8] + 12, .16), S.t(c, bar, k * 2), .25, .5)
     S.render('indie', cutoff=9500)
 
+def song_rhodes2():                                                   # A2 · lo-fi jazz with a hook (AABA, 32 bars, 80 bpm)
+    S = Song(11, 32, 80, swing=1.0, cycles=2)
+    A = [(50, [53, 57, 60, 64]), (43, [53, 57, 59, 64]), (48, [52, 55, 59, 62]), (45, [55, 58, 61, 65]),
+         (50, [53, 57, 60, 64]), (43, [53, 57, 59, 64]), (52, [55, 59, 62, 67]), (50, [53, 57, 60, 65])]      # Dm9 G13 Cmaj9 A7b13 Dm9 G13 Em7(A7) Dm9(G7)
+    B = [(41, [52, 55, 57, 60]), (52, [55, 59, 62, 66]), (50, [53, 57, 60, 64]), (48, [52, 55, 59, 62]),
+         (46, [53, 57, 60, 64]), (45, [55, 58, 61, 64]), (50, [53, 57, 60, 64]), (43, [53, 55, 60, 65])]      # Fmaj9 Em9 Dm9 Cmaj9 B♭maj9 A7 Dm9 G7sus
+    HOOK = [[(0, 69, .5), (.5, 72, .5), (1, 76, 1), (2, 74, 2)], [(0, 71, 1.5), (1.5, 76, .5), (2, 74, 1), (3, 71, 1)],
+            [(0, 67, 1), (1, 76, 1.5), (2.5, 74, 1.5)], [(0, 73, 1), (1, 77, 1), (2, 76, 1), (3, 73, 1)],
+            [(0, 69, .5), (.5, 72, .5), (1, 76, 1), (2, 74, 2)], [(0, 71, 1.5), (1.5, 76, .5), (2, 74, 1), (3, 71, 1)],
+            [(0, 79, 1), (1, 76, 1), (2, 79, .5), (2.5, 81, .5), (3, 79, 1)], [(0, 77, 1), (1, 76, 1), (2, 74, 1), (3, 71, 1)]]
+    BRIDGE = [[(0, 81, 2), (2, 79, 1), (3, 76, 1)], [(0, 79, 3), (3, 74, 1)], [(0, 77, 2), (2, 76, 1), (3, 72, 1)], [(0, 74, 4)],
+              [(0, 74, 2), (2, 76, 1), (3, 77, 1)], [(0, 76, 2), (2, 73, 2)], [(0, 77, 2), (2, 76, 1), (3, 74, 1)], [(0, 72, 4)]]
+    for c in range(S.cycles):
+        for bar in range(32):
+            sec = bar // 8; i = bar % 8; bridge = sec == 2
+            root, voic = (B if bridge else A)[i]; v = S.rng.uniform(.85, 1)
+            for beat, dur in ((0, 1.6), (1.75, 1.2)) if i % 2 == 0 else ((0.5, 1.2), (2.5, 1.4)):            # soft Rhodes comping
+                for k, nn in enumerate(voic):
+                    S.add(S.rhodes(nn, dur * S.beat, .2 * v), S.t(c, bar, beat) + k * .014, -.3 + k * .15, .4)
+                    S.add(S.rhodes(nn + .08, dur * S.beat, .07 * v), S.t(c, bar, beat) + k * .014 + .011, .3 - k * .15, .4)   # chorus voice
+            walk = [root, root + 7, root + 12 if i % 2 else root + 10, (B if bridge else A)[(i + 1) % 8][0] + (1 if i % 3 else -1)]
+            for b4 in range(4): S.add(S.bass(walk[b4], S.beat * .85, .32 if b4 == 0 else .26), S.t(c, bar, b4), 0, .05)
+            S.add(S.kick(.34), S.t(c, bar, 0), 0, 0); S.add(S.kick(.26), S.t(c, bar, 2.5 if i % 2 == 0 else 1.75), 0, 0)
+            for b4 in (1, 3): S.add(S.snare(.30), S.t(c, bar, b4), .1, .22)
+            for b8 in range(8): S.add(S.hat(.28 if b8 % 2 else .4), S.t(c, bar, b8 / 2), .35, .08)
+            mel = (BRIDGE if bridge else HOOK)[i]
+            if sec > 0 or i >= 4 or c > 0:                                                                   # hook enters halfway through the first A
+                for b4, nn, d in mel:
+                    S.add(S.vibes(nn, d * S.beat * .95, .30), S.t(c, bar, b4), .05, .5)
+                    if sec == 3: S.add(S.vibes(nn + 12, d * S.beat * .9, .08), S.t(c, bar, b4) + .01, -.2, .6)  # octave on the last A
+    S.render('rhodes2', lofi=True, cutoff=7000)
+
 if __name__ == '__main__':
     which = sys.argv[1:] or ['rhodes', 'bossa', 'indie']
-    for w in which: {'rhodes': song_rhodes, 'bossa': song_bossa, 'indie': song_indie}[w]()
+    for w in which: {'rhodes': song_rhodes, 'bossa': song_bossa, 'indie': song_indie, 'rhodes2': song_rhodes2}[w]()

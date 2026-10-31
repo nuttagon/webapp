@@ -70,8 +70,8 @@ window.WEDDING = {
   },
   // เพลงคลอเบา ๆ — เริ่มเล่นหลังแขกแตะหน้าจอครั้งแรก มีปุ่ม ♪ ปิดได้ · เปลี่ยนเพลง: ใส่ไฟล์ .mp3 ใน assets/audio/ แล้วแก้ src
   // wn-theme.mp3 เป็นเพลงเปียโนที่แต่งขึ้นใหม่ (tools/music/make_theme.py) ไม่ติดลิขสิทธิ์ · ว่าง src = ปิดเพลงทั้งเว็บ
-  // ตัวเลือก: wn-rhodes.mp3 (lo-fi jazz) · wn-bossa.mp3 (bossa nova) · wn-indie.mp3 (indie folk) · wn-theme.mp3 (เปียโน)
-  music: { src: "assets/audio/wn-rhodes.mp3", volume: 0.35, title: "Late Night Rhodes" },
+  // ตัวเลือก: wn-rhodes2.mp3 (lo-fi jazz มีทำนอง hook) · wn-rhodes.mp3 (lo-fi jazz) · wn-bossa.mp3 (bossa nova) · wn-indie.mp3 (indie folk) · wn-theme.mp3 (เปียโน)
+  music: { src: "assets/audio/wn-rhodes2.mp3", volume: 0.35, title: "Late Night Rhodes II" },
   // ส่วน Contact Us ท้ายเว็บ — ช่องที่ว่างจะไม่แสดง
   contact: { phone: "", line: "", lineUrl: "", instagram: "", email: "" },
   gift: {

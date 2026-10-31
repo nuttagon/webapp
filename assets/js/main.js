@@ -266,6 +266,25 @@
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
   }
 
+  // ---------- photo slider: advance by itself, pause while the guest touches it ----------
+  const row = $('.moments-row');
+  if (row && !reduce) {
+    let paused = false, idle = 0, visible = false;
+    const step = () => {
+      if (paused || !visible || document.hidden || row.scrollWidth <= row.clientWidth + 4) return;
+      const f = row.querySelector('figure'); if (!f) return;
+      const gap = parseFloat(getComputedStyle(row).columnGap || getComputedStyle(row).gap) || 0;
+      const by = f.getBoundingClientRect().width + gap;
+      const atEnd = row.scrollLeft + row.clientWidth >= row.scrollWidth - 4;
+      row.scrollTo({ left: atEnd ? 0 : row.scrollLeft + by, behavior: 'smooth' });
+    };
+    setInterval(step, 3200);
+    const hold = () => { paused = true; clearTimeout(idle); idle = setTimeout(() => { paused = false; }, 6000); };
+    ['pointerdown', 'touchstart', 'wheel', 'keydown'].forEach((t) => row.addEventListener(t, hold, { passive: true }));
+    row.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') paused = true; }); row.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') paused = false; });   // hover-pause only with a real mouse (a tap on a phone would never 'leave')
+    if ('IntersectionObserver' in window) new IntersectionObserver((e) => { visible = e[0].isIntersecting; }, { threshold: .3 }).observe(row); else visible = true;
+  }
+
   // ---------- reveal on scroll ----------
   const revealEls = $$('.reveal');
   if ('IntersectionObserver' in window && !reduce) {

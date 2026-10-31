@@ -573,3 +573,20 @@ footer p, footer .tag { font-family: var(--f-mono); }
   .hero .wrap.hero-copy { padding-bottom: 28px; }
 }
 .pp { align-items: end; }
+
+/* hero photo as a CSS background: background-size:cover works in every browser, including in-app
+   browsers (LINE, Messenger) and older iPhones that squeezed the <img> version */
+.hero-photo { position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: auto; height: auto; z-index: -2;
+  background-color: #2B2925; background-image: url(../img/photos/pw-06.jpg); background-repeat: no-repeat; background-size: cover; background-position: 50% 45%; }
+@supports (background-image: image-set(url("a.webp") type("image/webp"))) {
+  .hero-photo { background-image: image-set(url(../img/photos/pw-06.webp) type("image/webp"), url(../img/photos/pw-06.jpg) type("image/jpeg")); }
+}
+.hero { min-height: calc(100vh - 56px); min-height: calc(100svh - 56px); }
+@media (max-width: 860px) { .hero { min-height: calc(92vh - 56px); min-height: calc(92svh - 56px); } }
+@media (max-width: 760px) { .hero-photo { background-position: 49% 38%; } }
+@media (max-width: 380px) {
+  .hero { min-height: 600px; }
+  .hero-photo { background-size: auto 62%; background-position: 46% 0; }
+  .hero-names { font-size: 48px; }
+  .hero .mono-caps { font-size: 10px; letter-spacing: .22em; }
+}

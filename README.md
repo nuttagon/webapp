@@ -13,7 +13,7 @@
 | `assets/img/og.jpg` | รูปพรีวิวลิงก์ 1200×630 สำหรับ LINE/Facebook (สร้างใหม่ได้จาก e-card หน้าการ์ด) |
 | `print/liner/` | ลายซับในซอง 3 แบบ (ข้าวหลามตัดจิตรกรรม · กระเบื้องตึกแถว · แถบฟิล์ม) `python3 print/liner/make_liners.py && node print/liner/render.js` → `print/out/liner/` PNG 300 dpi |
 | `print/photo-prints/` | รูปฟิล์ม 54 × 86 มม. 9 ใบ/A4 ใส่ซอง → `print/out/WN_film_prints_54x86_A4.pdf` |
-| `assets/audio/wn-theme.mp3` | เพลงเปียโนคลอเบา ๆ แต่งใหม่ (ไม่ติดลิขสิทธิ์) เล่นหลังแขกแตะจอครั้งแรก ปุ่ม ♪ ปิดได้ · เปลี่ยนเพลงใน `config.js` → `music.src` · สร้างใหม่: `python3 tools/music/make_theme.py` แล้ว `ffmpeg -i assets/audio/wn-theme.wav -b:a 96k assets/audio/wn-theme.mp3` |
+| `assets/audio/` | เพลงคลอแต่งใหม่ 4 แบบ (ไม่ติดลิขสิทธิ์): rhodes lo-fi jazz · bossa · indie · piano (`tools/music/make_options.py`, `make_theme.py`) เล่นหลังแขกแตะจอครั้งแรก ปุ่ม ♪ ปิดได้ · เปลี่ยนเพลงใน `config.js` → `music.src` · สร้างใหม่: `python3 tools/music/make_theme.py` แล้ว `ffmpeg -i assets/audio/wn-theme.wav -b:a 96k assets/audio/wn-theme.mp3` |
 | `print/invitation.html` | การ์ดเชิญ 127 × 178 มม. (+ตัดตก 3 มม.) หน้า/หลัง → `print/out/*.pdf`, PNG 300 dpi |
 | `print/inserts.html` | A4: การ์ดที่นั่ง 85 × 55, แท็กของชำร่วย 40 × 70, สติกเกอร์ครั่ง Ø30/Ø25 + ไฟล์ตัด `seal-cut-A4.svg` สำหรับ A2L |
 | `favors/` | STL 8 ชิ้นสำหรับ Bambu Lab A2L + สคริปต์ `generate.js` + คู่มือพิมพ์ |

@@ -285,6 +285,22 @@
     if ('IntersectionObserver' in window) new IntersectionObserver((e) => { visible = e[0].isIntersecting; }, { threshold: .3 }).observe(row); else visible = true;
   }
 
+  // ---------- gallery lightbox ----------
+  const lb = $('#lb'), gItems = $$('.g-item');
+  if (lb && gItems.length) {
+    const img = lb.querySelector('img'); let cur = 0;
+    const show = (i) => { cur = (i + gItems.length) % gItems.length; img.src = gItems[cur].dataset.full; img.alt = gItems[cur].querySelector('img').alt; };
+    const close = () => { lb.hidden = true; document.body.style.overflow = ''; };
+    gItems.forEach((b, i) => b.addEventListener('click', () => { show(i); lb.hidden = false; document.body.style.overflow = 'hidden'; }));
+    lb.querySelector('.lb-x').addEventListener('click', close);
+    lb.querySelector('.lb-p').addEventListener('click', (e) => { e.stopPropagation(); show(cur - 1); });
+    lb.querySelector('.lb-n').addEventListener('click', (e) => { e.stopPropagation(); show(cur + 1); });
+    lb.addEventListener('click', (e) => { if (e.target === lb) close(); });
+    document.addEventListener('keydown', (e) => { if (lb.hidden) return; if (e.key === 'Escape') close(); if (e.key === 'ArrowRight') show(cur + 1); if (e.key === 'ArrowLeft') show(cur - 1); });
+    let x0 = null; lb.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+    lb.addEventListener('touchend', (e) => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) show(cur + (dx < 0 ? 1 : -1)); x0 = null; });
+  }
+
   // ---------- reveal on scroll ----------
   const revealEls = $$('.reveal');
   if ('IntersectionObserver' in window && !reduce) {

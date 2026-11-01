@@ -45,13 +45,18 @@
   const intro = $('#intro'), env = $('#env');
   let seen = false; try { seen = sessionStorage.getItem('wn-intro') === '1'; } catch (e) {}
   const dismiss = () => { intro.classList.add('gone'); document.body.classList.remove('intro-open'); html.classList.remove('intro-pending'); try { sessionStorage.setItem('wn-intro', '1'); } catch (e) {} };
-  const skipIntro = params.has('from') || !!toName || location.hash.length > 1;   // มาจาก e-card หรือลิงก์ตรง → ไม่ต้องเปิดซองซ้ำ
+  const skipIntro = params.has('from') || location.hash.length > 1;   // มาจาก e-card หรือลิงก์ตรง → ไม่ต้องเปิดซองซ้ำ (ลิงก์ส่วนตัว ?to= ยังเห็นซองพร้อมชื่อ)
   if (!intro || seen || reduce || skipIntro) html.classList.remove('intro-pending');
   if (!intro) {} else if (seen || reduce || skipIntro) { intro.remove(); } else {
     document.body.classList.add('intro-open'); window.scrollTo(0, 0);
+    const tc = $('#toCard');   // ลิงก์ส่วนตัว: การ์ดชื่อแขกวางคู่ซอง เหมือนการ์ดจริง
+    if (tc && toName) { $('#toCardName').textContent = toName; tc.hidden = false; intro.classList.add('has-to');
+      const nm = $('#toCardName'), fit = () => { nm.classList.remove('wrap'); let fs = 30; nm.style.setProperty('--tc-fs', fs + 'px'); while (nm.scrollWidth > nm.clientWidth && fs > 19) { fs -= 1; nm.style.setProperty('--tc-fs', fs + 'px'); } if (nm.scrollWidth > nm.clientWidth) nm.classList.add('wrap'); };   // ชื่อยาวย่อขนาดให้อยู่บรรทัดเดียว
+      fit(); if (document.fonts) document.fonts.ready.then(fit); intro.setAttribute('aria-label', 'ซองเชิญ เรียนเชิญ ' + toName); }
     let opened = false;
-    const open = () => { if (opened) return; opened = true; env.classList.add('open'); setTimeout(dismiss, 2100); };
+    const open = () => { if (opened) return; opened = true; env.classList.add('open'); intro.classList.add('opening'); setTimeout(dismiss, 2100); };
     env.addEventListener('click', open);
+    if (toName && $('#toCard')) $('#toCard').addEventListener('click', open);
     env.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
     $('#skipIntro').addEventListener('click', dismiss);
     // no auto-open: the guest's tap opens the envelope and starts the music in the same moment

@@ -15,11 +15,11 @@
 <link rel="icon" href="assets/img/wn-monogram.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair:ital,opsz,wdth,wght@0,5..1200,87.5,300&family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&family=Prompt:wght@200;300;400;500&family=Pinyon+Script&family=Quattrocento:wght@400;700&family=Roboto+Mono:wght@300;400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair:ital,opsz,wdth,wght@0,5..1200,87.5,300&family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&family=Prompt:wght@200;300;400;500&family=Pinyon+Script&family=Charm:wght@400;700&family=Quattrocento:wght@400;700&family=Roboto+Mono:wght@300;400&display=swap">
 <link rel="stylesheet" href="assets/fonts/fonts.css">
 <link rel="stylesheet" href="assets/css/style.css">
 <script>/* decide before anything loads: if the envelope intro will show, hold back everything below it */
-(function(){try{var q=location.search,seen=sessionStorage.getItem('wn-intro')==='1';if(!seen&&!/[?&](from|to)=/.test(q)&&location.hash.length<2&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('intro-pending');}catch(e){}})();</script>
+(function(){try{var q=location.search,seen=sessionStorage.getItem('wn-intro')==='1';if(!seen&&!/[?&]from=/.test(q)&&location.hash.length<2&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('intro-pending');}catch(e){}})();</script>
 <link rel="preload" as="image" type="image/webp" href="assets/img/photos/pw-12-1000.webp" media="(max-width: 760px)" fetchpriority="high">
 <link rel="preload" as="image" type="image/webp" href="assets/img/photos/pw-12.webp" media="(min-width: 761px)" fetchpriority="high">
 <link rel="preload" as="image" type="image/webp" href="assets/img/env/pocket.webp">
@@ -48,6 +48,13 @@
     </div>
     <picture><source type="image/webp" srcset="assets/img/env/pocket.webp"><img class="pocket" src="assets/img/env/pocket.png" width="808" height="534" alt="" draggable="false" fetchpriority="high" decoding="async"></picture>
     <div class="flap"><div class="flap-in" aria-hidden="true"></div><picture class="flap-out"><source type="image/webp" srcset="assets/img/env/flap.webp"><img src="assets/img/env/flap.png" width="808" height="481" alt="" draggable="false" fetchpriority="high" decoding="async"></picture></div>
+  </div>
+  <div class="to-card" id="toCard" hidden aria-live="polite">
+    <svg data-wn aria-hidden="true"></svg>
+    <div class="tc-k">เรียนเชิญ</div>
+    <div class="tc-n" id="toCardName"></div>
+    <i class="tc-rule" aria-hidden="true"></i>
+    <div class="tc-h">#EternallyWN</div>
   </div>
   <div class="hint"><button id="skipIntro" class="caps" type="button">แตะซองเพื่อเปิด ♪ · ข้าม</button></div>
 </div>

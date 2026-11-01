@@ -248,7 +248,10 @@
           fb.innerHTML = `<span>ระบบรับคำตอบอัตโนมัติยังไม่เปิด กรุณาส่งข้อความนี้ให้เราทาง LINE</span><br><a class="btn" style="margin-top:10px" target="_blank" rel="noopener" href="https://line.me/R/share?text=${encodeURIComponent(sum)}">ส่งคำตอบทาง LINE</a>`;
         }
         th.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
-      } catch (err) { status.textContent = 'ส่งไม่สำเร็จ ลองใหม่อีกครั้ง หรือแจ้งทาง LINE / โทร ' + (W.rsvp.phone || ''); }
+      } catch (err) {   // network blocked (e.g. the claude.ai preview) or offline: never lose the answer
+        const sum = `RSVP งานแต่ง ${C.bride.nick} & ${C.groom.nick}\nชื่อ: ${data.name}\nมาร่วมงาน: ${data.attending === 'yes' ? 'มา' : 'ไม่มา'}\nผู้ใหญ่ ${data.adults} · เด็ก ${data.kids}\nอาหาร: ${data.diet || 'ทานได้ทุกอย่าง'}\nคำอวยพร: ${data.wish || '-'}\nหมายเหตุ: ${data.note || '-'}`;
+        status.innerHTML = `ส่งเข้าระบบไม่สำเร็จ ลองกดส่งอีกครั้ง หรือส่งคำตอบให้เราทาง LINE<br><a class="btn" style="margin-top:10px" target="_blank" rel="noopener" href="https://line.me/R/share?text=${encodeURIComponent(sum)}">ส่งคำตอบทาง LINE</a>`;
+      }
     });
     if (guestSel) { guestSel.setAttribute('list', 'guestNames'); if (toName && !guestSel.value) guestSel.value = toName; }   // เติมชื่อจาก e-card (?to=)
     const dl = $('#guestNames'); if (dl) dl.innerHTML = G.map((g) => `<option value="${esc(g.name)}"></option>`).join('');

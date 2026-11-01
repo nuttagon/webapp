@@ -49,14 +49,13 @@
   if (!intro || seen || reduce || skipIntro) html.classList.remove('intro-pending');
   if (!intro) {} else if (seen || reduce || skipIntro) { intro.remove(); } else {
     document.body.classList.add('intro-open'); window.scrollTo(0, 0);
-    const tc = $('#toCard');   // ลิงก์ส่วนตัว: การ์ดชื่อแขกวางคู่ซอง เหมือนการ์ดจริง
-    if (tc && toName) { $('#toCardName').textContent = toName; tc.hidden = false; intro.classList.add('has-to');
-      const nm = $('#toCardName'), fit = () => { nm.classList.remove('wrap'); let fs = 30; nm.style.setProperty('--tc-fs', fs + 'px'); while (nm.scrollWidth > nm.clientWidth && fs > 19) { fs -= 1; nm.style.setProperty('--tc-fs', fs + 'px'); } if (nm.scrollWidth > nm.clientWidth) nm.classList.add('wrap'); };   // ชื่อยาวย่อขนาดให้อยู่บรรทัดเดียว
+    const tc = $('#toCard');   // ลิงก์ส่วนตัว: ชื่อแขกเขียนบนซอง ใต้มุก
+    if (tc && toName) { $('#toCardName').textContent = toName; tc.hidden = false;
+      const fit = () => { tc.style.removeProperty('--tc-fs'); let fs = parseFloat(getComputedStyle($('#toCardName')).fontSize); while (tc.scrollWidth > tc.clientWidth && fs > 10) { fs -= .5; tc.style.setProperty('--tc-fs', fs + 'px'); } };   // ชื่อยาวย่อขนาดให้อยู่บรรทัดเดียว
       fit(); if (document.fonts) document.fonts.ready.then(fit); intro.setAttribute('aria-label', 'ซองเชิญ เรียนเชิญ ' + toName); }
     let opened = false;
     const open = () => { if (opened) return; opened = true; env.classList.add('open'); intro.classList.add('opening'); setTimeout(dismiss, 2100); };
     env.addEventListener('click', open);
-    if (toName && $('#toCard')) $('#toCard').addEventListener('click', open);
     env.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
     $('#skipIntro').addEventListener('click', dismiss);
     // no auto-open: the guest's tap opens the envelope and starts the music in the same moment

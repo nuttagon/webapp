@@ -63,7 +63,7 @@ window.WEDDING = {
     // ปลายทางคำตอบ: ชีต "RSVP · Wedding Wanida & Nattakorn" ใน Google Drive ของคุณ
     // https://docs.google.com/spreadsheets/d/1tPee8t414VWTpN1WpQ5UjdiYRADNUVfGVjYlgmpBoRk/edit
     // ทำตาม tools/rsvp-apps-script.gs แล้ววาง URL ของเว็บแอป (ลงท้าย /exec) ตรงนี้
-    webhookUrl: "",
+    webhookUrl: "https://script.google.com/macros/s/AKfycbwwsCuHCGRTkBxwDfQ8zZxPz0ALSJ_EBiJdJGpDV2i9G6JPWge9AtIILCgWPMj5DcEq/exec",
     formUrl: "",              // ทางเลือกสำรอง: ลิงก์ Google Form (ถ้าไม่ใช้ webhook)
     lineUrl: "",              // ลิงก์ LINE ของผู้ประสานงาน เช่น https://line.me/ti/p/~yourid (ใช้เป็นช่องทางสำรองตอบรับ)
     phone: "",                // เบอร์ผู้ประสานงาน (ว่างไว้ = ไม่แสดง)

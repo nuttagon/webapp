@@ -72,6 +72,13 @@ window.WEDDING = {
   // wn-theme.mp3 เป็นเพลงเปียโนที่แต่งขึ้นใหม่ (tools/music/make_theme.py) ไม่ติดลิขสิทธิ์ · ว่าง src = ปิดเพลงทั้งเว็บ
   // ตัวเลือก: wn-rhodes2.mp3 (lo-fi jazz มีทำนอง hook) · wn-rhodes.mp3 (lo-fi jazz) · wn-bossa.mp3 (bossa nova) · wn-indie.mp3 (indie folk) · wn-theme.mp3 (เปียโน)
   music: { src: "assets/audio/wn-rhodes2.mp3", volume: 0.35, title: "Late Night Rhodes II" },
+  // คำอวยพรตัวอย่าง: แสดงเฉพาะตอนที่ยังไม่ได้ใส่ rsvp.webhookUrl พอใส่ URL แล้ว เว็บจะดึงคำอวยพรจริงจากชีต
+  sampleWishes: [
+    { name: "ตัวอย่าง · เพื่อนสมัยมหาลัย", wish: "ดีใจกับสองคนที่สุดเลย ขอให้รักกันแบบนี้ไปทุกวัน" },
+    { name: "ตัวอย่าง · Auntie May", wish: "Wishing you a lifetime of late-night walks and morning coffee together." },
+    { name: "ตัวอย่าง · ทีมห้องยา", wish: "จากเพื่อนร่วมงานที่เห็นมาตั้งแต่วันแรก ยินดีด้วยนะ" },
+    { name: "ตัวอย่าง · คุณยาย", wish: "ขอให้มีความสุข สุขภาพแข็งแรง อยู่ด้วยกันจนแก่เฒ่า" },
+  ],
   // ส่วน Contact Us ท้ายเว็บ — ช่องที่ว่างจะไม่แสดง
   contact: { phone: "", line: "", lineUrl: "", instagram: "", email: "" },
   gift: {

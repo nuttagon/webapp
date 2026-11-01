@@ -231,7 +231,7 @@
     const guestSel = $('#rsvpName');
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const data = Object.fromEntries(new FormData(form).entries()); data.at = new Date().toISOString(); data.from = toName; data.ua = navigator.userAgent;
+      const data = Object.fromEntries(new FormData(form).entries()); data.at = new Date().toISOString(); data.from = toName; data.ua = navigator.userAgent; if (!data.show) data.show = 'yes';
       const status = $('#rsvpStatus'); status.textContent = 'กำลังส่งคำตอบ…';
       try {
         if (W.rsvp.webhookUrl) { await fetch(W.rsvp.webhookUrl, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(data) }); }
@@ -300,6 +300,25 @@
     document.addEventListener('keydown', (e) => { if (lb.hidden) return; if (e.key === 'Escape') close(); if (e.key === 'ArrowRight') show(cur + 1); if (e.key === 'ArrowLeft') show(cur - 1); });
     let x0 = null; lb.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
     lb.addEventListener('touchend', (e) => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) show(cur + (dx < 0 ? 1 : -1)); x0 = null; });
+  }
+
+  // ---------- wishes: end credits (live from the sheet once rsvp.webhookUrl is set) ----------
+  const roll = $('#wishRoll'), reel = $('#wishReel');
+  if (roll) {
+    const paint = (list, live) => {
+      if (!list.length) { roll.innerHTML = '<p class="credit-empty">ยังไม่มีคำอวยพร เป็นคนแรกที่เขียนถึงอีฟและบ็อบได้ที่ฟอร์ม RSVP</p>'; reel.classList.add('static'); return; }
+      const one = list.map((w) => `<figure class="credit"><blockquote>${esc(w.wish)}</blockquote><figcaption>${esc(w.name)}</figcaption></figure>`).join('');
+      roll.innerHTML = `<div class="credit-set">${one}</div><div class="credit-set" aria-hidden="true">${one}</div>`;
+      roll.style.setProperty('--dur', Math.max(28, list.length * 7) + 's');
+      reel.classList.remove('static'); if (!live && !$('.credits-demo')) reel.insertAdjacentHTML('beforebegin', '<p class="credits-demo">ตัวอย่าง · คำอวยพรจริงของแขกจะขึ้นแทน เมื่อเชื่อม Google Sheet แล้ว</p>');
+      if (reduce) reel.classList.add('static');
+    };
+    if (W.rsvp.webhookUrl) {
+      paint([], true); roll.innerHTML = '<p class="credit-empty">กำลังโหลดคำอวยพร…</p>';
+      fetch(W.rsvp.webhookUrl + (W.rsvp.webhookUrl.includes('?') ? '&' : '?') + 'wishes=1').then((r) => r.json()).then((d) => paint((d && d.wishes) || [], true)).catch(() => paint([], true));
+    } else paint(W.sampleWishes || [], false);
+    const hold = (on) => reel.classList.toggle('paused', on);
+    reel.addEventListener('pointerdown', () => hold(true)); ['pointerup', 'pointercancel', 'pointerleave'].forEach((t) => reel.addEventListener(t, () => hold(false)));
   }
 
   // ---------- reveal on scroll ----------

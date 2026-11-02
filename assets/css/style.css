@@ -709,18 +709,3 @@ html.intro-pending main, html.intro-pending footer, body.intro-open main, body.i
 .field label.chk, .chk { display: flex; gap: 8px; align-items: center; margin-top: 8px; font-size: 13px; color: var(--muted); text-transform: none; letter-spacing: 0; font-family: var(--f-th); cursor: pointer; }
 .chk input { width: 16px; height: 16px; accent-color: var(--ink); }
 .credit figcaption { letter-spacing: .14em; } @media (max-width: 560px) { .credits-kicker { letter-spacing: .14em; font-size: 10px; } }
-
-/* personal link (?to=): a name card like the printed one, resting against the envelope */
-#intro.has-to { grid-template-rows: auto auto; align-content: center; row-gap: 0; }
-@media (min-width: 761px) { #intro.has-to { align-content: end; } }
-.to-card { position: relative; z-index: 6; width: min(78vw, 380px); margin-top: calc(min(82vw, 440px) * -.07); padding: 16px 18px 12px; background: #F8F6F1; border: 1px solid #D9D4C8; outline: 1px solid rgba(255,255,255,.6); outline-offset: -6px; color: #2B2925; text-align: center; transform: rotate(-2.2deg); box-shadow: 0 18px 30px rgba(0,0,0,.35), 0 2px 4px rgba(0,0,0,.2); transition: transform .8s cubic-bezier(.5,0,.3,1), opacity .6s; animation: tcIn 1s .3s both cubic-bezier(.2,.7,.2,1); cursor: pointer; }
-.to-card[hidden] { display: none; }
-.to-card svg { position: absolute; left: 14px; top: 12px; width: 26px; fill: #2B2925; opacity: .8; }
-.to-card .tc-k { font-family: 'Prompt', sans-serif; font-weight: 300; font-size: 11px; letter-spacing: .5em; padding-left: .5em; margin: 14px 0 8px; }
-.to-card .tc-n { font-family: 'Charm', 'Prompt', cursive; font-size: var(--tc-fs, 30px); line-height: 1.55; white-space: nowrap; }
-.to-card .tc-n.wrap { white-space: normal; text-wrap: balance; overflow-wrap: anywhere; }
-.to-card .tc-rule { display: block; width: 44px; height: 1px; background: #2B2925; margin: 6px auto 16px; }
-.to-card .tc-h { font-family: 'Quattrocento', serif; font-size: 9px; letter-spacing: .3em; }
-#intro.opening .to-card { transform: translateY(40vh) rotate(-8deg); opacity: 0; }
-@keyframes tcIn { from { transform: translateY(24px) rotate(1deg); opacity: 0; } }
-@media (prefers-reduced-motion: reduce) { .to-card { animation: none; } }

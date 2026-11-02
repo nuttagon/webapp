@@ -86,7 +86,7 @@ window.WEDDING = {
     promptpayName: "ณัฐกรณ์ & วนิดา",
     promptpayQr: "assets/img/qr-promptpay.svg",
   },
-  site: { url: "https://nuttagon.github.io/webapp/", ecardUrl: "https://nuttagon.github.io/webapp/ecard/", ogImage: "https://nuttagon.github.io/webapp/assets/img/og.jpg" },
+  site: { url: "https://eternallywn.netlify.app/", ecardUrl: "https://eternallywn.netlify.app/ecard/", ogImage: "https://eternallywn.netlify.app/assets/img/og.jpg" },
   story: [
     { year: "[ปี]", title: "พบกันครั้งแรก", text: "[เล่าสั้น ๆ ว่าเจอกันที่ไหน ใครทักก่อน จำอะไรได้บ้าง]" },
     { year: "[ปี]", title: "ทริปแรกด้วยกัน", text: "[ที่ไหน และรู้ตอนไหนว่าเดินทางด้วยกันได้ดี]" },

@@ -22,7 +22,7 @@
 
 ## เปิดดู / เผยแพร่
 - เปิด `index.html` ตรง ๆ ได้ (ไม่ต้อง build) หรือ `python3 -m http.server` แล้วเข้า `http://localhost:8000/`
-- เผยแพร่ด้วย GitHub Pages: Settings → Pages → branch `main` / root → `https://nuttagon.github.io/webapp/` (QR ในการ์ดชี้ URL นี้)
+- เผยแพร่ด้วย Netlify (project `eternallywn`, deploy จาก branch `main`) → `https://eternallywn.netlify.app/` (QR ในการ์ดชี้ URL นี้)
 
 ## สร้างไฟล์พิมพ์ใหม่ (หลังแก้ config)
 ```

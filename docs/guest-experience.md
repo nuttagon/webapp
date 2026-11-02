@@ -48,6 +48,6 @@
 ## 5. งานที่ยังต้องทำ / ข้อมูลที่ยังว่าง
 1. กรอก `assets/js/config.js`: ที่อยู่และลิงก์แผนที่บ้านเคียงสะหวัน, ที่จอดรถ, เบอร์ผู้ประสานงาน, PromptPay (สร้าง QR จริงด้วย `segno`/แอปธนาคาร แล้วแทน `assets/img/qr-gift.svg`), เรื่องราว 3 ข้อแรก, ปลายทาง RSVP
 2. รายชื่อแขกจริง → `assets/js/guests.js` (รูปแบบ `["ชื่อ", โต๊ะ, "bride|groom"]`) และ `WN_Guest_List.xlsx` สำหรับหน้าซอง
-3. เปิด GitHub Pages (branch `main`, root) ให้ URL `https://nuttagon.github.io/webapp/` ใช้งานจริง — QR ในการ์ดทุกใบชี้ URL นี้แล้ว
+3. Merge เข้า `main` แล้ว Netlify (project `eternallywn`) จะ deploy ให้ที่ `https://eternallywn.netlify.app/` — QR ในการ์ดทุกใบชี้ URL นี้แล้ว
 4. ยืนยันช่วงเวลากำหนดการกับออแกไนซ์ (ตอนนี้เป็นตัวอย่างจากผัง Garden Reception v3)
 5. พิมพ์ทดสอบพวงกุญแจ 1 ชิ้นและหัวตราปั๊ม ตรวจความคมของโมโนแกรม (ถ้าตื้นไป เพิ่มความลึกสลักใน `generate.js`)

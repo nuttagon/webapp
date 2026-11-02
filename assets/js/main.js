@@ -6,6 +6,8 @@
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const params = new URLSearchParams(location.search);
   const toName = (params.get('to') || '').trim().slice(0, 60);
+  const gCode = (params.get('g') || '').toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 12);   // ลิงก์สั้น ?g=รหัส → ชื่อจากแท็บ "รายชื่อแขก" ในชีต
+  let guestName = toName; const onGuestName = [];
   const PH = /\[[^\]]*\]/;                                  // ข้อความในวงเล็บเหลี่ยม = ยังเป็นตัวอย่าง
   const clean = (s) => String(s || '').replace(/\s*\[[^\]]*\]\s*/g, ' ').replace(/\s+/g, ' ').trim();
 
@@ -49,10 +51,11 @@
   if (!intro || seen || reduce || skipIntro) html.classList.remove('intro-pending');
   if (!intro) {} else if (seen || reduce || skipIntro) { intro.remove(); } else {
     document.body.classList.add('intro-open'); window.scrollTo(0, 0);
-    const tc = $('#toCard');   // ลิงก์ส่วนตัว: ชื่อแขกเขียนบนซอง ใต้มุก
-    if (tc && toName) { $('#toCardName').textContent = toName; tc.hidden = false;
-      const fit = () => { tc.style.removeProperty('--tc-fs'); let fs = parseFloat(getComputedStyle($('#toCardName')).fontSize); while (tc.scrollWidth > tc.clientWidth && fs > 10) { fs -= .5; tc.style.setProperty('--tc-fs', fs + 'px'); } };   // ชื่อยาวย่อขนาดให้อยู่บรรทัดเดียว
-      fit(); if (document.fonts) document.fonts.ready.then(fit); intro.setAttribute('aria-label', 'ซองเชิญ เรียนเชิญ ' + toName); }
+    const tc = $('#toCard');   // ลิงก์ส่วนตัว: ชื่อแขกเขียนบนซอง ด้านบนตรงกลาง
+    const showName = (n) => { if (!tc || !n) return; const nm = $('#toCardName'); nm.textContent = n; tc.hidden = false;
+      const fit = () => { tc.style.removeProperty('--tc-fs'); let fs = parseFloat(getComputedStyle(nm).fontSize); while (nm.scrollWidth > nm.clientWidth && fs > 10) { fs -= .5; tc.style.setProperty('--tc-fs', fs + 'px'); } };   // ชื่อยาวย่อขนาดให้อยู่บรรทัดเดียว
+      fit(); if (document.fonts) document.fonts.ready.then(fit); intro.setAttribute('aria-label', 'ซองเชิญ เรียนเชิญ ' + n); };
+    showName(toName); onGuestName.push(showName);
     let opened = false;
     const open = () => { if (opened) return; opened = true; env.classList.add('open'); intro.classList.add('opening'); setTimeout(dismiss, 2100); };
     env.addEventListener('click', open);
@@ -235,7 +238,7 @@
     const guestSel = $('#rsvpName');
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const data = Object.fromEntries(new FormData(form).entries()); data.at = new Date().toISOString(); data.from = toName; data.ua = navigator.userAgent; if (!data.show) data.show = 'yes';
+      const data = Object.fromEntries(new FormData(form).entries()); data.at = new Date().toISOString(); data.from = guestName; if (gCode) data.code = gCode; data.ua = navigator.userAgent; if (!data.show) data.show = 'yes';
       const status = $('#rsvpStatus'); status.textContent = 'กำลังส่งคำตอบ…';
       try {
         if (W.rsvp.webhookUrl) { await fetch(W.rsvp.webhookUrl, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(data) }); }
@@ -257,7 +260,7 @@
         status.innerHTML = `ส่งเข้าระบบไม่สำเร็จ ลองกดส่งอีกครั้ง หรือส่งคำตอบให้เราทาง LINE<br><a class="btn" style="margin-top:10px" target="_blank" rel="noopener" href="https://line.me/R/share?text=${encodeURIComponent(sum)}">ส่งคำตอบทาง LINE</a>`;
       }
     });
-    if (guestSel) { guestSel.setAttribute('list', 'guestNames'); if (toName && !guestSel.value) guestSel.value = toName; }   // เติมชื่อจาก e-card (?to=)
+    if (guestSel) { guestSel.setAttribute('list', 'guestNames'); const fill = (n) => { if (n && !guestSel.value) guestSel.value = n; }; fill(toName); onGuestName.push(fill); }   // เติมชื่อจาก e-card (?to= หรือ ?g=)
     const dl = $('#guestNames'); if (dl) dl.innerHTML = G.map((g) => `<option value="${esc(g.name)}"></option>`).join('');
   }
 
@@ -342,5 +345,13 @@
   if (secs.length && 'IntersectionObserver' in window) {
     const io2 = new IntersectionObserver((ents) => ents.forEach((en) => { if (en.isIntersecting) links.forEach((a) => a.setAttribute('aria-current', a.getAttribute('href') === '#' + en.target.id ? 'true' : 'false')); }), { rootMargin: '-40% 0px -55% 0px' });
     secs.forEach((s) => io2.observe(s));
+  }
+  // ---------- short personal link ?g=code: ask the sheet for the guest's name (remembered on this phone) ----------
+  if (gCode && !toName && W.rsvp.webhookUrl) {
+    const key = 'wn-g-' + gCode, use = (n) => { n = String(n || '').trim().slice(0, 60); if (!n || n === guestName) return; guestName = n; onGuestName.forEach((f) => f(n)); };
+    try { use(localStorage.getItem(key)); } catch (e) {}
+    const ctl = 'AbortController' in window ? new AbortController() : null; if (ctl) setTimeout(() => ctl.abort(), 8000);
+    fetch(W.rsvp.webhookUrl + (W.rsvp.webhookUrl.includes('?') ? '&' : '?') + 'g=' + encodeURIComponent(gCode), ctl ? { signal: ctl.signal } : {})
+      .then((r) => r.json()).then((d) => { if (d && d.name) { use(d.name); try { localStorage.setItem(key, d.name); } catch (e) {} } }).catch(() => {});
   }
 })();

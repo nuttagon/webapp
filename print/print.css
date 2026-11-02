@@ -1,0 +1,19 @@
+/* ไฟล์พิมพ์ WN — ใช้ร่วมกันทุกหน้า: โทนกระดาษงาช้าง หมึกกราไฟต์ ขอบทองแชมเปญ */
+:root{--paper:#F7F5F1;--ink:#3F3A36;--muted:#8A817A;--gold:#8A7650;--champagne:#C9AB78;--rose:#C4858F;--thyme:#6F7A5F;--line:rgba(63,58,54,.18);
+  --f-script:'Pinyon Script',cursive;--f-display:'Playfair','Playfair Display',serif;--f-ital:'Cormorant Garamond',serif;--f-caps:'Prompt',sans-serif;--f-th:'Prompt',sans-serif;--f-charm:'Charm',cursive}
+*{box-sizing:border-box}
+html,body{margin:0;background:#D9D4CA;color:var(--ink);font-family:var(--f-th);font-weight:300;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.toolbar{font:13px/1.5 var(--f-caps);padding:14px 20px;background:#fff;border-bottom:1px solid var(--line);display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.toolbar b{letter-spacing:.1em}
+.toolbar button{font:inherit;padding:8px 14px;border:1px solid var(--ink);background:var(--ink);color:#fff;border-radius:999px;cursor:pointer}
+.sheet{position:relative;margin:18px auto;background:var(--paper);overflow:hidden;box-shadow:0 10px 30px rgba(60,40,20,.25);page-break-after:always;break-after:page;
+  background-image:repeating-linear-gradient(0deg,rgba(120,100,80,.025) 0 1px,transparent 1px 3px)}
+.sheet:last-child{page-break-after:auto;break-after:auto}
+.bleed{position:absolute;inset:0}
+.trim{position:absolute;inset:3mm;outline:.2mm dashed rgba(201,171,120,.55);pointer-events:none}
+.safe{position:absolute;inset:8mm}
+.caps{font-family:var(--f-caps);letter-spacing:.32em;text-transform:uppercase;color:var(--muted)}
+.mono{fill:var(--ink)}
+.emboss{filter:drop-shadow(-0.25mm -0.25mm 0 rgba(255,255,255,.95)) drop-shadow(0.3mm 0.35mm 0.25mm rgba(90,70,50,.38))}
+.emboss-text{color:#F3EFE7;text-shadow:-0.2mm -0.2mm 0 rgba(255,255,255,.95),0.3mm 0.35mm 0.3mm rgba(90,70,50,.45)}
+@media print{html,body{background:#fff}.toolbar{display:none}.sheet{margin:0;box-shadow:none}.trim{outline-color:rgba(0,0,0,.25)}}

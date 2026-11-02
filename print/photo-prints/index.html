@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<title>WN · รูปฟิล์มใส่ซอง 54 × 86 มม.</title>
+<link rel="stylesheet" href="../../assets/fonts/fonts.css">
+<style>
+/* A4: 9 prints, 54 x 86 mm (instax-mini size), white border, orange date stamp. Print at 100% on photo paper, cut along the hairlines. */
+@page { size: A4; margin: 0; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; font-family: 'Prompt', sans-serif; }
+.sheet { width: 210mm; height: 297mm; display: grid; grid-template-columns: repeat(3, 54mm); grid-template-rows: repeat(3, 86mm); gap: 6mm; justify-content: center; align-content: center; }
+.p { position: relative; width: 54mm; height: 86mm; background: #FBF8F2; padding: 3.5mm 3.5mm 14mm; outline: .1mm solid #ccc; }
+.p img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.p .st { position: absolute; right: 6mm; bottom: 16.5mm; font: 700 7pt 'Courier New', monospace; letter-spacing: .12em; color: #FF8C2E; text-shadow: 0 0 1.2mm rgba(255, 120, 30, .7); }
+.p .cap { position: absolute; left: 4mm; right: 4mm; bottom: 4.5mm; display: flex; justify-content: space-between; align-items: baseline; font: italic 500 9pt 'Cormorant Garamond', serif; color: #5C544C; }
+.p .cap b { font: 600 5.5pt 'Courier New', monospace; letter-spacing: .2em; color: #A8372A; font-style: normal; }
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500&display=swap">
+</head>
+<body>
+<div class="sheet" id="sheet"></div>
+<script>
+const P = ['pw-01', 'pw-02', 'pw-03', 'pw-04', 'pw-05', 'pw-01', 'pw-03', 'pw-04', 'pw-05'];
+document.getElementById('sheet').innerHTML = P.map((n, i) => `<div class="p"><img src="../../assets/img/photos/${n}.jpg" alt=""><span class="st">16 1 '27</span><div class="cap">Wanida &amp; Nattakorn<b>#ETERNALLYWN</b></div></div>`).join('');
+</script>
+</body>
+</html>

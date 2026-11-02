@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WN · สร้างลิงก์ e-card รายคน</title>
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500&display=swap">
+<style>
+:root{--paper:#F7F5F1;--ink:#3F3A36;--muted:#8A817A;--line:rgba(63,58,54,.16);--gold:#8A7650;--champagne:#C9AB78}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:300 15px/1.6 'Prompt',sans-serif}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 20px 80px}
+h1{font-weight:300;font-size:26px;margin:0 0 4px}
+.sub{color:var(--muted);margin:0 0 22px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:760px){.grid{grid-template-columns:1fr}}
+label{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+textarea,input{width:100%;font:inherit;font-size:14px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+textarea{min-height:200px;resize:vertical}
+.btn{font:400 11px/1 'Prompt',sans-serif;letter-spacing:.14em;text-transform:uppercase;display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--ink);background:#fff;color:var(--ink);cursor:pointer;text-decoration:none}
+.btn.primary{background:var(--ink);color:var(--paper)}
+.btn.gold{border-color:var(--champagne);color:var(--gold)}
+.btn.sm{min-height:30px;padding:0 10px;font-size:10px}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:10px}
+th,td{padding:8px 8px;border-bottom:1px solid var(--line);vertical-align:middle;text-align:left}
+th{font-weight:400;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+td.qr svg{width:64px;height:64px;display:block}
+td .link{font-size:11.5px;color:var(--muted);word-break:break-all}
+.ok{color:#5E7A4A;font-size:12px;margin-left:6px}
+/* print sheet: "Admit One" tickets 90 x 50 mm, 2 x 5 per A4 (replaces the NFC tag) */
+.labels{display:none}
+.ticket{width:90mm;height:50mm;display:grid;grid-template-columns:1fr 26mm;background:#F2EADB;color:#23201D;position:relative;font-family:'Prompt',sans-serif;break-inside:avoid;page-break-inside:avoid;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.ticket::before{content:"";position:absolute;inset:1.6mm;border:.35mm solid #A8372A;outline:.2mm solid #A8372A;outline-offset:-.9mm;pointer-events:none}
+.ticket .main{padding:4.2mm 3mm 3.4mm 5mm;display:flex;flex-direction:column;justify-content:space-between}
+.ticket .adm{font:600 7.5pt/1 'Courier New',monospace;letter-spacing:.32em;color:#A8372A;display:flex;align-items:center;gap:1.6mm}
+.ticket .adm svg{width:3.2mm;height:3.2mm}
+.ticket .who{font:300 11.5pt/1.15 'Prompt',sans-serif;margin-top:1.4mm;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ticket .cpl{font:italic 500 13pt/1 'Cormorant Garamond',serif;color:#23201D}
+.ticket .meta{font:400 6.4pt/1.45 'Prompt',sans-serif;letter-spacing:.06em;color:#5C544C}
+.ticket .no{position:absolute;right:29.5mm;bottom:3.4mm;font:600 6pt 'Courier New',monospace;letter-spacing:.2em;color:#C8893B}
+.ticket .stub{border-left:.3mm dashed #A8372A;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2mm;padding:2mm;background:#ECE2CE}
+.ticket .stub svg{width:19mm;height:19mm;display:block}
+.ticket .stub small{font:500 5.4pt/1.25 'Prompt',sans-serif;text-align:center;color:#23201D}
+.ticket .stamp{position:absolute;right:28.5mm;top:3.6mm;font:700 6.5pt 'Courier New',monospace;letter-spacing:.12em;color:#FF8C2E}
+@media print{
+  body{background:#fff}
+  .wrap > :not(.labels){display:none}
+  .labels{display:grid;grid-template-columns:repeat(2,90mm);grid-auto-rows:50mm;gap:4mm 6mm;justify-content:center}
+  @page{size:A4;margin:10mm}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>สร้างลิงก์ e-card รายคน</h1>
+  <p class="sub">วางรายชื่อแขก 1 ชื่อต่อบรรทัด → ได้ลิงก์ส่วนตัว ข้อความ LINE สำเร็จรูป และ ตั๋ว Admit One พร้อม QR ส่วนตัวสำหรับใส่ซองจริง (ไฟล์นี้ทำงานในเครื่อง ไม่ส่งข้อมูลไปไหน)</p>
+  <div class="grid">
+    <div>
+      <label for="names">รายชื่อแขก (ตามหน้าซอง)</label>
+      <textarea id="names" placeholder="คุณแพรวา ศรีสุข&#10;คุณลุงวิชัย ใจดี"></textarea>
+    </div>
+    <div>
+      <label for="base">ลิงก์ e-card</label>
+      <input id="base">
+      <label for="tpl" style="margin-top:14px">ข้อความ LINE ({name} = ชื่อ, {link} = ลิงก์)</label>
+      <textarea id="tpl" style="min-height:120px"></textarea>
+    </div>
+  </div>
+  <div class="acts">
+    <button class="btn primary" id="go" type="button">สร้างลิงก์</button>
+    <button class="btn" id="fromList" type="button">ใช้รายชื่อจาก guests.js</button>
+    <button class="btn gold" id="csv" type="button">ดาวน์โหลด CSV</button>
+    <button class="btn gold" id="print" type="button">พิมพ์ตั๋ว Admit One ใส่ซอง (A4 · 10 ใบ/แผ่น)</button>
+  </div>
+  <table id="tbl" hidden><thead><tr><th>#</th><th>ชื่อ</th><th>ลิงก์</th><th>QR</th><th></th></tr></thead><tbody></tbody></table>
+  <div class="labels" id="labels"></div>
+</div>
+<script src="vendor/qrcode.js"></script>
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/guests.js"></script>
+<script>
+(() => {
+  const W = window.WEDDING, $ = (s) => document.querySelector(s);
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  $('#base').value = W.site.ecardUrl;
+  $('#tpl').value = `เรียน {name}\n\nอีฟ & บ็อบ ขอเรียนเชิญร่วมเป็นเกียรติในงานมงคลสมรส\nวันเสาร์ที่ 16 มกราคม 2570 ณ บ้านเคียงสะหวัน จ.มุกดาหาร\n\nเปิดการ์ดเชิญและตอบรับได้ที่\n{link}\n\n${W.couple.hashtag}`;
+  const linkFor = (name) => $('#base').value.trim().replace(/\?.*$/, '') + '?to=' + encodeURIComponent(name);
+  const qrSvg = (text, size) => { const q = qrcode(0, 'M'); q.addData(text); q.make(); return q.createSvgTag({ cellSize: 4, margin: 2, scalable: true }); };
+  let rows = [];
+  const build = () => {
+    const names = $('#names').value.split('\n').map((s) => s.trim()).filter(Boolean);
+    rows = names.map((name) => ({ name, link: linkFor(name) }));
+    const tb = $('#tbl tbody'); tb.innerHTML = rows.map((r, i) => `<tr><td>${i + 1}</td><td>${esc(r.name)}</td><td><div class="link">${esc(r.link)}</div></td><td class="qr">${qrSvg(r.link)}</td><td><button class="btn sm" data-copy="link" data-i="${i}" type="button">คัดลอกลิงก์</button> <button class="btn sm" data-copy="msg" data-i="${i}" type="button">คัดลอกข้อความ LINE</button><span class="ok"></span></td></tr>`).join('');
+    $('#tbl').hidden = !rows.length;
+    $('#labels').innerHTML = rows.map((r, i) => `<div class="ticket"><div class="main"><div><div class="adm"><svg viewBox="-10 -10 20 20"><polygon fill="#A8372A" points="0,-9 1.07,-2.59 6.36,-6.36 2.59,-1.07 9,0 2.59,1.07 6.36,6.36 1.07,2.59 0,9 -1.07,2.59 -6.36,6.36 -2.59,1.07 -9,0 -2.59,-1.07 -6.36,-6.36 -1.07,-2.59"/></svg>ADMIT ONE</div><div class="who">${esc(r.name)}</div></div><div><div class="cpl">Wanida &amp; Nattakorn</div><div class="meta">SAT 16 · 01 · 2027 · 14:30<br>บ้านเคียงสะหวัน · มุกดาหาร</div></div></div><div class="stub">${qrSvg(r.link)}<small>สแกนเปิด<br>การ์ดเชิญ + RSVP</small></div><span class="stamp">16 1 '27</span><span class="no">No. ${String(i + 1).padStart(3, '0')}</span></div>`).join('');
+  };
+  $('#go').addEventListener('click', build);
+  $('#fromList').addEventListener('click', () => { $('#names').value = (window.GUESTS || []).map((g) => g.name || g[0]).join('\n'); build(); });
+  $('#tbl').addEventListener('click', async (e) => {
+    const b = e.target.closest('button[data-copy]'); if (!b) return; const r = rows[+b.dataset.i];
+    const text = b.dataset.copy === 'link' ? r.link : $('#tpl').value.replace(/\{name\}/g, r.name).replace(/\{link\}/g, r.link);
+    try { await navigator.clipboard.writeText(text); b.nextElementSibling && (b.parentNode.querySelector('.ok').textContent = 'คัดลอกแล้ว'); } catch (err) { prompt('คัดลอกข้อความนี้', text); }
+    setTimeout(() => { const ok = b.parentNode.querySelector('.ok'); if (ok) ok.textContent = ''; }, 2000);
+  });
+  $('#csv').addEventListener('click', () => { if (!rows.length) build(); const csv = '﻿ชื่อ,ลิงก์\n' + rows.map((r) => `"${r.name.replace(/"/g, '""')}","${r.link}"`).join('\n'); const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' })); a.download = 'ecard-links.csv'; a.click(); });
+  $('#print').addEventListener('click', () => { if (!rows.length) build(); print(); });
+})();
+</script>
+</body>
+</html>

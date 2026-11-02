@@ -38,7 +38,7 @@ const CODE_CHARS = 'abcdefghjkmnpqrstuvwxyz23456789';   // ไม่มี i l o
 
 function sheet_() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const sh = ss.getSheetByName(SHEET_NAME) || ss.getSheets().find((x) => x.getName() !== GUEST_SHEET);   // ไม่มีแท็บชื่อ RSVP → ใช้แท็บแรกที่ไม่ใช่รายชื่อแขก
+  const sh = ss.getSheetByName(SHEET_NAME) || ss.getSheets()[0];
   const head = sh.getRange(1, 1, 1, HEADERS.length);
   const cur = head.getValues()[0];
   if (cur.join('') === '' || cur[COL_WISH - 1] === '' || cur[COL_SHOW - 1] === '') { head.setValues([HEADERS]); head.setFontWeight('bold'); sh.setFrozenRows(1); }
@@ -49,7 +49,7 @@ function guests_() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   let sh = ss.getSheetByName(GUEST_SHEET);
   if (!sh) {
-    sh = ss.insertSheet(GUEST_SHEET, ss.getSheets().length);   // ต่อท้ายสุด
+    sh = ss.insertSheet(GUEST_SHEET);
     sh.getRange(1, 1, 1, G_HEAD.length).setValues([G_HEAD]).setFontWeight('bold'); sh.setFrozenRows(1);
     sh.getRange('G1').setValue('เว็บ:').setFontWeight('bold'); sh.getRange('H1').setValue(SITE_URL);
     sh.setColumnWidth(1, 70); sh.setColumnWidth(2, 260); sh.setColumnWidth(3, 330); sh.setColumnWidth(4, 150); sh.setColumnWidth(5, 200);

@@ -229,6 +229,10 @@
   const form = $('#rsvpForm');
   if (form) {
     const guestSel = $('#rsvpName');
+    // "ไม่สะดวก" → ซ่อนช่องจำนวนคน อาหาร และหมายเหตุ และปิดช่องไว้ ค่าจึงไม่ถูกส่งไปด้วย
+    const syncAttending = () => { const yes = form.elements.attending.value !== 'no';
+      $$('[data-if-attending]', form).forEach((box) => { box.hidden = !yes; $$('input, select, textarea', box).forEach((el) => (el.disabled = !yes)); }); };
+    $$('input[name="attending"]', form).forEach((r) => r.addEventListener('change', syncAttending)); syncAttending();
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const data = Object.fromEntries(new FormData(form).entries()); data.at = new Date().toISOString(); data.from = toName; data.ua = navigator.userAgent; if (!data.show) data.show = 'yes';
@@ -243,13 +247,13 @@
         const sc = $('#shareCard'); if (sc) sc.href = 'https://line.me/R/share?text=' + encodeURIComponent(`การ์ดเชิญงานแต่ง ${C.bride.nick} & ${C.groom.nick} · ${W.date.th}\n${shareLink}`);
         th.querySelector('[data-msg]').textContent = data.attending === 'yes' ? 'เราเก็บที่นั่งไว้ให้แล้ว แล้วพบกันในสวน' : 'ขอบคุณที่แจ้งให้ทราบ เราจะคิดถึงคุณในวันนั้น';
         if (!W.rsvp.webhookUrl && !W.rsvp.formUrl) {   // ยังไม่ตั้งปลายทาง → ให้แขกส่งสรุปคำตอบทาง LINE แทน ไม่ให้คำตอบหาย
-          const sum = `RSVP งานแต่ง ${C.bride.nick} & ${C.groom.nick}\nชื่อ: ${data.name}\nมาร่วมงาน: ${data.attending === 'yes' ? 'มา' : 'ไม่มา'}\nผู้ใหญ่ ${data.adults} · เด็ก ${data.kids}\nอาหาร: ${data.diet || 'ทานได้ทุกอย่าง'}\nหมายเหตุ: ${data.note || '-'}`;
+          const sum = `RSVP งานแต่ง ${C.bride.nick} & ${C.groom.nick}\nชื่อ: ${data.name}\nมาร่วมงาน: ${data.attending === 'yes' ? 'มา' : 'ไม่มา'}${data.attending === 'yes' ? `\nผู้ใหญ่ ${data.adults} · เด็ก ${data.kids}\nอาหาร: ${data.diet || 'ทานได้ทุกอย่าง'}\nหมายเหตุ: ${data.note || '-'}` : ''}`;
           const fb = th.querySelector('[data-demo]'); fb.hidden = false;
           fb.innerHTML = `<span>ระบบรับคำตอบอัตโนมัติยังไม่เปิด กรุณาส่งข้อความนี้ให้เราทาง LINE</span><br><a class="btn" style="margin-top:10px" target="_blank" rel="noopener" href="https://line.me/R/share?text=${encodeURIComponent(sum)}">ส่งคำตอบทาง LINE</a>`;
         }
         th.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
       } catch (err) {   // network blocked (e.g. the claude.ai preview) or offline: never lose the answer
-        const sum = `RSVP งานแต่ง ${C.bride.nick} & ${C.groom.nick}\nชื่อ: ${data.name}\nมาร่วมงาน: ${data.attending === 'yes' ? 'มา' : 'ไม่มา'}\nผู้ใหญ่ ${data.adults} · เด็ก ${data.kids}\nอาหาร: ${data.diet || 'ทานได้ทุกอย่าง'}\nคำอวยพร: ${data.wish || '-'}\nหมายเหตุ: ${data.note || '-'}`;
+        const sum = `RSVP งานแต่ง ${C.bride.nick} & ${C.groom.nick}\nชื่อ: ${data.name}\nมาร่วมงาน: ${data.attending === 'yes' ? 'มา' : 'ไม่มา'}${data.attending === 'yes' ? `\nผู้ใหญ่ ${data.adults} · เด็ก ${data.kids}\nอาหาร: ${data.diet || 'ทานได้ทุกอย่าง'}\nหมายเหตุ: ${data.note || '-'}` : ''}\nคำอวยพร: ${data.wish || '-'}`;
         status.innerHTML = `ส่งเข้าระบบไม่สำเร็จ ลองกดส่งอีกครั้ง หรือส่งคำตอบให้เราทาง LINE<br><a class="btn" style="margin-top:10px" target="_blank" rel="noopener" href="https://line.me/R/share?text=${encodeURIComponent(sum)}">ส่งคำตอบทาง LINE</a>`;
       }
     });

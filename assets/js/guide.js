@@ -1,0 +1,118 @@
+// Destination Wedding Guidebook — ข้อมูลทั้งหมดของหน้า guide/ อยู่ในไฟล์นี้ไฟล์เดียว แก้ที่นี่แล้วหน้าเว็บเปลี่ยนตาม
+// - pick: true  = ร้าน/ที่พักที่บ่าวสาวแนะนำเอง (ขึ้นป้าย "Eve & Bob's pick")
+// - map         = ลิงก์ Google Maps (ถ้าเว้นว่าง หน้าเว็บจะค้นชื่อร้านใน Google Maps ให้)
+// - photo       = รูปของร้าน/ที่พักนั้น (เช่น "assets/img/guide/goodmook.jpg") ถ้าใส่ จะแสดงแทนภาพลายเส้นประจำหมวด
+// - ช่องที่เว้นว่าง ("") จะไม่แสดงบนหน้าเว็บ
+// ตัวเลขเที่ยวบิน/ระยะทางเป็นค่าประมาณ ตรวจล่าสุด พ.ย. 2569 — ทุกการ์ดมีปุ่มให้แขกเช็กเที่ยวบินและเส้นทางจริง
+window.GUIDE = {
+  updated: "พฤศจิกายน 2569",
+  venueQuery: "บ้านเคียงสะหวัน มุกดาหาร",
+  venueMap: "https://maps.app.goo.gl/Yt5EPxMbACDcZjs37",
+
+  arrive: "พิธีแรกเริ่ม 14:30 น. วันเสาร์ที่ 16 ม.ค. แนะนำให้มาถึงตั้งแต่วันศุกร์ที่ 15 หรือเลือกเที่ยวบินเช้าวันเสาร์",
+
+  airports: [
+    {
+      code: "KOP", fromCode: "DMK", city: "นครพนม", cityEn: "Nakhon Phanom", badge: "ใกล้งานที่สุด",
+      from: "ดอนเมือง (DMK)", airlines: "แอร์เอเชีย, ไทยไลอ้อนแอร์", flight: "ประมาณ 1 ชม. 10 นาที",
+      km: "ประมาณ 90–100 กม.", drive: "ราว 1 ชม. 30 นาที",
+      route: "ทางหลวง 212 เลียบแม่น้ำโขงลงใต้ ผ่านธาตุพนม",
+      tip: "แวะไหว้พระธาตุพนมได้ระหว่างทาง",
+      origin: "Nakhon Phanom Airport"
+    },
+    {
+      code: "SNO", fromCode: "DMK", city: "สกลนคร", cityEn: "Sakon Nakhon", badge: "",
+      from: "ดอนเมือง (DMK)", airlines: "แอร์เอเชีย, นกแอร์", flight: "ประมาณ 1 ชม. 10 นาที",
+      km: "ประมาณ 105–115 กม.", drive: "ราว 1 ชม. 45 นาที",
+      route: "ทางหลวง 223 ไปธาตุพนม แล้วลงใต้ตามทางหลวง 212",
+      tip: "ตัวเลือกสำรอง ถ้าเที่ยวบินนครพนมเต็ม",
+      origin: "Sakon Nakhon Airport"
+    },
+    {
+      code: "KKC", fromCode: "BKK", city: "ขอนแก่น", cityEn: "Khon Kaen", badge: "เที่ยวบินเยอะที่สุด",
+      from: "สุวรรณภูมิ (BKK) และดอนเมือง (DMK)", airlines: "การบินไทย, ไทยเวียตเจ็ท, แอร์เอเชีย และสายอื่น ๆ", flight: "ประมาณ 1 ชม.",
+      km: "ประมาณ 260–280 กม.", drive: "ราว 4 ชม.",
+      route: "ผ่านกาฬสินธุ์ เข้าตัวเมืองมุกดาหาร แล้วขึ้นเหนือตามทางหลวง 212",
+      tip: "เหมาะกับคนที่อยากเลือกเวลาบินได้หลายรอบ หรือเที่ยวอีสานต่อ",
+      origin: "Khon Kaen Airport"
+    }
+  ],
+
+  ground: [
+    { k: "เช่ารถ", v: "สะดวกที่สุด เพราะงานอยู่นอกตัวเมือง มีเคาน์เตอร์รถเช่าที่สนามบิน ควรจองล่วงหน้า" },
+    { k: "เหมารถ / รถตู้", v: "มากันเป็นกลุ่ม เหมารถตู้จากสนามบินมาที่พักได้ ตกลงราคาและเวลารับกลับไว้ก่อน" },
+    { k: "ขับรถจากกรุงเทพฯ", v: "ประมาณ 650 กม. ราว 9–10 ชม. แนะนำแบ่งพักกลางทาง" }
+  ],
+  shuttle: "",   // ถ้างานมีรถรับส่ง ใส่รายละเอียดตรงนี้ เช่น "มีรถตู้รับจากสนามบินนครพนม วันศุกร์ 15:00 น. แจ้งบ่าวสาวล่วงหน้า"
+
+  stays: [
+    {
+      name: "บ้านเคียงสะหวัน", zone: "ที่งาน", featured: true, pick: true,
+      price: "เริ่มประมาณ 1,200 บาท / คืน", dist: "0 กม. · เดินไปงานได้เลย",
+      note: "ห้องพักมีจำกัด ใครอยากนอนที่งาน แจ้งอีฟหรือบ็อบได้เลย เราจองให้",
+      map: "https://maps.app.goo.gl/Yt5EPxMbACDcZjs37",
+      page: "https://m.facebook.com/story.php?story_fbid=pfbid0g4xqgh5rSppMQwgLoVk8QLTzEq867TWz93YpCCuuUUA8y97BPEwVnspypp73KEjwl&id=100054881662458"
+    },
+    { name: "HOTEL MUQ", zone: "ตัวเมืองมุกดาหาร", pick: true, badge: "แนะนำสุด", price: "ประมาณ 800–1,200 บาท / คืน", dist: "18 กม. · 25–28 นาที", map: "https://maps.app.goo.gl/3ZzxK8o6NSnvm47n9" },
+    { name: "HOP INN Mukdahan", zone: "ตัวเมืองมุกดาหาร", price: "ประมาณ 500–700 บาท / คืน", dist: "18–19 กม. · 25–28 นาที", map: "https://maps.app.goo.gl/HCVhFM1WRUVA8n5J8" },
+    { name: "มุมสบาย พูลวิลล่า", zone: "ตัวเมืองมุกดาหาร", pick: true, price: "ประมาณ 1,200–1,500 บาท / คืน", dist: "15 กม. · 25–27 นาที", map: "https://maps.app.goo.gl/HboHWH5KYcjbAfde9", page: "https://fb.watch/v/7Fd-6kROO/" },
+    { name: "สะหวันสำราญ", nameEn: "Savan Sumran", zone: "ตัวเมืองมุกดาหาร", price: "ประมาณ 1,200–2,000 บาท / คืน", dist: "20 กม. · 29–32 นาที", map: "https://maps.app.goo.gl/HrUKFHFLB8XnbdPDA" },
+    { name: "Hotel de Ladda", zone: "ตัวเมืองมุกดาหาร", price: "ประมาณ 1,800–2,500 บาท / คืน", dist: "19 กม. · 27–30 นาที", map: "https://maps.app.goo.gl/2BuQCedRgWpRKtdq7" },
+    { name: "โรงแรมเวียงโขง มุกดาหาร", zone: "ตัวเมืองมุกดาหาร", price: "ประมาณ 600–1,000 บาท / คืน", dist: "20 กม. · 28–32 นาที", map: "" },
+    {
+      name: "Riverfront Serenity Mukdahan", zone: "Airbnb · บ้านทั้งหลังริมโขง", group: true,
+      price: "เลือกวันที่ 16–17 ม.ค. 70 และผู้เข้าพัก 10 คน ใน Airbnb เพื่อดูราคาจริง", dist: "อ.เมืองมุกดาหาร",
+      note: "สำหรับกลุ่มเพื่อนประมาณ 10 คน · 5 ห้องนอน 5 เตียง 6 ห้องน้ำ · มีครัว Wi-Fi และที่จอดรถ",
+      map: "", page: "", pageLabel: "ดูใน Airbnb"
+    }
+  ],
+
+  eat: [
+    {
+      title: "Breakfast", icon: "breakfast", th: "อาหารเช้า",
+      places: [
+        { name: "เจ๊ตุ๊กตา ข้าวเปียกเส้น ข้างดับเพลิง", pick: true, order: "ข้าวเปียกเส้น ก๋วยจั๊บ กะหรี่ปั๊บ", note: "คนมุกเรียก “เจ้าดับเพลิง” เปิดเช้าถึงราวเที่ยง ไปเช้าหน่อย คิวยาว", q: "เจ๊ตุ๊กตา ข้าวเปียกเส้นข้างดับเพลิง มุกดาหาร" },
+        { name: "ร้านเชย กาแฟโบราณ", order: "ไข่กระทะ ขนมปังบาแก็ตไส้หมูสับ กาแฟโบราณ", note: "ร้านไม้เก่าย้อนยุคในตัวเมือง", q: "ร้านเชย กาแฟโบราณ มุกดาหาร" }
+      ]
+    },
+    {
+      title: "Lunch & Dinner", icon: "meal", th: "มื้อกลางวันและมื้อเย็น",
+      places: [
+        { name: "รัตติยา แจ่วฮ้อน", pick: true, order: "แจ่วฮ้อน จิ้มจุ่ม", note: "ร้านเก่าแก่ของมุกดาหาร สาขา 1 อยู่ย่านเมืองใหม่", q: "รัตติยา แจ่วฮ้อน สาขา 1 มุกดาหาร" },
+        { name: "Zapp Rimkhong Mukdahan", pick: true, order: "", note: "", q: "Zapp Rimkhong Mukdahan" },
+        { name: "ลาบลุงพงษ์", pick: true, order: "", note: "", q: "ลาบลุงพงษ์ มุกดาหาร" },
+        { name: "May Cafe", pick: true, order: "อาหารจานเดียว บิงซู", note: "มีทั้งของคาวและของหวาน อยู่ถนนพิทักษ์พนม", q: "Maycafe เมคาเฟ่ มุกดาหาร" },
+        { name: "ออ ออ คาเฟ่", pick: true, order: "อาหารไทยจานเดียว เค้ก", note: "", q: "ออ ออ คาเฟ่ มุกดาหาร" },
+        { name: "สะหวันสำราญ", order: "อาหารริมแม่น้ำโขง", note: "นั่งชมวิวโขงตอนเย็น", map: "https://maps.app.goo.gl/HrUKFHFLB8XnbdPDA" }
+      ]
+    },
+    {
+      title: "After Dark", icon: "night", th: "ค่ำคืน",
+      places: [
+        { name: "THE PEARL BISTRO & BAR", pick: true, order: "", note: "", q: "THE PEARL BISTRO & BAR มุกดาหาร" },
+        { name: "So*Bar", pick: true, order: "ค็อกเทลคลาสสิก ม็อกเทล", note: "บาร์แผ่นเสียงสไตล์ยุค 50 ใต้โรงแรมสะหวันสำราญ มีที่นั่งริมโขง", q: "So Bar มุกดาหาร" },
+        { name: "brin.", pick: true, order: "เครื่องดื่มและอาหาร", note: "กลางวันเป็นคาเฟ่ ช่วงค่ำเปิดเป็นบาร์ อยู่ใกล้ตลาดอินโดจีน", q: "brin cafe มุกดาหาร" },
+        { name: "ตงเสี่ยวหลง", pick: true, order: "", note: "", q: "ตงเสี่ยวหลง มุกดาหาร" }
+      ]
+    },
+    {
+      title: "Something Sweet", icon: "sweet", th: "นมสดและของหวาน",
+      places: [
+        { name: "เสี่ยวนมสด", pick: true, order: "นมสด ของหวาน", note: "", q: "เสี่ยวนมสด มุกดาหาร" },
+        { name: "สำรับนมสด", pick: true, order: "นมสด ของหวาน", note: "ร้านเปิดใหม่", q: "สำรับนมสด มุกดาหาร" },
+        { name: "ร้านรถนม", pick: true, order: "นมสด", note: "นมสดแท้ 100% อยู่ถนนพิทักษ์พนม", q: "ร้านรถนม นมสดแท้ มุกดาหาร" }
+      ]
+    }
+  ],
+
+  coffee: [
+    { name: "goodmook*", pick: true, order: "อเมริกาโน่ เค้กมะพร้าวอ่อน บราวนี่", note: "คาเฟ่บ้านเก่าบนถนนสองนางสถิตย์ มีอาหารด้วย", q: "goodmook มุกดาหาร" },
+    { name: "brin.", pick: true, order: "กาแฟและขนม", note: "คาเฟ่วินเทจใกล้ตลาดอินโดจีน กลางคืนเปิดเป็นบาร์", q: "brin cafe มุกดาหาร" },
+    { name: "The 33 Backyard", pick: true, order: "", note: "คาเฟ่ลอฟต์โทนดำในสวนร่มรื่น หลัง รพ.มุกดาหารอินเตอร์ นั่งได้ทั้งในร้านและในสวน", q: "The 33 Backyard Mukdahan" },
+    { name: "Balance Cafe'", pick: true, order: "มัทฉะ อเมริกาโน่", note: "คาเฟ่เล็ก ๆ ในตัวเมือง จอดรถสะดวก", q: "Balance Cafe มุกดาหาร" },
+    { name: "Hungry Bear Cafe", pick: true, order: "", note: "", q: "Hungry Bear Cafe มุกดาหาร" },
+    { name: "วานชื่น", pick: true, order: "", note: "", q: "วานชื่น คาเฟ่ มุกดาหาร" },
+    { name: "Unique Coffee & Co", order: "มัทฉะสตรอว์เบอร์รี", note: "อยู่ใน อ.หว้านใหญ่ ฝั่งเดียวกับงาน", q: "Unique Coffee & Co หว้านใหญ่ มุกดาหาร" },
+    { name: "CAFÉ SCHILL", order: "กาแฟ slow bar", note: "คาเฟ่เล็ก ๆ ในตัวเมือง", q: "CAFE SCHILL มุกดาหาร" }
+  ]
+};

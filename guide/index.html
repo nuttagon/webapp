@@ -89,6 +89,13 @@
 .card2 .acts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 12px; }
 .card2 .acts a { font: 400 10.5px/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; text-decoration: none; color: var(--ink); border: 1px solid var(--ink); padding: 10px 12px; }
 .card2 .acts a:hover { background: var(--ink); color: var(--paper); }
+.card2 .ico { position: absolute; top: 14px; right: 14px; width: 58px; height: 58px; pointer-events: none; }
+.card2 .ico.photo { object-fit: cover; border: 1px solid var(--line); filter: grayscale(.35) sepia(.18) contrast(1.02); }
+.card2.wide .ico { width: 92px; height: 92px; top: 18px; right: 20px; }
+.card2.has-ico h3, .card2.has-ico .zone, .card2.has-ico .order { padding-right: 66px; }
+.card2.wide.has-ico h3, .card2.wide.has-ico > p { padding-right: 104px; }
+.card2.has-ico:not(.stamped) h3 { min-height: 0; }
+@media (max-width: 420px) { .card2.wide .ico { width: 70px; height: 70px; } .card2.wide.has-ico h3, .card2.wide.has-ico > p { padding-right: 80px; } }
 .stamp { align-self: flex-start; font: 400 10px/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--lantern); border: 1px solid var(--lantern); padding: 5px 7px; transform: rotate(-2deg); margin-bottom: 4px; }
 .stamp.dark { color: var(--cream); background: var(--char); border-color: var(--char); transform: none; }
 .tags { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -191,6 +198,7 @@
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   document.querySelectorAll('svg[data-wn]').forEach((svg) => { svg.setAttribute('viewBox', '0 0 1420 1040'); svg.innerHTML = `<path fill-rule="evenodd" d="${window.WN_PATH}"/>`; });
   const mapUrl = (p) => p.map || 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(p.q || p.name + ' มุกดาหาร');
+  const ico = (p, icon) => p.photo ? `<img class="ico photo" src="../${esc(p.photo)}" alt="" loading="lazy" decoding="async">` : icon ? `<img class="ico" src="../assets/img/guide/${esc(icon)}.svg" alt="" width="58" height="58" decoding="async">` : '';
   const ext = (href, label) => `<a href="${esc(href)}" target="_blank" rel="noopener">${esc(label)}</a>`;
   if (W.venue && W.venue.nameEn) $('#gVenue').textContent = W.venue.nameEn;
   $('#gArrive').textContent = G.arrive || ''; if (!G.arrive) $('#gArrive').hidden = true;
@@ -222,7 +230,8 @@
   $('#gGround').innerHTML = ground.map((x) => `<div><b>${esc(x.k)}</b><span>${esc(x.v)}</span></div>`).join('');
 
   // stays
-  $('#gStays').innerHTML = G.stays.map((s) => `<article class="card2${s.featured ? ' wide' : ''}">
+  $('#gStays').innerHTML = G.stays.map((s) => `<article class="card2 has-ico${s.featured ? ' wide' : ''}">
+      ${ico(s, 'stay')}
       <div class="tags">${s.badge ? `<span class="stamp dark">${esc(s.badge)}</span>` : ''}${s.pick ? '<span class="stamp">Eve &amp; Bob’s pick</span>' : ''}</div>
       <div class="zone">${esc(s.zone)}</div>
       <h3>${esc(s.name)}${s.nameEn ? `<small>${esc(s.nameEn)}</small>` : ''}</h3>
@@ -233,15 +242,16 @@
     </article>`).join('');
 
   // food and coffee
-  const place = (p) => `<article class="card2">
+  const place = (p, icon) => `<article class="card2 has-ico">
+      ${ico(p, icon)}
       ${p.pick ? '<span class="stamp">Eve &amp; Bob’s pick</span>' : ''}
       <h3>${esc(p.name)}</h3>
       ${p.order ? `<p class="order"><span>ต้องสั่ง</span>${esc(p.order)}</p>` : ''}
       ${p.note ? `<p class="meta">${esc(p.note)}</p>` : ''}
       <div class="acts">${ext(mapUrl(p), 'เปิดแผนที่')}</div>
     </article>`;
-  $('#gEat').innerHTML = G.eat.map((g) => `<div class="g-group"><h3>${esc(g.title)}<small>${esc(g.th)}</small></h3><div class="cards">${g.places.map(place).join('')}</div></div>`).join('');
-  $('#gCoffee').innerHTML = G.coffee.map(place).join('');
+  $('#gEat').innerHTML = G.eat.map((g) => `<div class="g-group"><h3>${esc(g.title)}<small>${esc(g.th)}</small></h3><div class="cards">${g.places.map((p) => place(p, g.icon)).join('')}</div></div>`).join('');
+  $('#gCoffee').innerHTML = G.coffee.map((p) => place(p, 'coffee')).join('');
   $('#gFoot').textContent = `ข้อมูล ณ ${G.updated} เที่ยวบิน ราคา และเวลาเปิดร้านอาจเปลี่ยน กรุณาเช็กอีกครั้งก่อนเดินทาง`;
 })();
 </script>

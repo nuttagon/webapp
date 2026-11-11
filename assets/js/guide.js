@@ -1,6 +1,7 @@
 // Destination Wedding Guidebook — ข้อมูลทั้งหมดของหน้า guide/ อยู่ในไฟล์นี้ไฟล์เดียว แก้ที่นี่แล้วหน้าเว็บเปลี่ยนตาม
 // - pick: true  = ร้าน/ที่พักที่บ่าวสาวแนะนำเอง (ขึ้นป้าย "Eve & Bob's pick")
 // - map         = ลิงก์ Google Maps (ถ้าเว้นว่าง หน้าเว็บจะค้นชื่อร้านใน Google Maps ให้)
+// - photo       = รูปของร้าน/ที่พักนั้น (เช่น "assets/img/guide/goodmook.jpg") ถ้าใส่ จะแสดงแทนภาพลายเส้นประจำหมวด
 // - ช่องที่เว้นว่าง ("") จะไม่แสดงบนหน้าเว็บ
 // ตัวเลขเที่ยวบิน/ระยะทางเป็นค่าประมาณ ตรวจล่าสุด พ.ย. 2569 — ทุกการ์ดมีปุ่มให้แขกเช็กเที่ยวบินและเส้นทางจริง
 window.GUIDE = {
@@ -68,14 +69,14 @@ window.GUIDE = {
 
   eat: [
     {
-      title: "Breakfast", th: "อาหารเช้า",
+      title: "Breakfast", icon: "breakfast", th: "อาหารเช้า",
       places: [
         { name: "เจ๊ตุ๊กตา ข้าวเปียกเส้น ข้างดับเพลิง", pick: true, order: "ข้าวเปียกเส้น ก๋วยจั๊บ กะหรี่ปั๊บ", note: "คนมุกเรียก “เจ้าดับเพลิง” เปิดเช้าถึงราวเที่ยง ไปเช้าหน่อย คิวยาว", q: "เจ๊ตุ๊กตา ข้าวเปียกเส้นข้างดับเพลิง มุกดาหาร" },
         { name: "ร้านเชย กาแฟโบราณ", order: "ไข่กระทะ ขนมปังบาแก็ตไส้หมูสับ กาแฟโบราณ", note: "ร้านไม้เก่าย้อนยุคในตัวเมือง", q: "ร้านเชย กาแฟโบราณ มุกดาหาร" }
       ]
     },
     {
-      title: "Lunch & Dinner", th: "มื้อกลางวันและมื้อเย็น",
+      title: "Lunch & Dinner", icon: "meal", th: "มื้อกลางวันและมื้อเย็น",
       places: [
         { name: "รัตติยา แจ่วฮ้อน", pick: true, order: "แจ่วฮ้อน จิ้มจุ่ม", note: "ร้านเก่าแก่ของมุกดาหาร สาขา 1 อยู่ย่านเมืองใหม่", q: "รัตติยา แจ่วฮ้อน สาขา 1 มุกดาหาร" },
         { name: "Zapp Rimkhong Mukdahan", pick: true, order: "", note: "", q: "Zapp Rimkhong Mukdahan" },
@@ -87,14 +88,14 @@ window.GUIDE = {
       ]
     },
     {
-      title: "After Dark", th: "ค่ำคืน",
+      title: "After Dark", icon: "night", th: "ค่ำคืน",
       places: [
         { name: "THE PEARL BISTRO & BAR", pick: true, order: "", note: "", q: "THE PEARL BISTRO & BAR มุกดาหาร" },
         { name: "So*Bar", pick: true, order: "ค็อกเทลคลาสสิก ม็อกเทล", note: "บาร์แผ่นเสียงสไตล์ยุค 50 ใต้โรงแรมสะหวันสำราญ มีที่นั่งริมโขง", q: "So Bar มุกดาหาร" }
       ]
     },
     {
-      title: "Something Sweet", th: "นมสดและของหวาน",
+      title: "Something Sweet", icon: "sweet", th: "นมสดและของหวาน",
       places: [
         { name: "เสี่ยวนมสด", pick: true, order: "นมสด ของหวาน", note: "", q: "เสี่ยวนมสด มุกดาหาร" },
         { name: "สำรับนมสด", pick: true, order: "นมสด ของหวาน", note: "ร้านเปิดใหม่", q: "สำรับนมสด มุกดาหาร" },

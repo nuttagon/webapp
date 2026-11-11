@@ -81,7 +81,6 @@ window.GUIDE = {
         { name: "รัตติยา แจ่วฮ้อน", pick: true, order: "แจ่วฮ้อน จิ้มจุ่ม", note: "ร้านเก่าแก่ของมุกดาหาร สาขา 1 อยู่ย่านเมืองใหม่", q: "รัตติยา แจ่วฮ้อน สาขา 1 มุกดาหาร" },
         { name: "Zapp Rimkhong Mukdahan", pick: true, order: "", note: "", q: "Zapp Rimkhong Mukdahan" },
         { name: "ลาบลุงพงษ์", pick: true, order: "", note: "", q: "ลาบลุงพงษ์ มุกดาหาร" },
-        { name: "ตงเสี่ยวหลง", pick: true, order: "", note: "", q: "ตงเสี่ยวหลง มุกดาหาร" },
         { name: "May Cafe", pick: true, order: "อาหารจานเดียว บิงซู", note: "มีทั้งของคาวและของหวาน อยู่ถนนพิทักษ์พนม", q: "Maycafe เมคาเฟ่ มุกดาหาร" },
         { name: "ออ ออ คาเฟ่", pick: true, order: "อาหารไทยจานเดียว เค้ก", note: "", q: "ออ ออ คาเฟ่ มุกดาหาร" },
         { name: "สะหวันสำราญ", order: "อาหารริมแม่น้ำโขง", note: "นั่งชมวิวโขงตอนเย็น", map: "https://maps.app.goo.gl/HrUKFHFLB8XnbdPDA" }
@@ -91,7 +90,9 @@ window.GUIDE = {
       title: "After Dark", icon: "night", th: "ค่ำคืน",
       places: [
         { name: "THE PEARL BISTRO & BAR", pick: true, order: "", note: "", q: "THE PEARL BISTRO & BAR มุกดาหาร" },
-        { name: "So*Bar", pick: true, order: "ค็อกเทลคลาสสิก ม็อกเทล", note: "บาร์แผ่นเสียงสไตล์ยุค 50 ใต้โรงแรมสะหวันสำราญ มีที่นั่งริมโขง", q: "So Bar มุกดาหาร" }
+        { name: "So*Bar", pick: true, order: "ค็อกเทลคลาสสิก ม็อกเทล", note: "บาร์แผ่นเสียงสไตล์ยุค 50 ใต้โรงแรมสะหวันสำราญ มีที่นั่งริมโขง", q: "So Bar มุกดาหาร" },
+        { name: "brin.", pick: true, order: "เครื่องดื่มและอาหาร", note: "กลางวันเป็นคาเฟ่ ช่วงค่ำเปิดเป็นบาร์ อยู่ใกล้ตลาดอินโดจีน", q: "brin cafe มุกดาหาร" },
+        { name: "ตงเสี่ยวหลง", pick: true, order: "", note: "", q: "ตงเสี่ยวหลง มุกดาหาร" }
       ]
     },
     {

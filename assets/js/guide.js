@@ -47,7 +47,7 @@ window.GUIDE = {
   stays: [
     {
       name: "บ้านเคียงสะหวัน", zone: "ที่งาน", featured: true, pick: true,
-      price: "1,000 บาท / ห้อง / คืน (พัก 2 คน)", dist: "0 กม. · เดินไปงานได้เลย",
+      price: "เริ่มประมาณ 1,200 บาท / คืน", dist: "0 กม. · เดินไปงานได้เลย",
       note: "ห้องพักมีจำกัด ใครอยากนอนที่งาน แจ้งอีฟหรือบ็อบได้เลย เราจองให้",
       map: "https://maps.app.goo.gl/Yt5EPxMbACDcZjs37",
       page: "https://m.facebook.com/story.php?story_fbid=pfbid0g4xqgh5rSppMQwgLoVk8QLTzEq867TWz93YpCCuuUUA8y97BPEwVnspypp73KEjwl&id=100054881662458"
@@ -80,18 +80,24 @@ window.GUIDE = {
         { name: "รัตติยา แจ่วฮ้อน", pick: true, order: "แจ่วฮ้อน จิ้มจุ่ม", note: "ร้านเก่าแก่ของมุกดาหาร สาขา 1 อยู่ย่านเมืองใหม่", q: "รัตติยา แจ่วฮ้อน สาขา 1 มุกดาหาร" },
         { name: "Zapp Rimkhong Mukdahan", pick: true, order: "", note: "", q: "Zapp Rimkhong Mukdahan" },
         { name: "ลาบลุงพงษ์", pick: true, order: "", note: "", q: "ลาบลุงพงษ์ มุกดาหาร" },
+        { name: "ตงเสี่ยวหลง", pick: true, order: "", note: "", q: "ตงเสี่ยวหลง มุกดาหาร" },
         { name: "May Cafe", pick: true, order: "อาหารจานเดียว บิงซู", note: "มีทั้งของคาวและของหวาน อยู่ถนนพิทักษ์พนม", q: "Maycafe เมคาเฟ่ มุกดาหาร" },
         { name: "ออ ออ คาเฟ่", pick: true, order: "อาหารไทยจานเดียว เค้ก", note: "", q: "ออ ออ คาเฟ่ มุกดาหาร" },
         { name: "สะหวันสำราญ", order: "อาหารริมแม่น้ำโขง", note: "นั่งชมวิวโขงตอนเย็น", map: "https://maps.app.goo.gl/HrUKFHFLB8XnbdPDA" }
       ]
     },
     {
-      title: "After Dark", th: "ค่ำคืน และนมสดรอบดึก",
+      title: "After Dark", th: "ค่ำคืน",
       places: [
         { name: "THE PEARL BISTRO & BAR", pick: true, order: "", note: "", q: "THE PEARL BISTRO & BAR มุกดาหาร" },
-        { name: "So*Bar", pick: true, order: "ค็อกเทลคลาสสิก ม็อกเทล", note: "บาร์แผ่นเสียงสไตล์ยุค 50 ใต้โรงแรมสะหวันสำราญ มีที่นั่งริมโขง", q: "So Bar มุกดาหาร" },
-        { name: "ตงเสี่ยวหลง", pick: true, order: "", note: "", q: "ตงเสี่ยวหลง มุกดาหาร" },
-        { name: "เสี่ยวนมสด", pick: true, order: "", note: "", q: "เสี่ยวนมสด มุกดาหาร" },
+        { name: "So*Bar", pick: true, order: "ค็อกเทลคลาสสิก ม็อกเทล", note: "บาร์แผ่นเสียงสไตล์ยุค 50 ใต้โรงแรมสะหวันสำราญ มีที่นั่งริมโขง", q: "So Bar มุกดาหาร" }
+      ]
+    },
+    {
+      title: "Something Sweet", th: "นมสดและของหวาน",
+      places: [
+        { name: "เสี่ยวนมสด", pick: true, order: "นมสด ของหวาน", note: "", q: "เสี่ยวนมสด มุกดาหาร" },
+        { name: "สำรับนมสด", pick: true, order: "นมสด ของหวาน", note: "ร้านเปิดใหม่", q: "สำรับนมสด มุกดาหาร" },
         { name: "ร้านรถนม", pick: true, order: "นมสด", note: "นมสดแท้ 100% อยู่ถนนพิทักษ์พนม", q: "ร้านรถนม นมสดแท้ มุกดาหาร" }
       ]
     }
@@ -102,7 +108,7 @@ window.GUIDE = {
     { name: "brin.", pick: true, order: "กาแฟและขนม", note: "คาเฟ่วินเทจใกล้ตลาดอินโดจีน กลางคืนเปิดเป็นบาร์", q: "brin cafe มุกดาหาร" },
     { name: "The 33 Backyard", pick: true, order: "", note: "คาเฟ่ลอฟต์โทนดำในสวนร่มรื่น หลัง รพ.มุกดาหารอินเตอร์ นั่งได้ทั้งในร้านและในสวน", q: "The 33 Backyard Mukdahan" },
     { name: "Balance Cafe'", pick: true, order: "มัทฉะ อเมริกาโน่", note: "คาเฟ่เล็ก ๆ ในตัวเมือง จอดรถสะดวก", q: "Balance Cafe มุกดาหาร" },
-    { name: "Hug Bare", pick: true, order: "", note: "", q: "Hug Bare มุกดาหาร" },
+    { name: "Hungry Bear Cafe", pick: true, order: "", note: "", q: "Hungry Bear Cafe มุกดาหาร" },
     { name: "วานชื่น", pick: true, order: "", note: "", q: "วานชื่น คาเฟ่ มุกดาหาร" },
     { name: "Unique Coffee & Co", order: "มัทฉะสตรอว์เบอร์รี", note: "อยู่ใน อ.หว้านใหญ่ ฝั่งเดียวกับงาน", q: "Unique Coffee & Co หว้านใหญ่ มุกดาหาร" },
     { name: "CAFÉ SCHILL", order: "กาแฟ slow bar", note: "คาเฟ่เล็ก ๆ ในตัวเมือง", q: "CAFE SCHILL มุกดาหาร" }

@@ -133,14 +133,15 @@
 <main>
   <section class="g-sec" id="travel">
     <div class="wrap">
-      <div class="head"><h2 class="title">GETTING THERE</h2><p>บินจากกรุงเทพฯ ลงได้ 3 สนามบิน แล้วขับรถต่อมาที่งาน</p></div>
+      <div class="head"><h2 class="title">GETTING THERE</h2><p>บินจากกรุงเทพฯ ลงได้ 4 สนามบิน แล้วขับรถต่อมาที่งาน</p></div>
       <p class="g-note" id="gArrive"></p>
       <div class="passes" id="gPasses"></div>
       <figure class="g-map" aria-label="แผนผังเส้นทางจากสนามบินมาที่งาน">
-        <svg viewBox="0 0 360 250" role="img" aria-label="นครพนมอยู่เหนือสุด ถัดลงมาคือธาตุพนม บ้านเคียงสะหวัน และตัวเมืองมุกดาหาร ตามแม่น้ำโขง สกลนครอยู่ทางตะวันตกของธาตุพนม ขอนแก่นอยู่ทางตะวันตกไกลออกไป">
-          <path d="M300 6 C312 40 292 70 304 104 C314 134 294 164 304 196 C310 216 300 232 304 246" fill="none" stroke="#3C5A8C" stroke-width="7" stroke-linecap="round" opacity=".28"/>
+        <svg viewBox="0 0 360 296" role="img" aria-label="นครพนมอยู่เหนือสุด ถัดลงมาคือธาตุพนม บ้านเคียงสะหวัน และตัวเมืองมุกดาหาร ตามแม่น้ำโขง สกลนครอยู่ทางตะวันตกของธาตุพนม ขอนแก่นอยู่ทางตะวันตกไกลออกไป อุบลราชธานีอยู่ทางใต้ของมุกดาหาร">
+          <path d="M300 6 C312 40 292 70 304 104 C314 134 294 164 304 196 C312 222 298 250 306 290" fill="none" stroke="#3C5A8C" stroke-width="7" stroke-linecap="round" opacity=".28"/>
           <text x="318" y="128" class="sm" transform="rotate(90 318 128)" text-anchor="middle">แม่น้ำโขง</text>
           <path d="M270 28 L270 222" fill="none" stroke="#2B2925" stroke-width="1.4"/>
+          <path d="M270 222 L270 276" fill="none" stroke="#2B2925" stroke-width="1.4" stroke-dasharray="4 4"/>
           <path d="M150 96 L270 96" fill="none" stroke="#2B2925" stroke-width="1.4" stroke-dasharray="4 4"/>
           <path d="M34 196 C110 196 190 222 270 222" fill="none" stroke="#2B2925" stroke-width="1.4" stroke-dasharray="4 4"/>
           <circle cx="270" cy="28" r="5" fill="#F8F1E4" stroke="#2B2925" stroke-width="1.4"/><text x="258" y="25" text-anchor="end" font-size="12.5">นครพนม <tspan font-weight="500">KOP</tspan> ✈</text>
@@ -152,7 +153,9 @@
           <text x="254" y="168" text-anchor="end" font-size="13" font-weight="500">บ้านเคียงสะหวัน</text><text x="254" y="181" text-anchor="end" class="sm">สถานที่จัดงาน</text>
           <circle cx="270" cy="222" r="4" fill="#2B2925"/><text x="258" y="240" text-anchor="end" font-size="11.5">ตัวเมืองมุกดาหาร</text>
           <circle cx="34" cy="196" r="5" fill="#F8F1E4" stroke="#2B2925" stroke-width="1.4"/><text x="34" y="182" text-anchor="start" font-size="12.5">ขอนแก่น <tspan font-weight="500">KKC</tspan> ✈</text>
-          <text x="120" y="222" text-anchor="middle" class="sm">ราว 4 ชม.</text>
+          <text x="118" y="222" text-anchor="middle" class="sm">ราว 2 ชม. 30 นาที</text>
+          <circle cx="270" cy="276" r="5" fill="#F8F1E4" stroke="#2B2925" stroke-width="1.4"/><text x="258" y="280" text-anchor="end" font-size="12.5">อุบลราชธานี <tspan font-weight="500">UBP</tspan> ✈</text>
+          <text x="264" y="258" text-anchor="end" class="sm">ทางหลวง 212</text>
         </svg>
         <figcaption>แผนผังอย่างง่าย ไม่ตามมาตราส่วน</figcaption>
       </figure>
@@ -216,11 +219,12 @@
           <dt>สายการบิน</dt><dd>${esc(a.airlines)}</dd>
           <dt>เวลาบิน</dt><dd>${esc(a.flight)}</dd>
           <dt>เส้นทาง</dt><dd>${esc(a.route)}</dd>
+          ${a.van ? `<dt>รถตู้</dt><dd>${esc(a.van)}</dd>` : ''}
           ${a.tip ? `<dt>Tip</dt><dd>${esc(a.tip)}</dd>` : ''}
         </dl>
       </div>
       <div class="pass-stub">
-        <div class="k">ขับรถถึงงาน</div><div class="t">${esc(a.drive)}</div><div class="d">${esc(a.km)}</div>
+        <div class="k">${esc(a.driveTo || 'ขับรถถึงงาน')}</div><div class="t">${esc(a.drive)}</div><div class="d">${esc(a.km)}</div>
         ${ext(flights, 'เช็กเที่ยวบิน')}${ext(drive, 'ดูเส้นทางขับรถ')}
       </div>
     </article>`;

@@ -719,17 +719,14 @@ html.intro-pending main, html.intro-pending footer, body.intro-open main, body.i
 .film .head { margin-bottom: clamp(20px, 3vw, 34px); }
 .film .mono-caps { color: rgba(234, 223, 203, .7); font-size: 11px; }
 .film h2.script { font-size: clamp(54px, 9vw, 96px); line-height: 1; margin: 6px 0 0; font-weight: 400; }
-.film-frame { position: relative; display: block; max-width: 940px; margin: 0 auto; padding: 16px 0; background: #0E0D0C; color: var(--cream); text-decoration: none; }
-.film-frame::before, .film-frame::after { content: ""; position: absolute; left: 0; right: 0; height: 8px; background: repeating-linear-gradient(90deg, transparent 0 9px, rgba(234, 223, 203, .55) 9px 21px, transparent 21px 30px); }
-.film-frame::before { top: 4px; } .film-frame::after { bottom: 4px; }
+.film-frame { position: relative; display: block; width: min(100%, 400px); margin: 0 auto; color: var(--cream); text-decoration: none; overflow: hidden; box-shadow: 0 24px 50px -24px rgba(0, 0, 0, .7); }
 .film-frame picture, .film-frame img { display: block; width: 100%; }
-.film-frame img { height: auto; aspect-ratio: 3 / 2; object-fit: cover; filter: grayscale(1) contrast(1.05); transition: filter .5s ease, transform .8s ease; }
-.film-frame picture { overflow: hidden; }
-.film-play { position: absolute; left: 48.5%; top: 40%; width: clamp(58px, 9vw, 92px); aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; border: 1px solid rgba(234, 223, 203, .85); background: rgba(20, 18, 16, .35); display: grid; place-items: center; transition: background .3s, transform .3s; }
-.film-play svg { width: 42%; fill: var(--cream); margin-left: 6%; }
-.film-frame:hover .film-play, .film-frame:focus-visible .film-play { background: var(--cream); transform: translate(-50%, -50%) scale(1.06); }
-.film-frame:hover .film-play svg, .film-frame:focus-visible .film-play svg { fill: var(--char); }
-.film-frame:hover img { transform: scale(1.02); filter: grayscale(1) contrast(1.05) brightness(1.08); }
+.film-frame img { height: auto; aspect-ratio: 1060 / 1424; object-fit: cover; transition: transform .8s ease, filter .5s ease; }
+/* the reel badge in the corner, as on the Instagram grid */
+.film-play { position: absolute; right: 3.4%; top: 2.600%; width: 9.500%; min-width: 30px; aspect-ratio: 1; border-radius: 26%; background: #fff; display: grid; place-items: center; box-shadow: 0 1px 6px rgba(0, 0, 0, .25); transition: transform .3s; }
+.film-play svg { width: 78%; fill: #5E6B66; }
+.film-frame:hover img, .film-frame:focus-visible img { transform: scale(1.03); filter: brightness(1.05); }
+.film-frame:hover .film-play, .film-frame:focus-visible .film-play { transform: scale(1.1); }
 .film-cta { margin-top: clamp(20px, 3vw, 32px); }
 .film-cta .btn { border-color: rgba(234, 223, 203, .7); color: var(--cream); background: transparent; }
 .film-cta .btn:hover { background: var(--cream); color: var(--char); border-color: var(--cream); }

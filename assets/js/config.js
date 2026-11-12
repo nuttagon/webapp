@@ -86,6 +86,8 @@ window.WEDDING = {
     promptpayName: "ณัฐกรณ์ & วนิดา",
     promptpayQr: "assets/img/qr-promptpay.svg",
   },
+  // Our Film: ลิงก์คลิปใน Instagram (เว้นว่าง = ซ่อนส่วนนี้ทั้งส่วน)
+  film: { url: "https://www.instagram.com/reel/DfmlfUGB8Gd/" },
   site: { url: "https://eternallywn.netlify.app/", ecardUrl: "https://eternallywn.netlify.app/ecard/", ogImage: "https://eternallywn.netlify.app/assets/img/og.jpg" },
   story: [
     { year: "[ปี]", title: "พบกันครั้งแรก", text: "[เล่าสั้น ๆ ว่าเจอกันที่ไหน ใครทักก่อน จำอะไรได้บ้าง]" },

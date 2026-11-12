@@ -39,6 +39,7 @@
   });
   $$('a[data-href="map"]').forEach((a) => (a.href = W.venue.mapUrl));
   $$('a[data-href="ecard"]').forEach((a) => (a.href = W.site.ecardUrl));
+  const filmUrl = (W.film && W.film.url) || ''; if (filmUrl) $$('a[data-href="film"]').forEach((a) => (a.href = filmUrl)); else if ($('#film')) $('#film').remove();
   if ($('#giftQr')) $('#giftQr').src = W.gift.promptpayQr;
 
   // ---------- intro envelope ----------

@@ -713,3 +713,20 @@ html.intro-pending main, html.intro-pending footer, body.intro-open main, body.i
 /* link to the guest guidebook under Good to know */
 .guide-cta { max-width: 640px; margin: clamp(26px, 4vw, 40px) auto 0; text-align: center; display: grid; gap: 14px; justify-items: center; }
 .guide-cta p { margin: 0; color: var(--muted); font-size: 14px; }
+
+/* OUR FILM: a film frame that opens the reel on Instagram */
+.film { background: var(--char); color: var(--cream); padding: clamp(56px, 8vw, 100px) 0; text-align: center; }
+.film .head { margin-bottom: clamp(20px, 3vw, 34px); }
+.film .mono-caps { color: rgba(234, 223, 203, .7); font-size: 11px; }
+.film h2.script { font-size: clamp(54px, 9vw, 96px); line-height: 1; margin: 6px 0 0; font-weight: 400; }
+.film-frame { position: relative; display: block; width: min(100%, 400px); margin: 0 auto; color: var(--cream); text-decoration: none; overflow: hidden; box-shadow: 0 24px 50px -24px rgba(0, 0, 0, .7); }
+.film-frame picture, .film-frame img { display: block; width: 100%; }
+.film-frame img { height: auto; aspect-ratio: 1060 / 1424; object-fit: cover; transition: transform .8s ease, filter .5s ease; }
+/* the reel badge in the corner, as on the Instagram grid */
+.film-play { position: absolute; right: 3.4%; top: 2.600%; width: 9.500%; min-width: 30px; aspect-ratio: 1; border-radius: 26%; background: #fff; display: grid; place-items: center; box-shadow: 0 1px 6px rgba(0, 0, 0, .25); transition: transform .3s; }
+.film-play svg { width: 78%; fill: #5E6B66; }
+.film-frame:hover img, .film-frame:focus-visible img { transform: scale(1.03); filter: brightness(1.05); }
+.film-frame:hover .film-play, .film-frame:focus-visible .film-play { transform: scale(1.1); }
+.film-cta { margin-top: clamp(20px, 3vw, 32px); }
+.film-cta .btn { border-color: rgba(234, 223, 203, .7); color: var(--cream); background: transparent; }
+.film-cta .btn:hover { background: var(--cream); color: var(--char); border-color: var(--cream); }

@@ -60,8 +60,8 @@
       <li><a href="#story-more">Our story</a></li>
       <li><a href="#program">Program</a></li>
       <li><a href="#reception">Reception</a></li>
-      <li><a href="#gift">Gift</a></li>
       <li><a href="#rsvp">RSVP</a></li>
+      <li><a href="#gift">Gift</a></li>
       <li><a href="#contact">Gallery</a></li>
       <li><a href="#wishes">Wishes</a></li>
       <li><a href="guide/">Guide</a></li>
@@ -95,7 +95,7 @@
 <main>
   <!-- ซองลูกไม้บนดอยลี่หัวใจ -->
   <section class="moments" id="moments" aria-label="ภาพพรีเวดดิ้ง">
-    <picture class=moments-bg><source type="image/webp" srcset="assets/img/photos/pw-02-640.webp0vw"><img loading="lazy" decoding="async" src="assets/img/photos/pw-02.jpg" alt=""></picture>
+    <picture class=moments-bg><source type="image/webp" srcset="assets/img/photos/pw-02-640.webp"><img loading="lazy" decoding="async" src="assets/img/photos/pw-02.jpg" alt=""></picture>
     <div class="moments-row reveal" tabindex="0" aria-label="รูปของเรา เลื่อนซ้ายขวาได้">
       <figure><picture><source type="image/webp" srcset="assets/img/photos/pw-08-640.webp 640w, assets/img/photos/pw-08.webp 1400w" sizes="(max-width: 760px) 72vw, 30vw"><img loading="lazy" decoding="async" src="assets/img/photos/pw-08.jpg" alt="หัวเราะด้วยกันหน้าประตูไม้สีฟ้า"></picture></figure>
       <figure><picture><source type="image/webp" srcset="assets/img/photos/pw-09-640.webp 640w, assets/img/photos/pw-09.webp 1400w" sizes="(max-width: 760px) 72vw, 30vw"><img loading="lazy" decoding="async" src="assets/img/photos/pw-09.jpg" alt="ยิ้มให้กันหน้าตึกเหลือง"></picture></figure>
@@ -177,6 +177,17 @@
     </div>
   </section>
 
+  <section class="film" id="film" aria-label="Our Film">
+    <div class="wrap">
+      <div class="head reveal"><div class="mono-caps">A short film</div><h2 class="script">Our Film</h2></div>
+      <a class="film-frame reveal" data-href="film" href="#" target="_blank" rel="noopener" aria-label="ดูคลิป Our Film ใน Instagram">
+        <picture><source type="image/webp" srcset="assets/img/photos/film-cover.webp"><img loading="lazy" decoding="async" src="assets/img/photos/film-cover.jpg" width="1060" height="1424" alt="บ็อบโน้มตัวจูบอีฟหน้ากำแพงกระเบื้องสีเขียวอ่อน มีตัวอักษร BOBBY + EVE"></picture>
+        <span class="film-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 7.200v9.600l8-4.800z"/></svg></span>
+      </a>
+      <div class="film-cta reveal"><a class="btn" data-href="film" href="#" target="_blank" rel="noopener">Watch on Instagram</a></div>
+    </div>
+  </section>
+
   <section class="block" id="program">
     <div class="wrap program-wrap reveal">
       <h2 class="title">PROGRAM</h2>
@@ -212,22 +223,6 @@
     </div>
   </section>
 
-  <section class="block" id="gift">
-    <div class="wrap gift2">
-      <div class="reveal gift-photo"><picture><source type="image/webp" srcset="assets/img/photos/pw-01-640.webp 640w, assets/img/photos/pw-01.webp 1400w" sizes="(max-width: 760px) 92vw, 46vw"><img loading="lazy" decoding="async" src="assets/img/photos/pw-01.jpg" alt="บ่าวสาวเดินจูงมือบนถนนเมืองเก่า ขาวดำ"></picture><div class="gift-over"><p class="script">Marry me!<br>Yes, I will!</p></div></div>
-      <div class="reveal gift-copy">
-        <h2 class="lead">Your presence is truly the best gift we could ask for.</h2>
-        <p data-fill="giftNote"></p>
-        <div class="pp">
-          <div class="pp-qr"><img id="giftQr" src="assets/img/qr-promptpay.svg" alt="QR PromptPay บัญชี ณัฐกรณ์ และ วนิดา" width="150" height="150"><b>PromptPay</b><small data-fill="promptpayName">ณัฐกรณ์ &amp; วนิดา</small></div>
-          <div class="pp-how">
-            <a class="btn" href="assets/img/promptpay-qr.png" download="WN-PromptPay.png">บันทึกรูป QR</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section class="block rsvp-bg" id="rsvp">
     <picture><source type="image/webp" srcset="assets/img/photos/pw-05-640.webp 640w, assets/img/photos/pw-05.webp 1200w" sizes="100vw"><img loading="lazy" decoding="async" src="assets/img/photos/pw-05.jpg" alt=""></picture>
     <div class="wrap">
@@ -241,14 +236,14 @@
               <label><input type="radio" name="attending" value="no"><span>ขออภัย ไม่สะดวก</span></label>
             </div>
           </fieldset>
-          <div class="two">
+          <div class="two" data-if-attending>
             <div class="field"><label for="adults">ผู้ใหญ่ (รวมคุณ)</label><select id="adults" name="adults"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
             <div class="field"><label for="kids">เด็ก (ต่ำกว่า 12 ปี)</label><select id="kids" name="kids"><option>0</option><option>1</option><option>2</option><option>3</option></select></div>
           </div>
-          <div class="field"><label for="diet">อาหาร</label><select id="diet" name="diet"><option value="">ทานได้ทุกอย่าง</option><option>มังสวิรัติ</option><option>ฮาลาล</option><option>แพ้อาหารทะเล</option><option>แพ้ถั่ว</option><option>อื่น ๆ (ระบุในหมายเหตุ)</option></select></div>
+          <div class="field" data-if-attending><label for="diet">อาหาร</label><select id="diet" name="diet"><option value="">ทานได้ทุกอย่าง</option><option>มังสวิรัติ</option><option>ฮาลาล</option><option>แพ้อาหารทะเล</option><option>แพ้ถั่ว</option><option>อื่น ๆ (ระบุในหมายเหตุ)</option></select></div>
           <div class="field"><label for="wish">คำอวยพรถึงบ่าวสาว</label><textarea id="wish" name="wish" rows="3" maxlength="400" placeholder="จะขึ้นในส่วน With love, from ท้ายเว็บ พร้อมชื่อของคุณ"></textarea>
             <label class="chk"><input type="checkbox" name="show" value="no"><span>ส่งถึงบ่าวสาวอย่างเดียว ไม่ต้องแสดงบนเว็บ</span></label></div>
-          <div class="field"><label for="note">หมายเหตุถึงบ่าวสาว (เช่น แพ้อาหาร · ไม่แสดงบนเว็บ)</label><textarea id="note" name="note" rows="2"></textarea></div>
+          <div class="field" data-if-attending><label for="note">หมายเหตุถึงบ่าวสาว (เช่น แพ้อาหาร · ไม่แสดงบนเว็บ)</label><textarea id="note" name="note" rows="2"></textarea></div>
           <div class="form-foot"><small>ข้อมูลใช้สำหรับจัดที่นั่งและอาหารเท่านั้น</small><button class="btn primary" type="submit">ส่งคำตอบ</button></div>
           <p class="status" id="rsvpStatus" role="status" aria-live="polite"></p>
         </form>
@@ -258,6 +253,22 @@
           <p data-msg class="lede" style="text-align:center"></p>
           <p data-demo hidden class="lede" style="text-align:center;font-size:14px"></p>
           <a class="btn gold" id="shareCard" href="#" target="_blank" rel="noopener">ส่งการ์ดนี้ให้คนที่มาด้วยกัน</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="gift">
+    <div class="wrap gift2">
+      <div class="reveal gift-photo"><picture><source type="image/webp" srcset="assets/img/photos/pw-01-640.webp 640w, assets/img/photos/pw-01.webp 1400w" sizes="(max-width: 760px) 92vw, 46vw"><img loading="lazy" decoding="async" src="assets/img/photos/pw-01.jpg" alt="บ่าวสาวเดินจูงมือบนถนนเมืองเก่า ขาวดำ"></picture><div class="gift-over"><p class="script">Marry me!<br>Yes, I will!</p></div></div>
+      <div class="reveal gift-copy">
+        <h2 class="lead">Your presence is truly the best gift we could ask for.</h2>
+        <p data-fill="giftNote"></p>
+        <div class="pp">
+          <div class="pp-qr"><img id="giftQr" src="assets/img/qr-promptpay.svg" alt="QR PromptPay บัญชี ณัฐกรณ์ และ วนิดา" width="150" height="150"><b>PromptPay</b><small data-fill="promptpayName">ณัฐกรณ์ &amp; วนิดา</small></div>
+          <div class="pp-how">
+            <a class="btn" href="assets/img/promptpay-qr.png" download="WN-PromptPay.png">บันทึกรูป QR</a>
+          </div>
         </div>
       </div>
     </div>

@@ -18,19 +18,19 @@ const COLOURS = {
 // every size at 300 dpi; windows are [x, y, w, h]
 const LAYOUTS = {
   // 4x6 landscape, one pose: closest to the reference (cream border, date and hashtag in the top corners, names below)
-  '4x6-1pose': { w: 1800, h: 1200, wins: [[60, 92, 1680, 900]], photos: ['pw-15'],
+  '4x6-1pose': { w: 1800, h: 1200, wins: [[60, 92, 1680, 900]], photos: ['pw-13'],
     top: { y: 58, size: 26, inset: 64 }, foot: { y: 992, h: 208, names: 92, sub: 22, mono: 0 } },
   // 4x6 portrait, two poses (shop layout K)
-  '4x6-2pose': { w: 1200, h: 1800, wins: [[60, 92, 1080, 720], [60, 836, 1080, 720]], photos: ['pw-13', 'pw-06'],
+  '4x6-2pose': { w: 1200, h: 1800, wins: [[60, 92, 1080, 720], [60, 836, 1080, 720]], photos: ['pw-11@50% 38%', 'pw-06'],
     top: { y: 58, size: 24, inset: 64 }, foot: { y: 1556, h: 244, names: 96, sub: 22, mono: 0 } },
   // 2x6 strip, three poses (shop layouts A/B). The shop prints two strips side by side on one 4x6.
-  '2x6-3pose': { w: 600, h: 1800, wins: [[34, 64, 532, 400], [34, 484, 532, 400], [34, 904, 532, 400]], photos: ['pw-13', 'pw-15', 'pw-06'],
+  '2x6-3pose': { w: 600, h: 1800, wins: [[34, 64, 532, 400], [34, 484, 532, 400], [34, 904, 532, 400]], photos: ['pw-13', 'pw-11@50% 38%', 'pw-06'],
     top: { y: 42, size: 19, inset: 36 }, foot: { y: 1304, h: 496, names: 70, sub: 18, mono: 132 } },
 };
 
 const page = (L, C, withPhotos) => {
   const holes = L.wins.map(([x, y, w, h]) => `M${x} ${y}h${w}v${h}h-${w}z`).join('');
-  const pics = withPhotos ? L.wins.map(([x, y, w, h], i) => `<img src="${photo(L.photos[i])}" style="position:absolute;left:${x}px;top:${y}px;width:${w}px;height:${h}px;object-fit:cover">`).join('') : '';
+  const pics = withPhotos ? L.wins.map(([x, y, w, h], i) => { const [n, pos] = L.photos[i].split('@'); return `<img src="${photo(n)}" style="position:absolute;left:${x}px;top:${y}px;width:${w}px;height:${h}px;object-fit:cover;object-position:${pos || '50% 50%'}">`; }).join('') : '';
   const F = L.foot, T = L.top;
   return `<!doctype html><html><head><meta charset="utf-8">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Quattrocento:wght@400&family=Roboto+Mono:wght@300;400&display=block">
